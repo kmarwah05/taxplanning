@@ -10,7 +10,23 @@
       "server": "dev",
       "extractCss": "prod",
       "coverage": false
-    }
+    },
+    "bundles": [
+      {
+        "dependencies":[            
+          "velocity-animate",
+          "tether",
+          {
+            "name": "aurelia-bootstrap",
+            "path": "../node_modules/aurelia-bootstrap/dist/amd",
+            "main": "index",
+            "resources": [
+              "**/*.html"
+            ]
+          }  
+        ]
+      }
+    ]
   },
   "platform": {
     "id": "web",
