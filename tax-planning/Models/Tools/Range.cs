@@ -198,7 +198,7 @@ namespace tax_planning.Models.Tools
 
         public static IEnumerable<decimal> Decimal(decimal from, decimal to)
         {
-            return Range.Decimal(from, to, 1.0m);
+            return Range.Decimal(from, to, 10.0m);
         }
 
         public static IEnumerable<DateTime> DateTime(DateTime from, DateTime to)

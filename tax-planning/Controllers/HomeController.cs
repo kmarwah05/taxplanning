@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using tax_planning.Models;
+using tax_planning.Models.TaxCalculation;
+using tax_planning.Models.Tools;
 
 namespace tax_planning.Controllers
 {
@@ -13,6 +15,6 @@ namespace tax_planning.Controllers
         {
             return response.FilingStatus.ToString();
         }
-        
+
     }
 }
