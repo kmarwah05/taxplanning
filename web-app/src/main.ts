@@ -11,6 +11,7 @@ Bluebird.config({ warnings: { wForgottenReturn: false } });
 export function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
+    .plugin('aurelia-bootstrap')
     .feature(PLATFORM.moduleName('resources/index'));
 
   // Uncomment the line below to enable animation.
