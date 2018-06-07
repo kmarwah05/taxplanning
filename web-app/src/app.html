@@ -9,10 +9,70 @@
   </head>
   <body>
   
-  <div class="container-fluid">
-    <h1>My First Bootstrap Page</h1>
-    <p>This is some text.</p>
-  </div>
-  
+  <div class="container">
+    
+     
+      <form>
+         
+          <div class="form-group row">
+            <label for="fillStatus" class="col-sm-2 col-form-label col-form-label-sm" id="fillingStatus">Filing Status:</label>
+            <div class="col-sm-10">
+                <select class="form-control form-control-lg" name="FilingStatus">
+                    <option>Choose Filing Status</option>
+                    <option value="FilingStatus.Joint">Joint</option>
+                    <option value="FilingStatus.HeadOfHousehold">Head of Household</option>
+                    <option value="FilingStatus.Unmarried">Unmarried</option>
+                    <option value="Married">Married</option>
+                    
+                </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="incomeBracket" class="col-sm-2 col-form-label" id="incomeRange">Select Income Range:</label>
+            <div class="col-sm-10">
+                <select class="form-control form-control-lg" name="IncomeBracket">
+                    <option>Choose Income Range</option>
+                    <option value="0">Income Range 1</option>
+                    <option value="1">Income Range 2</option>
+                    <option value="2">Income Range 3</option>
+                    <option value="3">Income Range 4</option>
+                    <option value="4">Income Range 5</option>
+                    <option value="5">Income Rnage 6</option>
+                </select>            
+              </div>
+          </div>
+
+          </div>
+        </form>
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Asset Entries</h3>
+                    <table class="table table-bordered table-hover" id="assetTable">
+                        <thead>
+                            <tr>
+                                <th>Add Assets</th>
+                                <th>Submit Assets</th>
+                                
+                                <th style="width:10px"><button click.delegate="addButton()"><span class="glyphicon glyphicon-plus addBtn"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="assetIdTable">
+
+
+                        </tbody>
+                     
+                  
+                    </table>
+                </div>
+              </div>
+          </div>
+    
+
   </body>
+
 </template>
