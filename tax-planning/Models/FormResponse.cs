@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using tax_planning.Models.TaxCalculation;
 
 namespace tax_planning.Models
 {
     public class FormResponse
     {
-        public int? FilingStatus { get; set; }
-        public int? IncomeBracket { get; set; }
+        [Required]
+        public FilingStatus FilingStatus { get; set; }
+
+        [Required]
+        [Range(0, 6, ErrorMessage = "Invalid income bracket")]
+        public int IncomeBracket { get; set; }
     }
 }

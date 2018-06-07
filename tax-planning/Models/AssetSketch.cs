@@ -7,15 +7,13 @@ namespace tax_planning.Models
 {
     public class AssetSketch : IAsset
     {
-        public AssetType Type { get; private set; }
 
         public float Value { get; private set; }
 
         public DateTime StartDate { get; private set; }
 
-        public AssetSketch(AssetType assetType, float value, DateTime startDate)
+        public AssetSketch(float value, DateTime startDate)
         {
-            Type = assetType;
             Value = value;
             StartDate = startDate;
         }
@@ -24,5 +22,9 @@ namespace tax_planning.Models
         {
             throw new NotImplementedException();
         }
+
+        public float GetInterestRate()
+        {
+            throw new NotImplementedException();        }
     }
 }
