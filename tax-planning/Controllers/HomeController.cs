@@ -11,15 +11,23 @@ namespace tax_planning.Controllers
     [Route("api/")]
     public class HomeController : Controller
     {
+        public List<IAsset> Assets { get; set; }
+        
         // POST api/
         [HttpPost]
         public JsonResult Post([FromForm] FormModel response)
         {
             var assetsString = response.FormAssets;
-            var assets = new List<IAsset>();
 
-            var assetsResp = JsonConvert.DeserializeObject<string[,]>(assetsString);
-
+            var assetsStringArray = JsonConvert.DeserializeObject<string[][]>(assetsString);
+            foreach (string[] element in assetsStringArray)
+            {
+                Assets.Add(AssetFactory.Create(
+                    name: element[0],
+                    assetType: (AssetType)Enum.Parse(typeof(AssetType), element[1]),
+                    value: Decimal.Parse(element[2])
+                ));
+            }
 
             return Json(response);
         }
