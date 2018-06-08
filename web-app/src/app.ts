@@ -12,7 +12,7 @@ counter:number= 0;
    "<td><input type=\"text\" id=\"AssetValue"+this.counter+"\" class=\"form-control\" /></td>"+
    "</tr>"
 
-   document.getElementById("assetIdTable").innerHTML+=assetTable;
+   document.getElementById("assetIdTable").innerHTML += (assetTable);
    this.counter++;
   }
 
