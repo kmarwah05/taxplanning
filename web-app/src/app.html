@@ -46,7 +46,7 @@
           </div>
         </form>
 
-
+       
 
         <div class="container">
             <div class="row">
@@ -55,15 +55,18 @@
                     <table class="table table-bordered table-hover" id="assetTable">
                         <thead>
                             <tr>
-                                <th>Add Assets</th>
-                                <th>Submit Assets</th>
+                                <th>Asset Name</th>
+                                <th>Asset Type</th>
+                                <th>Asset Value</th>
                                 
                                 <th style="width:10px"><button click.delegate="addButton()"><span class="glyphicon glyphicon-plus addBtn"></span></th>
                             </tr>
                         </thead>
                         <tbody id="assetIdTable">
+                          <tr>
 
-
+                              <th style="width:10px"><button click.delegate="removeButton()"><span class="glyphicon glyphicon-minus addBtn"></span></th>
+                          </tr>
                         </tbody>
                      
                   
@@ -71,7 +74,10 @@
                 </div>
               </div>
           </div>
-    
+
+
+
+
 
   </body>
 
