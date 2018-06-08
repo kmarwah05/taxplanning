@@ -1,19 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using tax_planning.Models;
 
 namespace tax_planning.Controllers
 {
     [Produces("application/json")]
     [Route("api/")]
-    public class HomeController : ControllerBase
+    public class HomeController : Controller
     {
         // POST api/
         [HttpPost]
-        public string Post([FromForm] FormModel response)
+        public JsonResult Post([FromForm] FormModel response)
         {
-
-
-            return "";
+            return Json(response);
         }
 
     }

@@ -19,8 +19,36 @@ namespace tax_planning.Models
         [Required]
         public DateTime RetirementDate { get; set; }
 
+        [Required]
         public decimal CapitalGains { get; set; }
 
-        public List<IAsset> Assets { get; set; }
+        [Required]
+        public string FormAssets { get; set; }
+
+        //public List<IAsset> Assets { get; private set; }
+
+        //public FormModel(
+        //    FilingStatus filingStatus,
+        //    Decimal income,
+        //    Decimal basicAdjustment,
+        //    DateTime retirementDate,
+        //    DateTime endOfPlanDate,
+        //    Decimal capitalGains,
+        //    params string[] assets)
+        //{
+        //    if (assets.Length % 3 != 0)
+        //    {
+        //        throw new ValidationException("Invalid asset data");
+        //    }
+
+        //    for (var i = 0; i < assets.Length; i += 3)
+        //    {
+        //        Assets.Add(AssetFactory.Create(
+        //            name: assets[i],
+        //            assetType: (AssetType)Enum.Parse(typeof(AssetType), assets[i + 1]),
+        //            value: Decimal.Parse(assets[i + 2])
+        //        ));
+        //    }
+        //}
     }
 }

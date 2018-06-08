@@ -6,7 +6,8 @@ namespace tax_planning.Models
     public interface IAsset
     {
         // Properties
-        float Value { get; }
+        string Name { get; }
+        decimal Value { get; }
         decimal YearlyAdditions { get; }
         DateTime WithdrawalStartDate { get; }
 

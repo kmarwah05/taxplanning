@@ -7,7 +7,7 @@ namespace tax_planning.Models
 {
     public class AssetFactory
     {
-        public static IAsset Create(AssetType assetType, float value, DateTime startDate) {
+        public static IAsset Create(string name, AssetType assetType, decimal value) {
             switch (assetType)
             {
                 case AssetType.Ira:
@@ -16,9 +16,9 @@ namespace tax_planning.Models
                     return new RothIra();
                 case AssetType._401k:
                     return new _401k();
+                default:
+                    throw new ArgumentException("Invalid asset type");
             }
-
-            return new AssetSketch(value, startDate);
         }
     }
 }

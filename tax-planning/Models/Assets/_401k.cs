@@ -7,7 +7,9 @@ namespace tax_planning.Models
 {
     public class _401k : IAsset
     {
-        public float Value => throw new NotImplementedException();
+        public string Name => throw new NotImplementedException();
+
+        public decimal Value => throw new NotImplementedException();
 
         public decimal YearlyAdditions => throw new NotImplementedException();
 
