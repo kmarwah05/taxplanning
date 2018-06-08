@@ -1,4 +1,4 @@
-﻿namespace tax_planning.Models.TaxCalculation
+﻿namespace tax_planning.Models
 {
     public enum FilingStatus
     {

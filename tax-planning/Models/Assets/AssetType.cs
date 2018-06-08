@@ -7,8 +7,8 @@ namespace tax_planning.Models
 {
     public enum AssetType
     {
-        Roth,
-        Traditional,
-        Taxable
+        Ira,
+        RothIra,
+        _401k
     }
 }

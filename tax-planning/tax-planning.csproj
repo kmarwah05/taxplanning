@@ -6,11 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Tools\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.console" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>

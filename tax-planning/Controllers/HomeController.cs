@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using tax_planning.Models;
-using tax_planning.Models.TaxCalculation;
-using tax_planning.Models.Tools;
 
 namespace tax_planning.Controllers
 {
@@ -11,9 +9,11 @@ namespace tax_planning.Controllers
     {
         // POST api/
         [HttpPost]
-        public string Post([FromForm] FormResponse response)
+        public string Post([FromForm] FormModel response)
         {
-            return response.FilingStatus.ToString();
+
+
+            return "";
         }
 
     }

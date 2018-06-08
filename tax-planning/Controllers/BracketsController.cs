@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using tax_planning.Models.TaxCalculation;
-using tax_planning.Models.Tools;
+using tax_planning.Models;
 
 namespace tax_planning.Controllers
 {
@@ -16,7 +15,7 @@ namespace tax_planning.Controllers
         [HttpPost]
         public JsonResult Post(FilingStatus status)
         {
-            IEnumerable<string[]> toReturn = IncomeBrackets.GetBracketsForFilingStatus(status).Select(range => new string[]
+            IEnumerable<string[]> toReturn = TaxBrackets.GetIncomeBracketsForFilingStatus(status).Select(range => new string[]
             {
                 range.Item1.ToString(),
                 range.Item2.ToString()
