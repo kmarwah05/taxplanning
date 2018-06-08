@@ -3,14 +3,21 @@
 namespace tax_planning.Models
 {
     /*
-     * Properties are IncomeRateForBracket[bracketNumber], CapitalGainsRateForBracket[bracketNumber]
-     * Methods are IncomeBracketsFor(filingStatus:) -> brackets, CaptialGainsBracketsFor(filingStatus:) -> brackets,
-     * IncomeBracketFor(filingStatus:, income:) -> bracketNumber, CapitalGainsBracketFor(filingStatus:, income:) -> bracketNumber
+     * Properties are 
+     *  - IncomeRateForBracket[bracketNumber]
+     *  - CapitalGainsRateForBracket[bracketNumber]
+     *  
+     * Methods are
+     *  - IncomeBracketsFor(filingStatus:) -> brackets
+     *  - CaptialGainsBracketsFor(filingStatus:) -> brackets
+     *  
+     *  - IncomeBracketFor(filingStatus:, income:) -> bracketNumber
+     *  - CapitalGainsBracketFor(filingStatus:, income:) -> bracketNumber
      */
     public class TaxBrackets
     {
-        public static float[] IncomeRateForBracket = new float[] { 0.10f, 0.12f, 0.22f, 0.24f, 0.32f, 0.35f, 0.37f };
-        public static float[] CapitalGainsRateForBracket = { 0.10f, 0.15f, 0.20f };
+        public static decimal[] IncomeRateForBracket = new decimal[] { 0.10M, 0.12M, 0.22M, 0.24M, 0.32M, 0.35M, 0.37M };
+        public static decimal[] CapitalGainsRateForBracket = { 0.10M, 0.15M, 0.20M };
 
         public static (decimal lowerBound, decimal upperBound)[] IncomeBracketsFor(FilingStatus filingStatus)
         {
