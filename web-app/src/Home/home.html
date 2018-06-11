@@ -1,10 +1,11 @@
 <template>
 
   <style type="text/css">
-  body{
-    background-color:dimgray !important;
-  }
- </style>
+    body {
+      background-color: dimgray !important;
+    }
+  </style>
+
   <head>
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
@@ -14,105 +15,99 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   </head>
-  
+
   <body>
-    
-  <!--FORM STARTS HERE -->
 
-  <div class="container p-3 mb-2 bg-light text-dark">    
+    <!--FORM STARTS HERE -->
+
+    <div class="container p-3 mb-2 bg-light text-dark">
       <form>
-          <div class="form-group row">
-            <label for="fillStatus" class="col-sm-2 col-form-label col-form-label-sm" id="fillingStatus"><h5><b>Filing Status:</h5></b></label>
-            <div class="col-sm-10">
-                <select class="form-control form-control-lg" name="FilingStatus">
-                    <option>Choose Filing Status</option>
-                    <option value="FilingStatus.Joint">Joint</option>
-                    <option value="FilingStatus.HeadOfHousehold">Head of Household</option>
-                    <option value="FilingStatus.Unmarried">Unmarried</option>
-                    <option value="Married">Married</option>
-                    
-                </select>
-            </div>
-          </div>
+        <div class="form-group row">
+          <label for="fillStatus" class="col-sm-2 col-form-label col-form-label-sm" id="fillingStatus">
+            <h5>
+              <b>Filing Status:</h5>
+            </b>
+          </label>
+          <div class="col-sm-10">
+            <select class="form-control form-control-lg" name="FilingStatus">
+              <option>Choose Filing Status</option>
+              <option value="FilingStatus.Joint">Joint</option>
+              <option value="FilingStatus.HeadOfHousehold">Head of Household</option>
+              <option value="FilingStatus.Unmarried">Unmarried</option>
+              <option value="Married">Married</option>
 
-          <div class="form-group row">
-            <label for="incomeBracket" class="col-sm-2 col-form-label" id="incomeRange"><h5><b>Select Income Range:</h5></b></label>
-            <div class="col-sm-10">
-                <select class="form-control form-control-lg" name="IncomeBracket">
-                    <option>Choose Income Range</option>
-                    <option value="0">Income Range 1</option>
-                    <option value="1">Income Range 2</option>
-                    <option value="2">Income Range 3</option>
-                    <option value="3">Income Range 4</option>
-                    <option value="4">Income Range 5</option>
-                    <option value="5">Income Rnage 6</option>
-                </select>            
-              </div>
+            </select>
           </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="incomeBracket" class="col-sm-2 col-form-label" id="incomeRange">
+            <h5>
+              <b>Select Income Range:</h5>
+            </b>
+          </label>
+          <div class="col-sm-10">
+            <select class="form-control form-control-lg" name="IncomeBracket">
+              <option>Choose Income Range</option>
+              <option value="0">Income Range 1</option>
+              <option value="1">Income Range 2</option>
+              <option value="2">Income Range 3</option>
+              <option value="3">Income Range 4</option>
+              <option value="4">Income Range 5</option>
+              <option value="5">Income Rnage 6</option>
+            </select>
           </div>
-        </form>
-     <!-- FORM ENDS HERE-->
-     
-        <div class="card-footer text-muted">
-         <font color="white"><center> &copy; TAX PLANNING </font></center> 
-          </div>
+        </div>
+    </div>
+    </form>
+    <!-- FORM ENDS HERE-->
+
+    <div class="card-footer text-muted">
+      <font color="white">
+        <center> &copy; TAX PLANNING </font>
+      </center>
+    </div>
 
 
     <!-- DON'T TOUCH BELOW CODE -->
-       
-<!--
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3>Asset Entries</h3>
-                    <table class="table table-bordered table-hover" id="assetTable">
-                        <thead>
-                            <tr>
-                                <th>Asset Name</th>
-                                <th>Asset Type</th>
-                                <th>Asset Value</th>
-                                <th style="width:10px"><button click.delegate="addButton()"><span class="glyphicon glyphicon-plus addBtn"></span></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="assetIdTable">
-                         
-
-                        </tbody>
-                                      
-                    </table>
-                </div>
-              </div>
-            </div>
-        -->
-      <div class="mx-auto w-75">
-        <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData">
-          <thead>
-            <tr>
-              <th>Asset Name</th>
-              <th>Asset Type</th>
-              <th>Asset Value</th>
-            </tr>
-          </thead>
-          <tbody id="AssetTable">
-            <tr>
-              <td><input type="text" class="form-control" id="Aname" value.bind="name"></td>
-              <td><select class="form-control h-100" id="Atype" value.bind="type">
-                  <option>Choose Asset Type</option>
-                  <option value="Ira">IRA</option>
-                  <option value="RothIra">Roth IRA</option>
-                  <option value="401K">401K</option>
-              </select></td>
-              <td><input type="text" class="form-control" id="Avalue" value.bind="value"></td>
-              <td><button click.delegate="addButton()"><span class="glyphicon glyphicon-plus addBtn"></td>
-              </tr>
-            <tr repeat.for="assets of $displayData">
-              <td>${assets[counter].name}</td>
-              <td>${this.assets[this.counter].type}</td>
-              <td>${this.assets[this.counter].value}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    
+    <div class="mx-auto w-75">
+      <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData">
+        <thead>
+          <tr>
+            <th>Asset Name</th>
+            <th>Asset Type</th>
+            <th>Asset Value</th>
+          </tr>
+        </thead>
+        <tbody id="AssetTable">
+          <tr>
+            <td>
+              <input type="text" class="form-control" id="Aname" value.bind="name">
+            </td>
+            <td>
+              <select class="form-control h-100" id="Atype" value.bind="type">
+                <option>Choose Asset Type</option>
+                <option value="Ira">IRA</option>
+                <option value="RothIra">Roth IRA</option>
+                <option value="401K">401K</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" class="form-control" id="Avalue" value.bind="value">
+            </td>
+            <td>
+              <button click.delegate="addButton()">
+                <span class="glyphicon glyphicon-plus addBtn">
+            </td>
+          </tr>
+          <tr repeat.for="user of $displayData">
+            <td >${user.name}</td>
+            <td >${user.type}</td>
+            <td >${user.value}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </body>
 </template>
