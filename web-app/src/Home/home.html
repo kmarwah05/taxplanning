@@ -1,4 +1,10 @@
 <template>
+
+  <style type="text/css">
+  body{
+    background-color:dimgray !important;
+  }
+ </style>
   <head>
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
@@ -7,12 +13,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="home.css" type="text/css">
   </head>
   
   <body>
-  <div class="container">     
-      <form id="myForm">
+    
+  <!--FORM STARTS HERE -->
+
+  <div class="container p-3 mb-2 bg-light text-dark">    
+      <form>
           <div class="form-group row">
             <label for="fillStatus" class="col-sm-2 col-form-label col-form-label-sm" id="fillingStatus"><h5><b>Filing Status:</h5></b></label>
             <div class="col-sm-10">
@@ -43,6 +51,15 @@
           </div>
           </div>
         </form>
+     <!-- FORM ENDS HERE-->
+     
+        <div class="card-footer text-muted">
+         <font color="white"><center> &copy; TAX PLANNING </font></center> 
+          </div>
+
+
+    <!-- DON'T TOUCH BELOW CODE -->
+       
 <!--
         <div class="container">
             <div class="row">
