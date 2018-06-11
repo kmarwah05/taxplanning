@@ -20,10 +20,10 @@ export class Home {
       element.id = i
       i++;
     });
+    this.counter--;
   }
 
   bind() {
-    console.log("Binding " + this.assets);
     return this.assets
   }
 }
