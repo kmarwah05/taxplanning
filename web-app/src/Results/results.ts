@@ -22,9 +22,9 @@ export class Results{
       config
         .withBaseUrl(this.endpoint)
           .withDefaults({
-            mode:'cors',
+            mode:'no-cors',
             headers: {
-              'content-type': 'multipart/form-data',
+              'content-type': 'application/json',
               'Accept': 'application/json'
             }
           })
@@ -36,14 +36,13 @@ export class Results{
     this.ConfigureClient();
 
     let form = new FormData;
-    form.set('','');
-    form.set('','');
-    form.set('','');
-    form.set('','');
-    form.set('','');
-    form.set('','');
-    form.set('','');
-    form.set('','');
+    form.set('FilingStatus','FilingStatus.JOINT');
+    form.set('Income','382');
+    form.set('BasicAdjustment','1000');
+    form.set('RetirementDate','423');
+    form.set('EndOfPlanDate','15332');
+    form.set('CapitolGains','423');
+    form.set('FormAssets','[["Tim","RothIra","421423"]]');
 
     this.SendPost(form);
   }
