@@ -8,7 +8,7 @@ namespace tax_planning.Models
         // Properties
         string Name { get; set; }
         decimal Value { get; set; }
-        decimal YearlyGain { get; set; }
+        decimal InterestRate { get; set; }
 
         decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta);
     }
