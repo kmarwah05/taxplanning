@@ -6,13 +6,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="home.css" type="text/css">
   </head>
   
   <body>
   <div class="container">     
-      <form>
+      <form id="myForm">
           <div class="form-group row">
-            <label for="fillStatus" class="col-sm-2 col-form-label col-form-label-sm" id="fillingStatus">Filing Status:</label>
+            <label for="fillStatus" class="col-sm-2 col-form-label col-form-label-sm" id="fillingStatus"><h5><b>Filing Status:</h5></b></label>
             <div class="col-sm-10">
                 <select class="form-control form-control-lg" name="FilingStatus">
                     <option>Choose Filing Status</option>
@@ -26,7 +28,7 @@
           </div>
 
           <div class="form-group row">
-            <label for="incomeBracket" class="col-sm-2 col-form-label" id="incomeRange">Select Income Range:</label>
+            <label for="incomeBracket" class="col-sm-2 col-form-label" id="incomeRange"><h5><b>Select Income Range:</h5></b></label>
             <div class="col-sm-10">
                 <select class="form-control form-control-lg" name="IncomeBracket">
                     <option>Choose Income Range</option>
@@ -41,7 +43,7 @@
           </div>
           </div>
         </form>
-
+<!--
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -52,11 +54,12 @@
                                 <th>Asset Name</th>
                                 <th>Asset Type</th>
                                 <th>Asset Value</th>
-
                                 <th style="width:10px"><button click.delegate="addButton()"><span class="glyphicon glyphicon-plus addBtn"></span></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="assetIdTable">
+                         
 
                         </tbody>
                                       
@@ -64,5 +67,6 @@
                 </div>
               </div>
             </div>
+        -->
   </body>
 </template>
