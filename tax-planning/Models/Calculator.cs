@@ -7,14 +7,60 @@ namespace tax_planning.Models
 {
     public class Calculator
     {
-        public static Response GetOptimalScheduleFor(FilingStatus filingStatus, decimal income, decimal basicAdjustment, decimal capitalGains, DateTime retirementDate, DateTime endOfPlan, List<IAsset> assets)
+        public static Dictionary<string, Table> GetTablesFor(
+            FilingStatus filingStatus,
+            decimal income,
+            decimal basicAdjustment,
+            decimal capitalGains,
+            DateTime retirementDate,
+            DateTime endOfPlanDate,
+            List<IAsset> assets)
         {
-            Dictionary<DateTime, decimal> amountsForOptimalSchedule = new Dictionary<DateTime, decimal>();
-            Dictionary<DateTime, decimal> taxesForOptimalSchedule = new Dictionary<DateTime, decimal>();
+            return new Dictionary<string, Table>()
+            {
+                { "desired", GetDesiredScheduleFor(filingStatus, income, basicAdjustment, capitalGains, retirementDate, endOfPlanDate, assets) },
+                { "optimal", GetOptimalScheduleFor(filingStatus, income, basicAdjustment, capitalGains, retirementDate, endOfPlanDate, assets) }
+            };
+        }
+
+        public static Table GetOptimalScheduleFor(
+            FilingStatus filingStatus,
+            decimal income,
+            decimal basicAdjustment,
+            decimal capitalGains,
+            DateTime retirementDate,
+            DateTime endOfPlanDate,
+            List<IAsset> assets)
+        {
+            Dictionary<DateTime, decimal> amountsForSchedule = new Dictionary<DateTime, decimal>();
+            Dictionary<DateTime, decimal> taxesForSchedule = new Dictionary<DateTime, decimal>();
 
 
-            var totalCashOut = amountsForOptimalSchedule.Aggregate(0.00M, (sum, next) => next.Value > 0M ? sum += next.Value : sum);
-            var totalTaxPaid = taxesForOptimalSchedule.Aggregate(0.00M, (sum, next) => sum += next.Value);
+            var totalCashOut = amountsForSchedule.Aggregate(0.00M, (sum, next) => next.Value < 0M ? sum -= next.Value : sum);
+            var totalTaxPaid = taxesForSchedule.Aggregate(0.00M, (sum, next) => sum += next.Value);
+
+            // TODO: Implement calculator
+
+            throw new NotImplementedException();
+        }
+
+        public static Table GetDesiredScheduleFor(
+            FilingStatus filingStatus,
+            decimal income,
+            decimal basicAdjustment,
+            decimal capitalGains,
+            DateTime retirementDate,
+            DateTime endOfPlanDate,
+            List<IAsset> assets)
+        {
+            Dictionary<DateTime, decimal> amountsForSchedule = new Dictionary<DateTime, decimal>();
+            Dictionary<DateTime, decimal> taxesForSchedule = new Dictionary<DateTime, decimal>();
+
+
+            var totalCashOut = amountsForSchedule.Aggregate(0.00M, (sum, next) => next.Value > 0M ? sum += next.Value : sum);
+            var totalTaxPaid = taxesForSchedule.Aggregate(0.00M, (sum, next) => sum += next.Value);
+
+            // TODO: Implement calculator
 
             throw new NotImplementedException();
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace tax_planning.Models
 {
-    public class Response
+    public class Table
     {
         public Dictionary<DateTime, decimal> YearlyAmounts { get; set; }
         public Dictionary<DateTime, decimal> YearlyTax { get; set; }

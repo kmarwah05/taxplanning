@@ -23,7 +23,7 @@ namespace tax_planning.Models
         public DateTime RetirementDate { get; set; }
 
         [Required]
-        public DateTime EndOfPlan { get; set; }
+        public DateTime EndOfPlanDate { get; set; }
 
         [Required]
         public string FormAssets { get; set; }

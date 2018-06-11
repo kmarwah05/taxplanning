@@ -28,13 +28,13 @@ namespace tax_planning.Controllers
                 ));
             }
 
-            Response response = Calculator.GetOptimalScheduleFor(
+            Dictionary<string, Table> response = Calculator.GetTablesFor(
                 filingStatus: request.FilingStatus,
                 income: request.Income,
                 basicAdjustment: request.BasicAdjustment,
                 capitalGains: request.CapitalGains,
                 retirementDate: request.RetirementDate,
-                endOfPlan: request.EndOfPlan,
+                endOfPlanDate: request.EndOfPlanDate,
                 assets: assets);
 
             return Json(response);

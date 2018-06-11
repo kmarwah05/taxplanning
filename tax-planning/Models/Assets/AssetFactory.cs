@@ -7,13 +7,13 @@ namespace tax_planning.Models
 {
     public class AssetFactory
     {
-        // assetType string should be one of "IRA", "RothIRA", "_401k"
+        // assetType string should be one of "Ira", "RothIra", "_401k"
         public static IAsset Create(string name, string assetType, decimal value) {
             switch (assetType)
             {
-                case "IRA":
+                case "Ira":
                     return new Ira();
-                case "RothIRA":
+                case "RothIra":
                     return new RothIra();
                 case "_401k":
                     return new _401k();
