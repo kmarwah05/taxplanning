@@ -68,5 +68,34 @@
               </div>
             </div>
         -->
+      <div class="mx-auto w-75">
+        <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData">
+          <thead>
+            <tr>
+              <th>Asset Name</th>
+              <th>Asset Type</th>
+              <th>Asset Value</th>
+            </tr>
+          </thead>
+          <tbody id="AssetTable">
+            <tr>
+              <td><input type="text" class="form-control" id="Aname" value.bind="name"></td>
+              <td><select class="form-control h-100" id="Atype" value.bind="type">
+                  <option>Choose Asset Type</option>
+                  <option value="Ira">IRA</option>
+                  <option value="RothIra">Roth IRA</option>
+                  <option value="401K">401K</option>
+              </select></td>
+              <td><input type="text" class="form-control" id="Avalue" value.bind="value"></td>
+              <td><button click.delegate="addButton()"><span class="glyphicon glyphicon-plus addBtn"></td>
+              </tr>
+            <tr repeat.for="assets of $displayData">
+              <td>${assets[counter].name}</td>
+              <td>${this.assets[this.counter].type}</td>
+              <td>${this.assets[this.counter].value}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
   </body>
 </template>
