@@ -17,10 +17,13 @@ namespace tax_planning.Models
         public decimal BasicAdjustment { get; set; }
 
         [Required]
+        public decimal CapitalGains { get; set; }
+
+        [Required]
         public DateTime RetirementDate { get; set; }
 
         [Required]
-        public decimal CapitalGains { get; set; }
+        public DateTime EndOfPlan { get; set; }
 
         [Required]
         public string FormAssets { get; set; }

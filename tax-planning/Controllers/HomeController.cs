@@ -8,26 +8,34 @@ using tax_planning.Models;
 namespace tax_planning.Controllers
 {
     [Produces("application/json")]
-    [Route("api/")]
+    [Route("api")]
     public class HomeController : Controller
     {
-        public List<IAsset> Assets { get; set; }
-        
-        // POST api/
+        // Handels POST to /api
         [HttpPost]
-        public JsonResult Post([FromForm] FormModel response)
+        public JsonResult Post([FromForm] FormModel request)
         {
-            var assetsString = response.FormAssets;
+            var assetsString = request.FormAssets;
+            List<IAsset> assets = new List<IAsset>();
 
             var assetsStringArray = JsonConvert.DeserializeObject<string[][]>(assetsString);
             foreach (string[] element in assetsStringArray)
             {
-                Assets.Add(AssetFactory.Create(
+                assets.Add(AssetFactory.Create(
                     name: element[0],
-                    assetType: (AssetType)Enum.Parse(typeof(AssetType), element[1]),
+                    assetType: element[1],
                     value: Decimal.Parse(element[2])
                 ));
             }
+
+            Response response = Calculator.GetOptimalScheduleFor(
+                filingStatus: request.FilingStatus,
+                income: request.Income,
+                basicAdjustment: request.BasicAdjustment,
+                capitalGains: request.CapitalGains,
+                retirementDate: request.RetirementDate,
+                endOfPlan: request.EndOfPlan,
+                assets: assets);
 
             return Json(response);
         }

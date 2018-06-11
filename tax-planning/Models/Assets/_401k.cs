@@ -20,7 +20,17 @@ namespace tax_planning.Models
             throw new NotImplementedException();
         }
 
-        private decimal GetTaxForWithdrawal()
+        public decimal CalculatePeakAmountWith(decimal additions, int numberOfYears, float interestRate)
+        {
+            return -1;
+        }
+
+        private decimal GetTaxForAddition(decimal amount, FilingStatus filingStatus)
+        {
+            return -1;
+        }
+
+        private decimal GetTaxForWithdrawal(decimal amount)
         {
             throw new NotImplementedException();
         }
