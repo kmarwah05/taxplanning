@@ -1,30 +1,25 @@
 export class Home {
   counter: number = 0;
-  assets = [{ "name": "blaj", "type": "401K", "value": "this.value" }];
+  assets = [];
   name: string
   type: string
   value: string
 
-  regenTable() {
-    var assetTable: string =
-      "<tr>" +
-      `<td>${this.assets[this.counter].name}</td>` +
-      `<td>${this.assets[this.counter].type}</td>` +
-      `<td>${this.assets[this.counter].value}</td>` +
-      "</tr>"
-
-    document.getElementById("AssetTable").innerHTML += assetTable;
+  addButton() {
+    let asset = { "name": this.name, "type": this.type, "value": this.value, "id":this.counter }
+    this.assets = [...this.assets, asset]
     this.counter++;
+    console.log("adding ", this.assets);
   }
 
-  addButton() {
-    let asset = { "name": this.name, "type": this.type, "value": this.value }
-    //JSON.stringify(asset)
-    //this.assets.push(asset)
-    this.assets = [...this.assets, asset]
-    console.log("adding ", this.assets);
-    //console.log("Binding "+this.assets);
-    //this.regenTable();
+  removeButton(id){
+    let i = 0;
+    console.log("Removing",id);
+    this.assets.splice(id,1);
+    this.assets.forEach(element => {
+      element.id = i
+      i++;
+    });
   }
 
   bind() {

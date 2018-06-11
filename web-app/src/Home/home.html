@@ -70,7 +70,7 @@
 
 
     <!-- DON'T TOUCH BELOW CODE -->
-    
+
     <div class="mx-auto w-75">
       <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData">
         <thead>
@@ -88,8 +88,8 @@
             <td>
               <select class="form-control h-100" id="Atype" value.bind="type">
                 <option>Choose Asset Type</option>
-                <option value="Ira">IRA</option>
-                <option value="RothIra">Roth IRA</option>
+                <option value="IRA">IRA</option>
+                <option value="Roth IRA">Roth IRA</option>
                 <option value="401K">401K</option>
               </select>
             </td>
@@ -99,12 +99,20 @@
             <td>
               <button click.delegate="addButton()">
                 <span class="glyphicon glyphicon-plus addBtn">
+                </span>
+              </button>
             </td>
           </tr>
           <tr repeat.for="user of $displayData">
-            <td >${user.name}</td>
-            <td >${user.type}</td>
-            <td >${user.value}</td>
+            <td>${user.name}</td>
+            <td>${user.type}</td>
+            <td>${user.value}</td>
+            <td>
+              <button click.delegate="removeButton(user.id)">
+                <span class="glyphicon glyphicon-minus minusBtn">
+              </button>
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>
