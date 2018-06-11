@@ -6,7 +6,10 @@ namespace tax_planning.Models
     public interface IAsset
     {
         // Properties
-        string Name { get; }
-        decimal Value { get; }
+        string Name { get; set; }
+        decimal Value { get; set; }
+        decimal YearlyGain { get; set; }
+
+        decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta);
     }
 }

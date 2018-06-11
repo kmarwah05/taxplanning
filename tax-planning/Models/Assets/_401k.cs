@@ -5,15 +5,17 @@ using System.Threading.Tasks;
 
 namespace tax_planning.Models
 {
-    internal class _401k : IAsset
+    public class _401k : IAsset
     {
-        public string Name => throw new NotImplementedException();
+        public string Name { get; set; }
 
-        public decimal Value => throw new NotImplementedException();
+        public decimal Value { get; set; }
 
-        public decimal YearlyAdditions => throw new NotImplementedException();
+        public decimal YearlyAdditions { get; set; }
 
-        public DateTime WithdrawalStartDate => throw new NotImplementedException();
+        public DateTime WithdrawalStartDate { get; set; }
+
+        public decimal YearlyGain { get; set; }
 
         public List<decimal> CalculateOptimalWithdrawals()
         {
@@ -23,6 +25,11 @@ namespace tax_planning.Models
         public decimal CalculatePeakAmountWith(decimal additions, int numberOfYears, float interestRate)
         {
             return -1;
+        }
+
+        public decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta)
+        {
+            return previousYearAmount + YearlyGain + yearDelta;
         }
 
         private decimal GetTaxForAddition(decimal amount, FilingStatus filingStatus)

@@ -15,28 +15,7 @@ namespace tax_planning.Controllers
         [HttpPost]
         public JsonResult Post([FromForm] FormModel request)
         {
-            var assetsString = request.FormAssets;
-            List<IAsset> assets = new List<IAsset>();
-
-            var assetsStringArray = JsonConvert.DeserializeObject<string[][]>(assetsString);
-            foreach (string[] element in assetsStringArray)
-            {
-                assets.Add(AssetFactory.Create(
-                    name: element[0],
-                    assetType: element[1],
-                    value: Decimal.Parse(element[2])
-                ));
-            }
-
-            Dictionary<string, Table> response = Calculator.GetTablesFor(
-                filingStatus: request.FilingStatus,
-                income: request.Income,
-                basicAdjustment: request.BasicAdjustment,
-                capitalGains: request.CapitalGains,
-                retirementDate: request.RetirementDate,
-                endOfPlanDate: request.EndOfPlanDate,
-                assets: assets);
-
+            Dictionary<string, Table> response = Calculator.GetTablesFor(request);
             return Json(response);
         }
 
