@@ -101,7 +101,7 @@ namespace tax_planning.Models
 
         public static int IncomeBracketFor(FilingStatus filingStatus, decimal income) => BracketForBrackets(IncomeBracketsFor(filingStatus), filingStatus, income);
 
-        public static int CapitalGainsBracketFor(FilingStatus filingStatus, decimal capitalGains) => BracketForBrackets(CapitalGainsBracketsFor(filingStatus), filingStatus, capitalGains);
+        public static int CapitalGainsBracketFor(FilingStatus filingStatus, decimal income) => BracketForBrackets(CapitalGainsBracketsFor(filingStatus), filingStatus, income);
 
         private static int BracketForBrackets((decimal lowerBound, decimal upperBound)[] brackets, FilingStatus filingStatus, decimal income)
         {

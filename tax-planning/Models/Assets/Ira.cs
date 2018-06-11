@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace tax_planning.Models
 {
-    public class Ira : IAsset
+    internal class Ira : IAsset
     {
         public string Name => throw new NotImplementedException();
 

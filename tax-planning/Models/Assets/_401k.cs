@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace tax_planning.Models
 {
-    public class _401k : IAsset
+    internal class _401k : IAsset
     {
         public string Name => throw new NotImplementedException();
 

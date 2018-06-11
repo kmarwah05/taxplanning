@@ -17,6 +17,8 @@ namespace tax_planning.Models
                     return new RothIra();
                 case "_401k":
                     return new _401k();
+                case "EquityHolding":
+                    return new EquityHolding();
                 default:
                     throw new ArgumentException("Invalid asset type");
             }
