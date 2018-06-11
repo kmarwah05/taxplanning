@@ -7,15 +7,18 @@ namespace tax_planning.Models
 {
     public class AssetFactory
     {
-        public static IAsset Create(string name, AssetType assetType, decimal value) {
+        // assetType string should be one of "Ira", "RothIra", "_401k"
+        public static IAsset Create(string name, string assetType, decimal value) {
             switch (assetType)
             {
-                case AssetType.Ira:
+                case "Ira":
                     return new Ira();
-                case AssetType.RothIra:
+                case "RothIra":
                     return new RothIra();
-                case AssetType._401k:
+                case "_401k":
                     return new _401k();
+                case "EquityHolding":
+                    return new EquityHolding();
                 default:
                     throw new ArgumentException("Invalid asset type");
             }

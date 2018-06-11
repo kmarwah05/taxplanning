@@ -8,10 +8,5 @@ namespace tax_planning.Models
         // Properties
         string Name { get; }
         decimal Value { get; }
-        decimal YearlyAdditions { get; }
-        DateTime WithdrawalStartDate { get; }
-
-        // Methods
-        List<decimal> CalculateOptimalWithdrawals();
     }
 }

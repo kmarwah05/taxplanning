@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace tax_planning.Models
 {
-    public class Ira : IAsset
+    internal class Ira : IAsset
     {
         public string Name => throw new NotImplementedException();
 
@@ -16,6 +16,21 @@ namespace tax_planning.Models
         public DateTime WithdrawalStartDate => throw new NotImplementedException();
 
         public List<decimal> CalculateOptimalWithdrawals()
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal CalculatePeakAmountWith(decimal additions, int numberOfYears, float interestRate)
+        {
+            return -1;
+        }
+
+        private decimal GetTaxForAddition(decimal amount, FilingStatus filingStatus)
+        {
+            return -1;
+        }
+
+        private decimal GetTaxForWithdrawal(decimal amount)
         {
             throw new NotImplementedException();
         }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace tax_planning.Models
 {
-    public class _401k : IAsset
+    internal class _401k : IAsset
     {
         public string Name => throw new NotImplementedException();
 
@@ -20,7 +20,17 @@ namespace tax_planning.Models
             throw new NotImplementedException();
         }
 
-        private decimal GetTaxForWithdrawal()
+        public decimal CalculatePeakAmountWith(decimal additions, int numberOfYears, float interestRate)
+        {
+            return -1;
+        }
+
+        private decimal GetTaxForAddition(decimal amount, FilingStatus filingStatus)
+        {
+            return -1;
+        }
+
+        private decimal GetTaxForWithdrawal(decimal amount)
         {
             throw new NotImplementedException();
         }
