@@ -4,6 +4,27 @@
     body {
       background-image:url("http://avante.biz/wp-content/uploads/Gradient-Wallpapers/Gradient-Wallpapers-048.jpg");
     }
+    #myForm{
+      border: 1px solid rgba(0,0,0,.2);
+      border-radius: 5px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-background-clip: padding;
+      -webkit-background-clip: padding-box;
+      background-clip: padding-box;
+      background: rgba(0,0,0,.5);
+      -webkit-box-shadow: 0 0 13px 3px rgba(0,0,0,.5);
+      box-shadow: 0 0 13px 3px rgb(0, 0, 0,.5);
+      overflow: hidden;
+      padding: 25px;
+    }
+    label[type=text]{
+     color: white;
+    }
+    #myTable td, myTable th{
+      border: 1px solid #ddd !important;
+      padding: 8px !important;
+    }
   </style>
 
   <head>
@@ -20,10 +41,10 @@
 
     <!--FORM STARTS HERE -->
 
-    <div class="container p-3 mb-2 bg-light text-dark">
-      <form>
+    <div class="mx-auto w-75">
+      <form id="myForm">
         <div class="form-group row">
-          <label for="fillStatus" class="col-sm-2 col-form-label col-form-label-sm" id="fillingStatus">
+          <label for="fillStatus" class="col-sm-2 col-form-label col-form-label-sm" id="fillingStatus" type="text">
             <h5>
               <b>Filing Status:</h5>
             </b>
@@ -41,7 +62,7 @@
         </div>
 
         <div class="form-group row">
-          <label for="incomeBracket" class="col-sm-2 col-form-label" id="incomeRange">
+          <label for="incomeBracket" class="col-sm-2 col-form-label" id="incomeRange" type="text">
             <h5>
               <b>Select Income Range:</h5>
             </b>
@@ -62,10 +83,10 @@
     </form>
     <!-- FORM ENDS HERE-->
 
-    <!-- DON'T TOUCH BELOW CODE -->
+    <!-- DON'T TOUCH BELOW CODE (TABLE)  -->
 
     <div class="mx-auto w-75">
-      <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData">
+      <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
         <thead>
           <tr>
             <th>Asset Name</th>
