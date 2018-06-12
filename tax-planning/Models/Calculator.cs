@@ -25,7 +25,7 @@ namespace tax_planning.Models
             var netWorth = model.Assets.Aggregate(0.00M, (sum, next) => sum += next.Value);
             var retirementLength = model.EndOfPlanDate.Year - model.RetirementDate.Year;
             var timeToRetirement = model.RetirementDate.Year - DateTime.Today.Year;
-            var totalYearlyContribution = model.Assets.Aggregate(0.00M, (sum, next) => sum += next.YearlyGain);
+            var totalYearlyContribution = model.Assets.Aggregate(0.00M, (sum, next) => sum += next.InterestRate);
 
             // Rough estimate to start, quality of estimation increases speed of Newton-Raphson
             var withdrawal = (totalYearlyContribution * (decimal)timeToRetirement + netWorth) / (decimal)retirementLength;
@@ -33,8 +33,7 @@ namespace tax_planning.Models
             var amount = model.Assets.GetTotalValueForYear(model.RetirementDate.Year);
 
             // Goal-seeking with Newton-Raphson method
-            Func<int, decimal> f = model.Assets.GetTotalValueForYear;
-            decimal df(int year) => f(year + 1) - f(year);
+            //Func<int, decimal> f = 
 
 
 

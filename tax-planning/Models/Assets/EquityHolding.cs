@@ -9,11 +9,11 @@ namespace tax_planning.Models
 
         public decimal Value { get; set; }
 
-        public decimal YearlyGain { get; set; }
+        public decimal InterestRate { get; set; }
 
         public decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta)
         {
-            return previousYearAmount + YearlyGain + yearDelta;
+            return previousYearAmount + InterestRate + yearDelta;
         }
 
         private decimal GetTaxForCapitalGain(decimal gain, FilingStatus filingStatus, decimal income)

@@ -18,10 +18,15 @@ namespace tax_planning.Models.Assets
                 var total = next.Value;
                 for (var i = DateTime.Today.Year; i < year; i++)
                 {
-                    total += next.CalculateNextYearAmount(previousYearAmount: total, yearDelta: next.YearlyGain);
+                    total += next.CalculateNextYearAmount(previousYearAmount: total, yearDelta: next.InterestRate * next.Value);
                 }
                 return sum += total;
             });
+        }
+
+        public decimal GetAmountAfter(int duration, decimal withdrawal)
+        {
+
         }
     }
 }
