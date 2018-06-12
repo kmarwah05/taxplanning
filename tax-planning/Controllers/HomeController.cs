@@ -20,7 +20,7 @@ namespace tax_planning.Controllers
 
             Table mockTable1 = new Table()
             {
-                YearlyAmounts =
+                YearlyAmounts = new List<decimal>()
                 {
                     4000M,
                     4000M,
@@ -39,7 +39,7 @@ namespace tax_planning.Controllers
                     -45000M,
                     -26375.97M
                 },
-                YearlyTax =
+                YearlyTax = new List<decimal>()
                 {
                     0M,
                     0M,
@@ -61,7 +61,7 @@ namespace tax_planning.Controllers
             };
             Table mockTable2 = new Table()
             {
-                YearlyAmounts =
+                YearlyAmounts = new List<decimal>()
                 {
                     4000M,
                     4000M,
@@ -80,7 +80,7 @@ namespace tax_planning.Controllers
                     -39000M,
                     -41233M
                 },
-                YearlyTax =
+                YearlyTax = new List<decimal>()
                 {
                     0M,
                     0M,

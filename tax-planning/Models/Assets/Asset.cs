@@ -22,7 +22,7 @@ namespace tax_planning.Models
             var netWorth = model.Assets.Aggregate(0.00M, (sum, next) => sum + next.Value);
             var retirementLength = model.EndOfPlanDate - model.RetirementDate;
             var timeToRetirement = model.RetirementDate - DateTime.Today.Year;
-            var totalYearlyContribution = model.Assets.Aggregate(0.00M, (sum, next) => sum + next.InterestRate);
+            var totalYearlyContribution = model.Assets.Aggregate(0.00M, (sum, next) => sum + next.InterestRate); //TODO: update formula
 
             // Rough estimate to start, quality of estimation increases speed of Newton-Raphson
             var withdrawal = (totalYearlyContribution * (decimal)timeToRetirement + netWorth) / (decimal)retirementLength;
@@ -31,7 +31,7 @@ namespace tax_planning.Models
 
             // Do calculation
             (List<decimal> amounts, List<decimal> taxes) schedule = GetScheduleWith((float)withdrawal, amount, 0.00M, retirementLength);
-            
+
             List<decimal> amountsForSchedule = new List<decimal>();
             List<decimal> taxesForSchedule = new List<decimal>();
 
@@ -41,7 +41,7 @@ namespace tax_planning.Models
         public virtual Table GetDesiredScheduleFor(FormModel model)
         {
             Table table = new Table();
-            
+
             var netWorth = model.Assets.Aggregate(0.00M, (sum, next) => sum += next.Value);
             var retirementLength = model.EndOfPlanDate - model.RetirementDate;
             var timeToRetirement = model.RetirementDate - DateTime.Today.Year;
@@ -58,7 +58,7 @@ namespace tax_planning.Models
 
             List<decimal> amountsForSchedule = new List<decimal>();
             List<decimal> taxesForSchedule = new List<decimal>();
-            
+
 
             // Populate dicts
 
@@ -93,12 +93,12 @@ namespace tax_planning.Models
             }
 
             // Newton-Raphson method for finding roots of f
-            while (f(delta)/Df(delta) >= 0.005f)
+            while (f(delta) / Df(delta) >= 0.005f)
             {
                 delta -= f(delta) / Df(delta);
             }
 
-            
+
             for (var i = 1; i < amounts.Count; i++)
             {
                 amounts[i] = CalculateNextYearAmount(amounts[i - 1], (decimal)delta);
@@ -112,7 +112,7 @@ namespace tax_planning.Models
         {
             throw new NotImplementedException();
         }
-
+        //TODO: implement
         protected virtual decimal CalculateTaxOn(decimal amount)
         {
             return -1;
