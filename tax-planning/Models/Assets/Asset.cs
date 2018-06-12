@@ -19,28 +19,21 @@ namespace tax_planning.Models
         {
             Table table = new Table();
 
-            var netWorth = model.Assets.Aggregate(0.00M, (sum, next) => sum += next.Value);
-            var retirementLength = model.EndOfPlanDate.Year - model.RetirementDate.Year;
-            var timeToRetirement = model.RetirementDate.Year - DateTime.Today.Year;
-            var totalYearlyContribution = model.Assets.Aggregate(0.00M, (sum, next) => sum += next.InterestRate);
+            var netWorth = model.Assets.Aggregate(0.00M, (sum, next) => sum + next.Value);
+            var retirementLength = model.EndOfPlanDate - model.RetirementDate;
+            var timeToRetirement = model.RetirementDate - DateTime.Today.Year;
+            var totalYearlyContribution = model.Assets.Aggregate(0.00M, (sum, next) => sum + next.InterestRate);
 
             // Rough estimate to start, quality of estimation increases speed of Newton-Raphson
             var withdrawal = (totalYearlyContribution * (decimal)timeToRetirement + netWorth) / (decimal)retirementLength;
             // Initial Condition
-            var amount = model.Assets.GetTotalValueForYear(model.RetirementDate.Year);
+            var amount = model.Assets.GetTotalValueForYear(model.RetirementDate);
 
             // Do calculation
-            (decimal[] amounts, decimal[] taxes) schedule = GetScheduleWith((float)withdrawal, amount, 0.00M, retirementLength);
-
-            Dictionary<DateTime, decimal> amountsForSchedule = new Dictionary<DateTime, decimal>();
-            Dictionary<DateTime, decimal> taxesForSchedule = new Dictionary<DateTime, decimal>();
-
-            // Populate dicts
-
-            table.TotalCashOut = -amountsForSchedule.Aggregate(0.00M, (sum, next) => next.Value < 0M ? sum -= next.Value : sum);
-            table.NetCashOut = table.TotalCashOut
-                - amountsForSchedule.Aggregate(0.00M, (sum, next) => next.Value > 0M ? sum += next.Value : sum)
-                - taxesForSchedule.Aggregate(0.00M, (sum, next) => sum += next.Value);
+            (List<decimal> amounts, List<decimal> taxes) schedule = GetScheduleWith((float)withdrawal, amount, 0.00M, retirementLength);
+            
+            List<decimal> amountsForSchedule = new List<decimal>();
+            List<decimal> taxesForSchedule = new List<decimal>();
 
             return table;
         }
@@ -50,8 +43,8 @@ namespace tax_planning.Models
             Table table = new Table();
             
             var netWorth = model.Assets.Aggregate(0.00M, (sum, next) => sum += next.Value);
-            var retirementLength = model.EndOfPlanDate.Year - model.RetirementDate.Year;
-            var timeToRetirement = model.RetirementDate.Year - DateTime.Today.Year;
+            var retirementLength = model.EndOfPlanDate - model.RetirementDate;
+            var timeToRetirement = model.RetirementDate - DateTime.Today.Year;
             var totalYearlyContribution = model.Assets.Aggregate(0.00M, (sum, next) => sum += next.InterestRate);
 
             // Rough estimate to start, quality of estimation increases speed of Newton-Raphson
@@ -60,18 +53,14 @@ namespace tax_planning.Models
             // TODO: Calculate peak amount needed
 
             // Do calculation
-            (decimal[] amounts, decimal[] taxes) schedule = GetScheduleWith((float)totalYearlyContribution, netWorth, 0.00M // TODO: fix this
+            (List<decimal> amounts, List<decimal> taxes) schedule = GetScheduleWith((float)totalYearlyContribution, netWorth, 0.00M // TODO: fix this
                 , retirementLength);
 
-            Dictionary<DateTime, decimal> amountsForSchedule = new Dictionary<DateTime, decimal>();
-            Dictionary<DateTime, decimal> taxesForSchedule = new Dictionary<DateTime, decimal>();
+            List<decimal> amountsForSchedule = new List<decimal>();
+            List<decimal> taxesForSchedule = new List<decimal>();
+            
 
             // Populate dicts
-
-            table.TotalCashOut = -amountsForSchedule.Aggregate(0.00M, (sum, next) => next.Value < 0M ? sum -= next.Value : sum);
-            table.NetCashOut = table.TotalCashOut
-                - amountsForSchedule.Aggregate(0.00M, (sum, next) => next.Value > 0M ? sum += next.Value : sum)
-                - taxesForSchedule.Aggregate(0.00M, (sum, next) => sum += next.Value);
 
             return table;
         }
@@ -81,10 +70,10 @@ namespace tax_planning.Models
             return previousYearAmount * InterestRate + yearDelta;
         }
 
-        protected virtual (decimal[] amounts, decimal[] taxes) GetScheduleWith(float delta, decimal initial, decimal final, int steps)
+        protected virtual (List<decimal> amounts, List<decimal> taxes) GetScheduleWith(float delta, decimal initial, decimal final, int steps)
         {
-            decimal[] amounts = new decimal[steps];
-            decimal[] taxes = new decimal[steps];
+            List<decimal> amounts = new List<decimal>() { initial };
+            List<decimal> taxes = new List<decimal>() { CalculateTaxOn(initial) };
 
             // Amount at final
             float f(float x)
@@ -94,7 +83,7 @@ namespace tax_planning.Models
                 {
                     sum += MathF.Pow((float)InterestRate, i);
                 }
-                return MathF.Pow((float)initial, steps) + x * sum -(float)final;
+                return MathF.Pow((float)initial, steps) + x * sum - (float)final;
             }
 
             // Derivative of f
@@ -109,15 +98,24 @@ namespace tax_planning.Models
                 delta -= f(delta) / Df(delta);
             }
 
-
-            amounts[0] = initial;
-            for (var i = 1; i < amounts.Length; i++)
+            
+            for (var i = 1; i < amounts.Count; i++)
             {
                 amounts[i] = CalculateNextYearAmount(amounts[i - 1], (decimal)delta);
-                // taxes
+                taxes[i] = CalculateTaxOn(amounts[i]);
             }
 
             return (amounts, taxes);
+        }
+
+        protected virtual (List<decimal> amounts, List<decimal> taxes) GetPreWithdrawalSchedule(decimal additions, int numberOfYears, float interestRate)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual decimal CalculateTaxOn(decimal amount)
+        {
+            return -1;
         }
     }
 }

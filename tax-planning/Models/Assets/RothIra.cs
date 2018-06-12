@@ -9,7 +9,7 @@ namespace tax_planning.Models
     {
         public decimal YearlyAdditions { get; set; }
 
-        public DateTime WithdrawalStartDate { get; set; }
+        public int WithdrawalStartDate { get; set; }
 
         
 

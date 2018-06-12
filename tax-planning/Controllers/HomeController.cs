@@ -15,8 +15,99 @@ namespace tax_planning.Controllers
         [HttpPost]
         public JsonResult Post([FromForm] FormModel request)
         {
-            Dictionary<string, Table> response = Calculator.GetTablesFor(request);
-            return Json(response);
+            // ACTUAL RESPONSE, at the end RETURN RESPONSE
+            // Dictionary<string, Table> response = Calculator.GetTablesFor(request);
+
+            Table mockTable1 = new Table()
+            {
+                YearlyAmounts =
+                {
+                    4000M,
+                    4000M,
+                    4000M,
+                    4000M,
+                    4000M,
+                    4000M,
+                    4000M,
+                    4000M,
+                    4000M,
+                    4000M,
+                    -35000M,
+                    -35000M,
+                    -36000M,
+                    -38000M,
+                    -45000M,
+                    -26375.97M
+                },
+                YearlyTax =
+                {
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    1500M,
+                    1500M,
+                    1750M,
+                    1833M,
+                    2200M,
+                    678.32M
+                }
+            };
+            Table mockTable2 = new Table()
+            {
+                YearlyAmounts =
+                {
+                    4000M,
+                    4000M,
+                    4000M,
+                    6000M,
+                    6000M,
+                    6000M,
+                    6000M,
+                    7000M,
+                    7000M,
+                    7000M,
+                    -39000M,
+                    -39000M,
+                    -39000M,
+                    -39000M,
+                    -39000M,
+                    -41233M
+                },
+                YearlyTax =
+                {
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    0M,
+                    1950M,
+                    1950M,
+                    1950M,
+                    1950M,
+                    1950M,
+                    2111.31M
+                }
+            };
+
+            Dictionary<string, Table> mockResponse = new Dictionary<string, Table>()
+            {
+                { "Mock Table 1", mockTable1 },
+                { "Mock Table 2", mockTable2 }
+            };
+
+            return Json(mockResponse);
         }
 
     }
