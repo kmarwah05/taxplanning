@@ -4,7 +4,8 @@ import { HttpService } from 'HttpService';
 @inject(HttpService)
 export class Results {
   total: number = 4325;
-  net: number = 2834
+  net: number = 2834;
+  array = [0, 1, 2, 3, 4, 5, 6, 7];
 
   constructor(private httpService: HttpService) {
     httpService.ConfigureClient();

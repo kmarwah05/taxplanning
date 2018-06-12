@@ -10,7 +10,9 @@ body {
 }
 
 #chart {
-  width: 75%;
-  text-align: center;
-  margin: 50px auto;
+  margin-bottom: 20px;
+}
+
+.tables {
+  margin-bottom: 100px; 
 }
