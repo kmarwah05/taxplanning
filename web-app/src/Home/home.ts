@@ -40,4 +40,6 @@ export class Home {
   bind() {
     return this.assets
   }
+
+
 }

@@ -1,0 +1,63 @@
+
+body {
+  background-image:url("http://avante.biz/wp-content/uploads/Gradient-Wallpapers/Gradient-Wallpapers-048.jpg");
+  color: white !important;
+  font-family: 'Krona One', sans-serif !important;
+}
+
+#myForm{
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: rgba(0,0,0,.5);
+  -webkit-box-shadow: 0 0 13px 3px rgba(0,0,0,.5);
+  box-shadow: 0 0 13px 3px rgb(0, 0, 0,.5);
+  overflow: hidden;
+  padding: 25px;
+}
+
+.table{
+  border: 1px solid rgba(0,0,0,.2) !important;
+  border-radius: 5px !important;
+  -moz-border-radius: 5px !important;
+  -webkit-border-radius: 5px !important;
+  -moz-background-clip: padding !important;
+  -webkit-background-clip: padding-box !important;
+  background-clip: padding-box !important;
+  background: rgba(0,0,0,.5) !important;
+  -webkit-box-shadow: 0 0 13px 3px rgba(0,0,0,.5) !important;
+  box-shadow: 0 0 13px 3px rgb(0, 0, 0,.5) !important;
+  overflow: hidden !important;
+  padding: 25px ;
+}
+label[type=text]{
+ color: white;
+}
+
+#myButton{
+  background-color: #101010;
+  border: 0px;
+}
+
+.myFooter{
+position: fixed;
+left: 0;
+bottom: 0;
+width: 100%;
+background: rgba(0,0,0,.5);
+-webkit-box-shadow: 0 0 13px 3px rgba(0,0,0,.5);
+box-shadow: 0 0 13px 3px rgb(0, 0, 0,.5); 
+padding: 5px;
+color: white;
+text-align: center;
+}
+
+.navbar{
+border-radius: 0px !important;
+margin-bottom: 90px !important;
+}
+
