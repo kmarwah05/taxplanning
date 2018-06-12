@@ -1,10 +1,11 @@
+
 body {
   background-image:url("http://avante.biz/wp-content/uploads/Gradient-Wallpapers/Gradient-Wallpapers-048.jpg");
   color: white !important;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
 }
 
-#myForm, .table{
+#myForm{
   border: 1px solid rgba(0,0,0,.2);
   border-radius: 5px;
   -moz-border-radius: 5px;
@@ -19,6 +20,20 @@ body {
   padding: 25px;
 }
 
+.table{
+  border: 1px solid rgba(0,0,0,.2) !important;
+  border-radius: 5px !important;
+  -moz-border-radius: 5px !important;
+  -webkit-border-radius: 5px !important;
+  -moz-background-clip: padding !important;
+  -webkit-background-clip: padding-box !important;
+  background-clip: padding-box !important;
+  background: rgba(0,0,0,.5) !important;
+  -webkit-box-shadow: 0 0 13px 3px rgba(0,0,0,.5) !important;
+  box-shadow: 0 0 13px 3px rgb(0, 0, 0,.5) !important;
+  overflow: hidden !important;
+  padding: 25px !important;
+}
 label[type=text]{
  color: white;
 }
@@ -45,3 +60,4 @@ text-align: center;
 border-radius: 0px !important;
 margin-bottom: 90px !important;
 }
+
