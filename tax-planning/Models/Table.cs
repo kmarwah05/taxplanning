@@ -6,29 +6,25 @@ namespace tax_planning.Models
 {
     public class Table
     {
-        public Dictionary<DateTime, decimal> YearlyAmounts { get; set; }
-        public Dictionary<DateTime, decimal> YearlyTax { get; set; }
-        public decimal TotalCashOut { get; set; }
-        public decimal NetCashOut { get; set; }
+        public List<decimal> YearlyAmounts { get; set; }
+        public List<decimal> YearlyTax { get; set; }
+        public decimal TotalCashOut => YearlyAmounts.Aggregate(0.00M, (sum, next) => next < 0M ? sum - next : sum);
+        public decimal NetCashOut => TotalCashOut
+            - YearlyAmounts.Aggregate(0.00M, (sum, next) => next > 0M ? sum + next : sum)
+            - YearlyTax.Aggregate(0.00M, (sum, next) => sum + next);
 
         public static Table operator+ (Table a, Table b)
         {
             Table table = new Table();
 
-            table.YearlyAmounts = new Dictionary<DateTime, decimal>();
-            foreach (var key in a.YearlyAmounts.Keys)
-            {
-                table.YearlyAmounts[key] = a.YearlyAmounts[key] + b.YearlyAmounts[key];
-            }
+            table.YearlyAmounts = new List<decimal>();
 
-            table.YearlyTax = new Dictionary<DateTime, decimal>();
-            foreach (var key in a.YearlyTax.Keys)
+            table.YearlyTax = new List<decimal>();
+            for (var i = 0; i < a.YearlyTax.Count; i++)
             {
-                table.YearlyTax[key] = a.YearlyTax[key] + b.YearlyTax[key];
+                table.YearlyTax[i] = a.YearlyTax[i] + b.YearlyTax[i];
+                table.YearlyAmounts[i] = a.YearlyAmounts[i] + b.YearlyAmounts[i];
             }
-
-            table.TotalCashOut = a.TotalCashOut + b.TotalCashOut;
-            table.NetCashOut = a.NetCashOut + b.NetCashOut;
 
             return table;
         }

@@ -117,15 +117,3 @@ namespace tax_planning.Models
         
     }
 }
-
-namespace Extensions
-{
-    public static class Extension
-    {
-        public static (decimal upperBound, decimal lowerBound) Parse(this (decimal upperBound, decimal lowerBound), string s)
-        {
-            string[] line = s.Split(",");
-            return (Decimal.Parse(line[0].Trim()), Decimal.Parse(line[1].Trim()));
-        }
-    }
-}
