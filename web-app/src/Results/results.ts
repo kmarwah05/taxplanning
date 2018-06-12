@@ -1,60 +1,46 @@
-import {HttpClient} from 'aurelia-fetch-client';
+import { inject } from 'aurelia-framework';
+import { HttpService } from 'HttpService';
 
-export class Results{
-  yearStart: number
-  yearEnd: number
-  client: HttpClient
-  endpoint: string = 'http://localhost:60419/api'
-  
+@inject(HttpService)
+export class Results {
+  total: number = 4325;
+  net: number = 2834
+
+  constructor(private httpService: HttpService) {
+    httpService.ConfigureClient();
+  }
+
   CreateTable() {
-    var tableContent: string = "";
-    for(var i = this.yearStart; i < this.yearEnd; i++){
-      tableContent += "<tr>";
-      tableContent += "<td>"+i+"</td>"
-
-      tableContent += "</tr>";
-    }
   }
 
-  ConfigureClient(){
-    let client = new HttpClient;
-    client.configure(config => {
-      config
-        .withBaseUrl(this.endpoint)
-          .withDefaults({
-            mode:'no-cors',
-            headers: {
-              'content-type': 'mulipart/form-data',
-              'Accept': 'application/json'
-            }
-          })
-    });
-    this.client = client;
-  }
-
-  GetResults(){
-    this.ConfigureClient();
-
+  GetResults() {
     let form = new FormData;
-    form.set('FilingStatus','FilingStatus.Joint');
-    form.set('Income','382');
-    form.set('BasicAdjustment','1000');
-    form.set('RetirementDate','423');
-    form.set('EndOfPlanDate','15332');
-    form.set('CapitalGains','423');
-    form.set('FormAssets','[["Tim","RothIra","421423"]]');
+    var data = JSON.parse(sessionStorage.userData)
+    //console.log(data)
 
-    this.SendPost(form);
+    form.set('FilingStatus', data.FilingStatus);
+    form.set('Income', data.Income);
+    form.set('BasicAdjustment', '1000');
+    form.set('RetirementDate', '423');
+    form.set('EndOfPlanDate', '15332');
+    form.set('CapitalGains', '423');
+    form.set('FormAssets', this.BuildAssetString(data.Assets));
+
+    this.httpService.SendPost(form);
   }
 
-  SendPost(form){
-    console.log(form.get('FormAssets'))
-    this.client.fetch(this.endpoint,{
-      method:"POST",
-      body: form
-    })
-    .then(response => response.json())
-    .then(data => {console.log(data)});
-  }
+  BuildAssetString(array) {
+    var assetString: string = "["
 
+    for (let i = 0; i < array.length; i++) {
+      assetString += ("[\"" + array[i].name + "\",\"" + array[i].type + "\",\"" + array[i].value + "\"]");
+
+      if ((i + 1) <= array.length) { //while you have more assets add a comma
+        assetString += ","
+      }
+    }
+
+    assetString += "]"
+    return assetString
+  }
 }

@@ -21,10 +21,10 @@ namespace tax_planning.Models
         public decimal CapitalGains { get; set; }
 
         [Required]
-        public DateTime RetirementDate { get; set; }
+        public int RetirementDate { get; set; }
 
         [Required]
-        public DateTime EndOfPlanDate { get; set; }
+        public int EndOfPlanDate { get; set; }
 
         [Required]
         public string FormAssets

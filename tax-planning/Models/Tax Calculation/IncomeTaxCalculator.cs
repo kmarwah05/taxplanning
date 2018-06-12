@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace tax_planning.Models.Tax_Calculation
 {
@@ -9,6 +6,7 @@ namespace tax_planning.Models.Tax_Calculation
     {
         public static decimal CalculateTaxForIncome(FilingStatus status, decimal income, decimal basicAdjustment)
         {
+            // Standard deduction
             var standardDeduction = 0.00M;
             switch (status)
             {
@@ -27,6 +25,8 @@ namespace tax_planning.Models.Tax_Calculation
 
             income -= standardDeduction;
 
+
+            // After standard deduction
             var brackets = TaxBrackets.IncomeBracketsFor(status);
             var ranges = brackets.Select(bracket => bracket.upperBound - bracket.lowerBound);
 

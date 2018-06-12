@@ -3,18 +3,8 @@ using System.Collections.Generic;
 
 namespace tax_planning.Models
 {
-    public class EquityHolding : IAsset
+    public class EquityHolding : Asset
     {
-        public string Name { get; set; }
-
-        public decimal Value { get; set; }
-
-        public decimal InterestRate { get; set; }
-
-        public decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta)
-        {
-            return previousYearAmount + InterestRate + yearDelta;
-        }
 
         private decimal GetTaxForCapitalGain(decimal gain, FilingStatus filingStatus, decimal income)
         {

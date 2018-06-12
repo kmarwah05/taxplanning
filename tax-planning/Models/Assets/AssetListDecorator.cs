@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace tax_planning.Models.Assets
 {
-    public class AssetListDecorator : List<IAsset>
+    public class AssetListDecorator : List<Asset>
     {
-
-
         public AssetListDecorator() : base() { }
 
         public decimal GetTotalValueForYear(int year)
@@ -24,9 +22,14 @@ namespace tax_planning.Models.Assets
             });
         }
 
-        public decimal GetAmountAfter(int duration, decimal withdrawal)
+        public Table GetOptimalScheduleFor(FormModel model)
         {
+            return this.Aggregate(this.First().GetOptimalScheduleFor(model), (a, b) => a + b.GetOptimalScheduleFor(model));
+        }
 
+        public Table GetDesiredScheduleFor(FormModel model)
+        {
+            return this.Aggregate(this.First().GetDesiredScheduleFor(model), (a, b) => a + b.GetDesiredScheduleFor(model));
         }
     }
 }

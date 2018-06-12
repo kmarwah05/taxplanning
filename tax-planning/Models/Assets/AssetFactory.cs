@@ -8,7 +8,7 @@ namespace tax_planning.Models
     public class AssetFactory
     {
         // assetType string should be one of "IRA", "Roth IRA", "401k, Equity Holding"
-        public static IAsset Create(string name, string assetType, decimal value, decimal yearlyAdditions = 0.00M) {
+        public static Asset Create(string name, string assetType, decimal value, decimal yearlyAdditions = 0.00M) {
             switch (assetType)
             {
                 case "IRA":

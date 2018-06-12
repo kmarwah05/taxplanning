@@ -114,5 +114,6 @@ namespace tax_planning.Models
             }
             throw new ArgumentOutOfRangeException("Income must be at least 0");
         }
+        
     }
 }
