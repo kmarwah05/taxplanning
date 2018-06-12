@@ -7,7 +7,7 @@
   </style>
 
   <head>
-    <title>Bootstrap Example</title>
+    <title>Tax Planning</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -29,13 +29,12 @@
             </b>
           </label>
           <div class="col-sm-10">
-            <select class="form-control form-control-lg" name="FilingStatus">
+            <select class="form-control form-control-lg" name="FilingStatus" value.bind="filingStatus" change.delegate="jsonify()">
               <option>Choose Filing Status</option>
               <option value="FilingStatus.Joint">Joint</option>
               <option value="FilingStatus.HeadOfHousehold">Head of Household</option>
               <option value="FilingStatus.Unmarried">Unmarried</option>
               <option value="Married">Married</option>
-
             </select>
           </div>
         </div>
@@ -47,7 +46,7 @@
             </b>
           </label>
           <div class="col-sm-10">
-            <select class="form-control form-control-lg" name="IncomeBracket">
+            <select class="form-control form-control-lg" name="IncomeBracket" value.bind="income" change.delegate="jsonify()">
               <option>Choose Income Range</option>
               <option value="0">Income Range 1</option>
               <option value="1">Income Range 2</option>
