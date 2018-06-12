@@ -4,6 +4,7 @@ export class App {
   router:Router;
   configureRouter(config, router) {
     config.title = 'Tax Planing';
+    config.options.pushState = true;
     config.map([
       {route: ['', 'home'], name: 'home', moduleId: PLATFORM.moduleName('home/home'), nav: true, title: 'Home'},
       {route: 'results', name: 'results', moduleId:  PLATFORM.moduleName('results/results'), nav: true, title: 'Results'}
