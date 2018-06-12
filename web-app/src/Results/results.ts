@@ -25,7 +25,7 @@ export class Results{
     form.set('CapitalGains','423');
     form.set('FormAssets',this.BuildAssetString(data.Assets));
 
-    //this.httpService.SendPost(form);
+    this.httpService.SendPost(form);
   }
 
   BuildAssetString(array)
