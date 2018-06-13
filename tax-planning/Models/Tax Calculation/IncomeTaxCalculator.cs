@@ -1,11 +1,33 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace tax_planning.Models.Tax_Calculation
 {
     public class IncomeTaxCalculator
     {
-        public static decimal CalculateTaxForIncome(FilingStatus status, decimal income, decimal basicAdjustment)
+        public static decimal FederalTaxFor(FilingStatus status, decimal income, decimal basicAdjustment) => CalculateGraduatedTaxFor(status, "Federal", income, basicAdjustment);
+
+        public static decimal VaStateTaxFor(FilingStatus status, decimal income) => CalculateGraduatedTaxFor(status, "VA State", income, 0.00M);
+
+        private static decimal CalculateGraduatedTaxFor(FilingStatus status, string jurisdiction, decimal income, decimal basicAdjustment)
         {
+            // Get jurisdiction data
+            (decimal lowerBound, decimal upperBound)[] brackets;
+            float[] rateForBracket;
+
+            switch (jurisdiction) {
+                case "Federal":
+                    brackets = TaxBrackets.FederalIncomeBracketsFor(filingStatus: status);
+                    rateForBracket = TaxBrackets.FederalIncomeRateForBracket.Select(x => (float)x).ToArray();
+                    break;
+                case "VA State":
+                    brackets = TaxBrackets.FederalIncomeBracketsFor(filingStatus: status);
+                    rateForBracket = TaxBrackets.FederalIncomeRateForBracket.Select(x => (float)x).ToArray();
+                    break;
+                default:
+                    throw new ArgumentException("Jurisdiction not supported");
+            }
+            
             // Standard deduction
             var standardDeduction = 0.00M;
             switch (status)
@@ -27,21 +49,20 @@ namespace tax_planning.Models.Tax_Calculation
 
 
             // After standard deduction
-            var brackets = TaxBrackets.IncomeBracketsFor(status);
             var ranges = brackets.Select(bracket => bracket.upperBound - bracket.lowerBound);
 
-            var tax = 0.00M;
+            var tax = 0.00f;
 
             var i = 0;
             while (income > brackets[i].upperBound)
             {
-                tax += ranges.ElementAt(i) * TaxBrackets.IncomeRateForBracket[i];
+                tax += (float)ranges.ElementAt(i) * rateForBracket[i];
                 i++;
             }
 
-            var cherryOnTop = (income - brackets[i].lowerBound - basicAdjustment - ranges.Take(i).Sum()) * TaxBrackets.IncomeRateForBracket[i];
+            var cherryOnTop = (float)(income - brackets[i].lowerBound - basicAdjustment - ranges.Take(i).Sum()) * rateForBracket[i];
 
-            return tax + cherryOnTop;
+            return (decimal)(tax + cherryOnTop);
         }
     }
 }
