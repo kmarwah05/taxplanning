@@ -10,7 +10,7 @@ export class Home {
   value: string
   filingStatus: string
   income: string
-  basicAdjustment: string
+  basicAdjustment: string = '';
   retirementDate: string
   endOfPlan: string
   capitalGains: string
@@ -54,25 +54,30 @@ export class Home {
   }
 
   message = '';
-  firstname: string = '';
-  lastname: string = '';
+  errors = []
+  incomeValidate: string = '';
 
   constructor(private controller: ValidationController) {
     ValidationRules
-      .ensure((m: Home) => m.lastname).displayName("Surname").required()
-      .ensure((m: Home) => m.firstname).displayName("First name").required()
+     // .ensure((m: Home) => m.fStatus).displayName("Income value in number").required()
+      .ensure((m: Home) => m.incomeValidate).displayName("Income value in numeric value").required()
+      .ensure((m: Home) => m.basicAdjustment).displayName("Basic Adjustment value in numeric value").required()
+      .ensure((m: Home) => m.retirementDate).displayName("Retirement Date in yyyy").required()
+      .ensure((m: Home) => m.capitalGains).displayName("Capital gains value in numeric value").required()
+      .ensure((m: Home) => m.endOfPlan).displayName("End of Plan in yyyy").required()
       .on(this);
   }
 
 
-  validateMe() {
+  validateButton() {
     this.controller
       .validate()
       .then(v => {
-        if (v.length === 0)
-          this.message = "All is good!";
+        if (v.valid)
+        window.location.href = "http://localhost:8080/results"
         else
           this.message = "You have errors!";
+          this.errors = v.results;
       })
   }
   

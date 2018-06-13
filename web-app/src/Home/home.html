@@ -12,54 +12,29 @@
   </head>
 
   <body>
+
+
     <!--FORM STARTS HERE-->
-<<<<<<< HEAD
-      <div class="mx-auto w-75">
-          <form class="form-horizontal" id="myForm">
-            <div class="row"> 
-              <div class="form-group col-xs-12 col-sm-6">
-                <label for="filStatus" class="col-sm-4 control-label" id="filingStatus" type="text">Filing Status:</label>
-                <div class="col-sm-6">
-                  <select class="form-control">
-                    <option value="" disabled selected>Select one...</option>
-                    <option value="FilingStatus.Joint">Joint</option>
-                    <option value="FilingStatus.HeadOfHousehold">Head of Household</option>
-                    <option value="FilingStatus.Unmarried">Unmarried</option>
-                    <option value="Married">Married</option>
-                  </select>
-                </div>  
-              </div>
-              <div class="form-group col-xs-12 col-sm-6">
-                <div class="row">
-                  <label for="incomeRange" class="col-sm-4 control-label" id="incomeRange" type="text" >Select Income:</label>
-                  <div class="col-sm-6">
-                   <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income">
-                    </select>
-                  </div>
-                </div>
-              </div>
-=======
     <div class="mx-auto w-75">
       <form class="form-horizontal" id="myForm">
         <div class="row">
           <div class="form-group col-xs-12 col-sm-6">
             <label for="filStatus" class="col-sm-4 control-label" id="filingStatus" type="text">Filing Status:</label>
             <div class="col-sm-6">
-              <select class="form-control" value.bind="filingStatus">
+              <select class="form-control">
                 <option value="" disabled selected>Select one...</option>
                 <option value="FilingStatus.Joint">Joint</option>
                 <option value="FilingStatus.HeadOfHousehold">Head of Household</option>
                 <option value="FilingStatus.Unmarried">Unmarried</option>
                 <option value="Married">Married</option>
               </select>
->>>>>>> 0a9249d9ad4cfed9dac3739fb4bb7b3e904636bc
             </div>
           </div>
           <div class="form-group col-xs-12 col-sm-6">
             <div class="row">
               <label for="incomeRange" class="col-sm-4 control-label" id="incomeRange" type="text">Select Income:</label>
               <div class="col-sm-6">
-                <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income">
+                <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
                 </select>
               </div>
             </div>
@@ -69,7 +44,7 @@
           <div class="form-group col-xs-12 col-sm-6">
             <label for="bAdjustment" class="col-sm-4 control-label" id="basicAdjustment">Basic Adjustment:</label>
             <div class="col-sm-6">
-              <input type="basicInput" class="form-control" name="BasicAdjustment" placeholder="Enter Basic Adjustment" value.bind="basicAdjustment">
+              <input type="basicInput" class="form-control" name="BasicAdjustment" placeholder="Enter Basic Adjustment" value.bind="basicAdjustment & validate">
             </div>
             <div class="col-sm-2"></div>
           </div>
@@ -77,7 +52,7 @@
             <div class="row">
               <label for="retireDate" class="col-sm-4 control-label" id="retirementDate">Retirement Date:</label>
               <div class="col-sm-6">
-                <input type="rDate" class="form-control" name="RetirementDate" placeholder="Enter Retirement Date" value.bind="retirementDate">
+                <input type="rDate" class="form-control" name="RetirementDate" placeholder="Enter Retirement Date" value.bind="retirementDate & validate">
               </div>
             </div>
           </div>
@@ -86,7 +61,7 @@
           <div class="form-group col-xs-12 col-sm-6">
             <label for="cGains" class="col-sm-4 control-label" id="capitalGains">Capital Gains:</label>
             <div class="col-sm-6">
-              <input type="capitalGains" class="form-control" name="CapitalGains" placeholder="Capital Gains" value.bind="capitalGains">
+              <input type="capitalGains" class="form-control" name="CapitalGains" placeholder="Capital Gains" value.bind="capitalGains & validate">
             </div>
             <div class="col-sm-2"></div>
           </div>
@@ -94,7 +69,7 @@
             <div class="row">
               <label for="endPlan" class="col-sm-4 control-label" id="endPlan">End of Plan:</label>
               <div class="col-sm-6">
-                <input type="endP" class="form-control" name="EndOfPlan" placeholder="End of Plan" value.bind="endOfPlan">
+                <input type="endP" class="form-control" name="EndOfPlan" placeholder="End of Plan" value.bind="endOfPlan & validate">
               </div>
             </div>
           </div>
@@ -102,6 +77,8 @@
       </form>
     </div>
     <!--FORM ENDS HERE-->
+
+
     <!-- DON'T TOUCH BELOW CODE (TABLE)  -->
     <div class="mx-auto w-75">
       <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
@@ -118,8 +95,8 @@
               <input type="text" class="form-control" id="Aname" value.bind="name">
             </td>
             <td>
-              <select class="form-control h-100" id="Atype" value.bind="type">
-                <option>Choose Asset Type</option>
+              <select class="form-control h-100" id="Atype" value.bind="type">         
+                <option value="" disabled selected>Choose Asset Type</option>
                 <option value="IRA">IRA</option>
                 <option value="Roth IRA">Roth IRA</option>
                 <option value="401K">401K</option>
@@ -150,14 +127,24 @@
       </table>
     </div>
 
-    <button class="mx-auto" click.delegate="jsonify()">Submit</button>
+
+    <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
+    <button class="mx-auto" click.delegate="validateButton()" id="mySubmit">Submit</button>
+    <h3 id="myH3">${message}</h3>
+    <ul>
+      <li repeat.for="error of errors">
+        <h5 id="myErrors">${error.message}</h5>
+      </li>
+    </ul>
+    <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
+
 
     <div class="myFooter">
       <p>&copy; TAX PLANNING</p>
     </div>
-<<<<<<< HEAD
 
 
+    <!--
     <div>
       <p> Firstname: <input value.bind="firstname & validate"/></p>
       <p> Lastname: <input value.bind="lastname & validate"/></p>
@@ -172,8 +159,6 @@
         ${error.message}
       </li>
     </ul>
-
-=======
->>>>>>> 0a9249d9ad4cfed9dac3739fb4bb7b3e904636bc
+  -->
   </body>
 </template>
