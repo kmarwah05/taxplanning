@@ -19,10 +19,11 @@ namespace tax_planning.Models
      */
     public class TaxBrackets
     {
-        public static decimal[] IncomeRateForBracket = new decimal[] { 0.10M, 0.12M, 0.22M, 0.24M, 0.32M, 0.35M, 0.37M };
+        public static decimal[] FederalIncomeRateForBracket = new decimal[] { 0.10M, 0.12M, 0.22M, 0.24M, 0.32M, 0.35M, 0.37M };
+        public static float[] VaStateIncomeRateForBracket = new float[] { 0.02f, 0.03f, 0.05f, 0.0575f };
         public static decimal[] CapitalGainsRateForBracket = { 0.10M, 0.15M, 0.20M };
 
-        public static (decimal lowerBound, decimal upperBound)[] IncomeBracketsFor(FilingStatus filingStatus)
+        public static (decimal lowerBound, decimal upperBound)[] FederalIncomeBracketsFor(FilingStatus filingStatus)
         {
             switch (filingStatus)
             {
@@ -69,6 +70,16 @@ namespace tax_planning.Models
             }
         }
 
+        public static (decimal lowerBound, decimal upperBound)[] VaStateBrackets()
+        {
+            return new(decimal lowerBound, decimal upperBound)[] {
+                (0.00M, 3000.49M),
+                (3000.50M, 5000.49M),
+                (5000.50M, 17000.49M),
+                (17000.50M, Decimal.MaxValue)
+            };
+        }
+
         public static (decimal lowerBound, decimal upperBound)[] CapitalGainsBracketsFor(FilingStatus filingStatus)
         {
             switch (filingStatus)
@@ -102,11 +113,13 @@ namespace tax_planning.Models
             }
         }
 
-        public static int IncomeBracketFor(FilingStatus filingStatus, decimal income) => BracketForBrackets(IncomeBracketsFor(filingStatus), filingStatus, income);
+        public static int FederalIncomeBracketFor(FilingStatus filingStatus, decimal income) => BracketForBrackets(FederalIncomeBracketsFor(filingStatus), income);
 
-        public static int CapitalGainsBracketFor(FilingStatus filingStatus, decimal income) => BracketForBrackets(CapitalGainsBracketsFor(filingStatus), filingStatus, income);
+        public static int VaStateIncomeBracketFor(decimal income) => BracketForBrackets(VaStateBrackets(), income);
 
-        private static int BracketForBrackets((decimal lowerBound, decimal upperBound)[] brackets, FilingStatus filingStatus, decimal income)
+        public static int CapitalGainsBracketFor(FilingStatus filingStatus, decimal income) => BracketForBrackets(CapitalGainsBracketsFor(filingStatus), income);
+
+        private static int BracketForBrackets((decimal lowerBound, decimal upperBound)[] brackets, decimal income)
         {
             for (var i = 0; i < brackets.Length; i++)
             {
