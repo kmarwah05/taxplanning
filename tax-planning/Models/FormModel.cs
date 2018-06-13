@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using tax_planning.Models;
-using tax_planning.Models.Assets;
+using System.Collections.Generic;
 
 namespace tax_planning.Models
 {
@@ -14,11 +12,7 @@ namespace tax_planning.Models
         [Required]
         public decimal Income { get; set; }
 
-        [Required]
-        public decimal BasicAdjustment { get; set; }
-
-        [Required]
-        public decimal CapitalGains { get; set; }
+        public decimal BasicAdjustment { get; set; } = 0.00M;
 
         [Required]
         public int RetirementDate { get; set; }
@@ -27,28 +21,14 @@ namespace tax_planning.Models
         public int EndOfPlanDate { get; set; }
 
         [Required]
-        public string FormAssets
-        {
-            set
-            {
-                var assetsStringArray = Newtonsoft.Json.JsonConvert.DeserializeObject<string[][]>(value);
-                foreach (string[] element in assetsStringArray)
-                {
-                    try
-                    {
-                        Assets.Add(AssetFactory.Create(
-                        name: element[0],
-                        assetType: element[1],
-                        value: Decimal.Parse(element[2])
-                    ));
-                    } catch (Exception)
-                    {
-                        Console.WriteLine("Invalid asset type for asset " + element[0] + ". Failed to create asset.");
-                    }
-                }
-            }
-        }
+        public decimal CapitalGains { get; set; }
 
-        public AssetListDecorator Assets { get; } = new AssetListDecorator();
+        [Required]
+        public decimal DesiredWithdrawalAmount { get; set; }
+
+        [Required]
+        public decimal DesiredAdditions { get; set; }
+
+        public IEnumerable<AssetModel> Assets { get; set; }
     }
 }

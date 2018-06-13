@@ -10,7 +10,11 @@ namespace tax_planning.Models
         public decimal YearlyAdditions { get; set; }
 
         public DateTime WithdrawalStartDate { get; set; }
-        
+
+        protected override decimal CalculateTaxOn()
+        {
+            throw new NotImplementedException();
+        }
 
         private decimal CalculatePeakAmountWith(decimal additions, int numberOfYears, float interestRate)
         {

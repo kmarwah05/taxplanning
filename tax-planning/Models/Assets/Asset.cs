@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace tax_planning.Models
 {
@@ -11,71 +10,98 @@ namespace tax_planning.Models
 
         public decimal Value { get; set; }
 
-        public decimal InterestRate { get; set; }
-
+        public decimal InterestRate { get; set; } = 0.06M;
 
         // Methods
-        public virtual Table GetOptimalScheduleFor(FormModel model)
+
+        // Given desired additions, get withdrawal schedule
+        public virtual Table GetOptimalScheduleFor(Data data)
         {
             Table table = new Table();
 
-            var netWorth = model.Assets.Aggregate(0.00M, (sum, next) => sum + next.Value);
-            var retirementLength = model.EndOfPlanDate - model.RetirementDate;
-            var timeToRetirement = model.RetirementDate - DateTime.Today.Year;
-            var totalYearlyContribution = model.Assets.Aggregate(0.00M, (sum, next) => sum + next.InterestRate); //TODO: update formula
+            var retirementLength = GetRetirementLength(data);
+            var timeToRetirement = GetTimeToRetirement(data);
+            var additions = data.DesiredAdditions;
 
             // Rough estimate to start, quality of estimation increases speed of Newton-Raphson
-            var withdrawal = (totalYearlyContribution * (decimal)timeToRetirement + netWorth) / (decimal)retirementLength;
+            var withdrawal = (additions * timeToRetirement + Value) / retirementLength;
+
             // Initial Condition
-            var amount = model.Assets.GetTotalValueForYear(model.RetirementDate);
+            var amount = GetFutureValueAfter(years: timeToRetirement);
 
             // Do calculation
-            (List<decimal> amounts, List<decimal> taxes) schedule = GetScheduleWith((float)withdrawal, amount, 0.00M, retirementLength);
+            (List<decimal> amount, List<decimal> change) retirementSchedule = GetScheduleWith((float)withdrawal, amount, 0.00M, retirementLength);
 
-            List<decimal> amountsForSchedule = new List<decimal>();
-            List<decimal> taxesForSchedule = new List<decimal>();
+            // Populate entire schedules
+            List<decimal> amountForSchedule = new List<decimal>();
+            List<decimal> changeForSchedule = new List<decimal>();
+
+            for (var i = 0; i < timeToRetirement; i++)
+            {
+                amountForSchedule.Add(GetFutureValueAfter(years: i, withAdditions: data.DesiredAdditions));
+                changeForSchedule.Add(data.DesiredAdditions);
+            }
+
+            amountForSchedule.AddRange(retirementSchedule.amount);
+            changeForSchedule.AddRange(retirementSchedule.change);
+
+            // Add scehdules to the table
+            table.YearlyAmount = amountForSchedule;
+            table.YearlyChange = changeForSchedule;
 
             return table;
         }
 
-        public virtual Table GetDesiredScheduleFor(FormModel model)
+        // Given desired withdrawal, get addition schedule
+        public virtual Table GetDesiredScheduleFor(Data data)
         {
             Table table = new Table();
 
-            var netWorth = model.Assets.Aggregate(0.00M, (sum, next) => sum += next.Value);
-            var retirementLength = model.EndOfPlanDate - model.RetirementDate;
-            var timeToRetirement = model.RetirementDate - DateTime.Today.Year;
-            var totalYearlyContribution = model.Assets.Aggregate(0.00M, (sum, next) => sum += next.InterestRate);
+            var retirementLength = GetRetirementLength(data);
+            var timeToRetirement = GetTimeToRetirement(data);
+            var withdrawal = data.DesiredWithdrawalAmount;
 
-            // Rough estimate to start, quality of estimation increases speed of Newton-Raphson
-            var withdrawal = (totalYearlyContribution * (decimal)timeToRetirement + netWorth) / (decimal)retirementLength;
             // End condition
-            // TODO: Calculate peak amount needed
+            var peak = Value;
 
-            // Do calculation
-            (List<decimal> amounts, List<decimal> taxes) schedule = GetScheduleWith((float)totalYearlyContribution, netWorth, 0.00M // TODO: fix this
-                , retirementLength);
+            for (var i = 0; i < retirementLength; i++)
+            {
+                peak = (peak + withdrawal) / (InterestRate + 1.00M);
+            }
 
-            List<decimal> amountsForSchedule = new List<decimal>();
-            List<decimal> taxesForSchedule = new List<decimal>();
+            // Guess
+            decimal additions = (peak - Value) / timeToRetirement;
 
+            // Do calculation, gives partial schedule
+            (List<decimal> amount, List<decimal> change) preRetirementSchedule = GetScheduleWith((float)additions, Value, peak, retirementLength);
 
-            // Populate dicts
+            // Populate entire schedules
+            List<decimal> amountForSchedule = new List<decimal>();
+            List<decimal> changeForSchedule = new List<decimal>();
+
+            amountForSchedule.AddRange(preRetirementSchedule.amount);
+            changeForSchedule.AddRange(preRetirementSchedule.change);
+
+            for (var i = 0; i < retirementLength; i++)
+            {
+                amountForSchedule.Add(GetFutureValueAfter(years: i, startingFrom: peak, withAdditions: data.DesiredWithdrawalAmount));
+                changeForSchedule.Add(data.DesiredWithdrawalAmount);
+            }
+
+            // Add schedules to the table
+            table.YearlyAmount = amountForSchedule;
+            table.YearlyChange = changeForSchedule;
 
             return table;
         }
 
-        public virtual decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta)
+        protected virtual (List<decimal> amount, List<decimal> changes) GetScheduleWith(float delta, decimal initial, decimal final, int steps)
         {
-            return previousYearAmount * InterestRate + yearDelta;
-        }
+            
+            List<decimal> amount = new List<decimal>() { initial };
+            List<decimal> change = new List<decimal>();
 
-        protected virtual (List<decimal> amounts, List<decimal> taxes) GetScheduleWith(float delta, decimal initial, decimal final, int steps)
-        {
-            List<decimal> amounts = new List<decimal>() { initial };
-            List<decimal> taxes = new List<decimal>() { CalculateTaxOn(initial) };
-
-            // Amount at final
+            // Amount at final, want f(x) = 0
             float f(float x)
             {
                 var sum = 0.0f;
@@ -99,23 +125,52 @@ namespace tax_planning.Models
             }
 
 
-            for (var i = 1; i < amounts.Count; i++)
+            for (var i = 1; i < steps; i++)
             {
-                amounts[i] = CalculateNextYearAmount(amounts[i - 1], (decimal)delta);
-                taxes[i] = CalculateTaxOn(amounts[i]);
+                amount.Add(CalculateNextYearAmount(amount[i - 1], (decimal)delta));
+                change.Add((decimal)delta);
             }
 
-            return (amounts, taxes);
+            change.Add((decimal)delta);
+
+            return (amount, change);
         }
 
-        protected virtual (List<decimal> amounts, List<decimal> taxes) GetPreWithdrawalSchedule(decimal additions, int numberOfYears, float interestRate)
+        protected decimal GetFutureValueAfter(int years, decimal withAdditions = 0.00M)
         {
-            throw new NotImplementedException();
+            var futureValue = Value;
+            for (var i = 0; i < years; i++)
+            {
+                futureValue += CalculateNextYearAmount(previousYearAmount: futureValue, yearDelta: withAdditions);
+            }
+            return futureValue;
         }
-        //TODO: implement
-        protected virtual decimal CalculateTaxOn(decimal amount)
+
+        protected decimal GetFutureValueAfter(int years, decimal startingFrom, decimal withAdditions = 0.00M)
         {
-            return -1;
+            var futureValue = startingFrom;
+            for (var i = 0; i < years; i++)
+            {
+                futureValue += CalculateNextYearAmount(previousYearAmount: futureValue, yearDelta: withAdditions);
+            }
+            return futureValue;
         }
+
+        protected virtual decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta)
+        {
+            return previousYearAmount * InterestRate + yearDelta;
+        }
+
+        protected int GetRetirementLength(Data data)
+        {
+            return data.EndOfPlanDate - data.RetirementDate;
+        }
+
+        protected int GetTimeToRetirement(Data data)
+        {
+            return data.RetirementDate - DateTime.Today.Year;
+        }
+
+        protected abstract decimal CalculateTaxOn();
     }
 }

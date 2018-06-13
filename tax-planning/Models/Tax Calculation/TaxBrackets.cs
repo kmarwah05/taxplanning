@@ -66,7 +66,8 @@ namespace tax_planning.Models
                         (300000.01M, Decimal.MaxValue)
                     };
                 default:
-                    throw new ArgumentException("Invalid filing status");
+                    Console.WriteLine("Invalid filing status");
+                    return null;
             }
         }
 
@@ -109,7 +110,8 @@ namespace tax_planning.Models
                         (239500.01M, Decimal.MaxValue)
                     };
                 default:
-                    throw new ArgumentException("Invalid filing status");
+                    Console.WriteLine("Invalid filing status");
+                    return null;
             }
         }
 
@@ -125,7 +127,8 @@ namespace tax_planning.Models
             {
                 if (income >= brackets[i].lowerBound && income <= brackets[i].upperBound) { return i; }
             }
-            throw new ArgumentOutOfRangeException("Income must be at least 0");
+
+            return 0;
         }
         
     }

@@ -25,7 +25,8 @@ namespace tax_planning.Models.Tax_Calculation
                     rateForBracket = TaxBrackets.FederalIncomeRateForBracket.Select(x => (float)x).ToArray();
                     break;
                 default:
-                    throw new ArgumentException("Jurisdiction not supported");
+                    Console.WriteLine("Jurisdiction not supported");
+                    return 0.00M;
             }
             
             // Standard deduction
