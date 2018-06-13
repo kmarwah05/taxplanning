@@ -13,7 +13,7 @@
     },
     "bundles": [
       {
-        "dependencies":[            
+        "dependencies": [
           "velocity-animate",
           "tether",
           {
@@ -23,7 +23,22 @@
             "resources": [
               "**/*.html"
             ]
-          }  
+          },
+          {
+            "name": "aurelia-validation",
+            "path": "../node_modules/aurelia-validation/dist/amd",
+            "main": "aurelia-validation"
+          },
+          {
+            "name": "aurelia-validatejs",
+            "path": "../node_modules/aurelia-validatejs/dist/amd",
+            "main": "aurelia-validatejs"
+          },
+          {
+            "name": "validate.js",
+            "path": "../node_modules/validate.js/",
+            "main": "validate"
+          }
         ]
       }
     ]

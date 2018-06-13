@@ -1,3 +1,7 @@
+import {inject, NewInstance} from 'aurelia-framework';
+import {ValidationRules, ValidationController} from "aurelia-validation";
+
+@inject(NewInstance.of(ValidationController))
 export class Home {
   counter: number = 0;
   assets = [];
@@ -41,5 +45,27 @@ export class Home {
     return this.assets
   }
 
+  message = '';
+  firstname: string = '';
+  lastname: string = '';
 
+  constructor(private controller: ValidationController) {
+    ValidationRules
+      .ensure((m: Home) => m.lastname).displayName("Surname").required()
+      .ensure((m: Home) => m.firstname).displayName("First name").required()
+      .on(this);
+  }
+
+
+  validateMe() {
+    this.controller
+      .validate()
+      .then(v => {
+        if (v.length === 0)
+          this.message = "All is good!";
+        else
+          this.message = "You have errors!";
+      })
+  }
+  
 }

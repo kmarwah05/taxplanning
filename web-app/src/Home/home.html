@@ -34,7 +34,7 @@
               </div>
               <div class="form-group col-xs-12 col-sm-6">
                 <div class="row">
-                  <label for="incomeRange" class="col-sm-4 control-label" id="incomeRange" type="text">Select Income:</label>
+                  <label for="incomeRange" class="col-sm-4 control-label" id="incomeRange" type="text" >Select Income:</label>
                   <div class="col-sm-6">
                    <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income">
                     </select>
@@ -133,6 +133,22 @@
     <div class="myFooter">
       <p>&copy; TAX PLANNING</p>
     </div>
-    
+
+
+    <div>
+      <p> Firstname: <input value.bind="firstname & validate"/></p>
+      <p> Lastname: <input value.bind="lastname & validate"/></p>
+    </div>
+   
+    <button click.delegate="validateMe()">Validate</button>
+   
+    <h3>Latest validation result: ${message}</h3>
+   
+    <ul>
+      <li repeat.for="error of controller.errors">
+        ${error.message}
+      </li>
+    </ul>
+
   </body>
 </template>

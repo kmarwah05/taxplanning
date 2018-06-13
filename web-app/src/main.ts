@@ -13,6 +13,8 @@ export function configure(aurelia: Aurelia) {
     .standardConfiguration()
     .plugin(PLATFORM.moduleName('aurelia-bootstrap'))
     .plugin(PLATFORM.moduleName('au-table'))
+    .plugin(PLATFORM.moduleName('aurelia-validation'))
+    .plugin(PLATFORM.moduleName('aurelia-validatejs'))
     .feature(PLATFORM.moduleName('resources/index'));
 
   // Uncomment the line below to enable animation.
