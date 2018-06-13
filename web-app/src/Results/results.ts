@@ -8,37 +8,36 @@ export class Results {
   data = [];
 
   constructor(private httpService: HttpService) {
-    httpService.ConfigureClient();
+    httpService.ConfigureClient(); //set the http client up only once when we start results
     this.GetResults();
   }
 
   BuildTable() {
-    //Build carousel indicators based on how many assets we have
     var counter = 0;
     var carouselText = '<ol class="carousel-indicators">'
     var carouselInternal = ''
 
-    for (let i = 0; i < (this.data.length / 2); i++) {
+    for (let i = 0; i < (this.data.length / 2); i++) { //for loop for each page
+      //only the first item needs to be active
       if (i == 0) {
-        carouselText += '<li data-target="results#scheduleCarousel" data-slide-to="' + i + '" class="active"></li>'
-        carouselInternal += '<div class="item container active">'
+        carouselText += '<li data-target="results#scheduleCarousel" data-slide-to="' + i + '" class="active"></li>' //Build carousel indicators based on how many assets we have
+        carouselInternal += '<div class="item container active">'                                                   //Build carousel items based on how many assets we have
       }
       else {
         carouselInternal += '<div class="item container">'
         carouselText += '<li data-target="results#scheduleCarousel" data-slide-to="' + i + '" class=""></li>'
       }
+      //fake charts TODO: replace with actual chart
       carouselInternal += '<div id="chart" class="row">' +
         '<img class="col" src="https://previews.123rf.com/images/gibsonff/gibsonff1204/gibsonff120400099/13362368-growth-chart.jpg"/>' +
         '<img class="col" src="https://previews.123rf.com/images/gibsonff/gibsonff1204/gibsonff120400099/13362368-growth-chart.jpg"/>' +
         '</div>'
         +'<div class="tables row">' 
-      for (let i = 0; i < 2; i++) {
-        //TODO: replace with actual chart
-
+      for (let i = 0; i < 2; i++) { //for loop for each table, on each page we have two tables
         carouselInternal += 
           '<div class="col">' +
           '<table class="table table-dark table-sm">' +
-          '<caption id="tableCaption">' + this.data[counter].Solution + '</caption>' +
+          '<caption id="tableCaption">' + this.data[counter].Solution + '</caption>' + //Caption the table with the solution
           '<thead>' +
           '<tr>' +
           '<th>Year</th>' +
@@ -47,7 +46,7 @@ export class Results {
           '</tr>' +
           '</thead>' +
           '<tbody>';
-        this.data[counter].YearlyDetails.forEach(element => {
+        this.data[counter].YearlyDetails.forEach(element => { //add all the yearly data to the table
           carouselInternal += '<tr><td>' + element.Year + '</td>' +
             '<td>' + element.YearlyAmount + '</td>' +
             '<td>' + element.YearlyTax + '</td></tr>'
@@ -61,13 +60,14 @@ export class Results {
           counter++;
         }
       }
-      carouselInternal += '</div><div class="carousel-caption d-none d-md-block">' +
+      carouselInternal += '</div><div class="carousel-caption d-none d-md-block">' + //add the name of the asset type to the page
         '<h5>' + this.data[counter-1].Name + '</h5>' +
         '</div>' +
         '</div>'
     }
     carouselInternal += '</div>'
     carouselText += '</ol>';
+    //inject all the html
     document.getElementById("carouselAmount").innerHTML = carouselText
     document.getElementById("carouselInner").innerHTML = carouselInternal
   }
@@ -76,7 +76,7 @@ export class Results {
     let form = new FormData;
     let data = JSON.parse(sessionStorage.userData)
     //console.log(data)
-
+    //fill out the formdata with info to send to back-end
     form.set('FilingStatus', data.FilingStatus);
     form.set('Income', data.Income);
     form.set('BasicAdjustment', data.BasicAdjustment);
@@ -86,10 +86,9 @@ export class Results {
     form.set('FormAssets', this.BuildAssetString(data.Assets));
 
     this.SendPost(form)
-
   }
 
-  BuildAssetString(array) {
+  BuildAssetString(array) {//back end wants assets to be formatted in an array of string arrays
     var assetString: string = "["
 
     for (let i = 0; i < array.length; i++) {
@@ -112,73 +111,30 @@ export class Results {
         let obj;
         let element;
         let keyNames = Object.keys(data)
+        //for each asset type sent from the api
         for (let i = 0; i < keyNames.length; i++) {
-          var keyName = keyNames[i].split(" ")
-          obj = {
+          var keyName = keyNames[i].split(" ") 
+          obj = { //create an object to hold all the info coming in
             "Name": "",
             "Solution": "",
             "YearlyDetails": []
           }
 
-          obj.Name = keyName[0]
-          obj.Solution = keyName[1]
-
+          obj.Name = keyName[0] //overall,401k,ira,etc
+          obj.Solution = keyName[1] //desired or optimal
           let table = data[Object.keys(data)[i]];
-          for (let i = 0; i < table.years.length; i++) {
-            element = {
+          for (let i = 0; i < table.years.length; i++) { //for each year get the specific details
+            element = { //create an object to hold each years details
               "Year": table.years[i],
               "YearlyAmount": table.yearlyAmounts[i],
               "YearlyTax": table.yearlyTax[i]        //TODO: Change to yearly change
             }
-            obj.YearlyDetails = [...obj.YearlyDetails, element]
+            obj.YearlyDetails = [...obj.YearlyDetails, element] //all the years in an array
           }
-          this.data = [...this.data, obj]
+          this.data = [...this.data, obj] //add the completed obj to the data array
         }
-        console.log(this.data)
+        //console.log(this.data)
       })
-      .then(nothing => this.BuildTable())
+      .then(nothing => this.BuildTable()) //build the table once the data is in
   }
-
-
-
-
-  htmlString: string = '<div class="tables row">' +
-    '<div class="col">' +
-    '<table class="table table-dark table-sm" aurelia-table="data.bind: data[0].YearlyDetails; display-data.bind: $displayData" id="overallTable">' +
-    '<thead>' +
-    '<tr>' +
-    '<th>Year</th>' +
-    '<th>Amount</th>' +
-    '<th>Amount Change</th>' +
-    '</tr>' +
-    '</thead>' +
-    '<tbody>' +
-    '<tr repeat.for="element of $displayData" compositionupdate.delegate="">' +
-    '<td>${element.Year}</td>' +
-    '<td>${element.YearlyAmount}</td>' +
-    '<td>${element.YearlyTax}</td>' +
-    '</tr>' +
-    '<tr>' +
-    '</tr>' +
-    '</tbody>' +
-    '</table>' +
-    '</div>' +
-    '<div class="col">' +
-    '<table class="table table-dark table-sm" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="overallTable">' +
-    '<thead>' +
-    '<tr>' +
-    '<th>Year</th>' +
-    '<th>Amount</th>' +
-    '<th>Amount Change</th>' +
-    '</tr>' +
-    '</thead>' +
-    '<tbody>' +
-    '</tbody>' +
-    '</table>' +
-    '</div>' +
-    '</div>' +
-    '<div class="carousel-caption d-none d-md-block">' +
-    '<h5>Overall</h5>' +
-    '</div>' +
-    '</div>'
 }
