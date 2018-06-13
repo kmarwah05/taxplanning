@@ -1,10 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace tax_planning.Models
 {
     public class Table
     {
+        public List<int> Years { get
+            {
+                List<int> list = new List<int>();
+
+                for (var i = 0; i < YearlyAmounts.Count; i++)
+                {
+                    list.Add(DateTime.Today.Year + i);
+                }
+
+                return list;
+            }
+        }
+
         public List<decimal> YearlyAmounts { get; set; }
 
         public List<decimal> YearlyTax { get; set; }
