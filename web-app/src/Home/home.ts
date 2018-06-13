@@ -6,6 +6,10 @@ export class Home {
   value: string
   filingStatus: string
   income: string
+  basicAdjustment: string
+  retirementDate: string
+  endOfPlan: string
+  capitalGains: string
 
   addButton() {
     //create a new asset and add it to the assets array
@@ -13,7 +17,6 @@ export class Home {
     this.assets = [...this.assets, asset]
     this.counter++;
     //console.log("adding ", this.assets);
-    this.jsonify() //save data when a change is made
   }
 
   removeButton(id){
@@ -25,7 +28,6 @@ export class Home {
       i++;
     });
     this.counter--;
-    this.jsonify() //save data when a change is made
   }
 
   //stores data so that it can be used on the results page
@@ -34,6 +36,10 @@ export class Home {
       {
       "FilingStatus":this.filingStatus,
       "Income":this.income,
+      "BasicAdjustment":this.basicAdjustment,
+      "RetirementDate":this.retirementDate,
+      "EndOfPlan":this.endOfPlan,
+      "CapitalGains":this.capitalGains,
       "Assets":this.assets});
   }
 
