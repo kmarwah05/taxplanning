@@ -48,15 +48,17 @@ export class Results {
     this.httpService.Fetch(form)
       .then(results => results.json())
       .then(data => {
-        let element = {
-          "year": data.year,
-          "totalCashOut": data.totalCashOut,
-          "netCashOut": data.totalCashOut,
-          "yearlyAmount": data.yearlyAmount,
-          "yearlyChange": data.yearlyTax //will change to yearlyChange
-        }
+        let element;
+        // for (let i = 0; i < data.years.length; i++) {
+        //   element = {
+        //     "year": data.years[i],
+        //     "yearlyAmount": data.yearlyAmount[i],
+        //     "YearlyTax": data.YearlyTax[i]        //TODO: Change to yearly change
+        //   }
+        //   this.data = [...this.data, element]
+        // }
         console.log(JSON.stringify(data))
-        this.data = [...this.data, element]
+
       })
   }
 }
