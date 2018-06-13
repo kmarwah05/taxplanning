@@ -103,8 +103,10 @@ namespace tax_planning.Controllers
 
             Dictionary<string, Table> mockResponse = new Dictionary<string, Table>()
             {
-                { "Mock Table 1", mockTable1 },
-                { "Mock Table 2", mockTable2 }
+                { "Overall Optimal", mockTable1 },
+                { "Overall Desired", mockTable2 },
+                { "401k Optimal", mockTable1 },
+                { "401k Desired", mockTable2 }
             };
 
             return Json(mockResponse);
