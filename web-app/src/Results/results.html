@@ -33,63 +33,23 @@
           <div class="tables row">
 
             <div class="col">
-              <table class="table table-dark table-sm" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="overallTable">
+              <table class="table table-dark table-sm" aurelia-table="data.bind: data; display-data.bind: $displayData" id="overallTable">
 
                 <thead>
                   <tr>
                     <th>Year</th>
+                    <th>Amount</th>
                     <th>Amount Change</th>
                   </tr>
                 </thead>
-
                 <tbody>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
+                  <tr repeat.for="element of $displayData" compositionupdate.delegate="">
+                    <td>${element.year}</td>
+                    <td>${element.yearlyAmount}</td>
+                    <td>${element.yearlyChange}</td>
                   </tr>
                   <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
-                  </tr>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
-                  </tr>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
-                  </tr>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
-                  </tr>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
-                  </tr>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
-                  </tr>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
-                  </tr>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
-                  </tr>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
-                  </tr>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
-                  </tr>
-                  <tr>
-                    <td>Lorem ipsum</td>
-                    <td>dolor set</td>
+                    
                   </tr>
                 </tbody>
 

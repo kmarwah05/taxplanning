@@ -1,9 +1,9 @@
 import {HttpClient} from 'aurelia-fetch-client';
 
 export class HttpService{
-  client: HttpClient
   endpoint: string = 'http://localhost:60419/api'
-  
+  client: HttpClient
+
   ConfigureClient(){
     let client = new HttpClient;
     client.configure(config => {
@@ -20,13 +20,11 @@ export class HttpService{
     });
     this.client = client;
   }
-  
-  SendPost(form){
-    this.client.fetch(this.endpoint,{
+
+  Fetch(form){
+    return this.client.fetch(this.endpoint,{
       method:"POST",
       body: form
     })
-    .then(response => response.json())
-    .then(data => {console.log(data)});
   }
 }
