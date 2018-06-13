@@ -1,7 +1,9 @@
 import {inject, NewInstance} from 'aurelia-framework';
-import {ValidationRules, ValidationController} from "aurelia-validation";
+import {ValidationRules, ValidationController} from 'aurelia-validation';
 
 @inject(NewInstance.of(ValidationController))
+
+
 export class Home {
   counter: number = 0;
   assets = [];
@@ -39,7 +41,7 @@ export class Home {
     sessionStorage.userData = JSON.stringify(
       {
         "FilingStatus": this.filingStatus,
-        "Income": this.income,
+        "Income": this.incomeValidate,
         "BasicAdjustment": this.basicAdjustment,
         "RetirementDate": this.retirementDate,
         "EndOfPlan": this.endOfPlan,
@@ -53,6 +55,7 @@ export class Home {
     return this.assets
   }
 
+
   message = '';
   errors = []
   incomeValidate: string = '';
@@ -60,14 +63,16 @@ export class Home {
   constructor(private controller: ValidationController) {
     ValidationRules
      // .ensure((m: Home) => m.fStatus).displayName("Income value in number").required()
-      .ensure((m: Home) => m.incomeValidate).displayName("Income value in numeric value").required()
-      .ensure((m: Home) => m.basicAdjustment).displayName("Basic Adjustment value in numeric value").required()
-      .ensure((m: Home) => m.retirementDate).displayName("Retirement Date in yyyy").required()
-      .ensure((m: Home) => m.capitalGains).displayName("Capital gains value in numeric value").required()
-      .ensure((m: Home) => m.endOfPlan).displayName("End of Plan in yyyy").required()
+      .ensure((m: Home) => m.filingStatus).displayName("Filing Status").required()
+      .ensure((m: Home) => m.incomeValidate).displayName("Income value").required().matches(new RegExp(/[0-9]/))
+      .ensure((m: Home) => m.basicAdjustment).displayName("Basic Adjustment value").required().matches(new RegExp(/[0-9]/))
+      .ensure((m: Home)=> m.retirementDate).displayName("Retirement Date in yyyy").required().matches(new RegExp(/^[0-9]{4}$/))
+      .ensure((m: Home) => m.capitalGains).displayName("Capital gains value").required().matches(new RegExp(/[0-9]/))
+      .ensure((m: Home) => m.endOfPlan).displayName("End of Plan in yyyy").required().matches(new RegExp(/^[0-9]{4}$/))
       .on(this);
   }
 
+  
 
   validateButton() {
     this.controller
@@ -80,5 +85,6 @@ export class Home {
           this.errors = v.results;
       })
   }
+
   
 }

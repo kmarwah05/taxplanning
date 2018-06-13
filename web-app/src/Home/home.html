@@ -15,13 +15,14 @@
 
 
     <!--FORM STARTS HERE-->
+
     <div class="mx-auto w-75">
       <form class="form-horizontal" id="myForm">
         <div class="row">
           <div class="form-group col-xs-12 col-sm-6">
             <label for="filStatus" class="col-sm-4 control-label" id="filingStatus" type="text">Filing Status:</label>
             <div class="col-sm-6">
-              <select class="form-control mySelect" >
+              <select class="form-control mySelect" value.bind="filingStatus & validate">
                 <option value="" disabled selected>Select one...</option>
                 <option value="FilingStatus.Joint">Joint</option>
                 <option value="FilingStatus.HeadOfHousehold">Head of Household</option>
@@ -129,8 +130,8 @@
 
 
     <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
-    <button class="mx-auto" click.delegate="validateButton()" id="mySubmit">Submit</button>
-    <h3 id="myH3">${message}</h3>
+    <button class="btn btn-primary center-block mySubmit" click.delegate="validateButton()">Submit</button>
+    <h3 align="center">${message}</h3>
     <ul>
       <li repeat.for="error of errors">
         <h5 id="myErrors">${error.message}</h5>
@@ -143,22 +144,5 @@
       <p>&copy; TAX PLANNING</p>
     </div>
 
-
-    <!--
-    <div>
-      <p> Firstname: <input value.bind="firstname & validate"/></p>
-      <p> Lastname: <input value.bind="lastname & validate"/></p>
-    </div>
-   
-    <button click.delegate="validateMe()">Validate</button>
-   
-    <h3>Latest validation result: ${message}</h3>
-   
-    <ul>
-      <li repeat.for="error of controller.errors">
-        ${error.message}
-      </li>
-    </ul>
-  -->
   </body>
 </template>
