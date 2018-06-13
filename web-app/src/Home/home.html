@@ -1,5 +1,5 @@
 <template>
-<require from="styles/home.css"></require>
+  <require from="styles/home.css"></require>
 
   <head>
     <title>Bootstrap Example</title>
@@ -8,15 +8,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
     <link href="https://fonts.googleapis.com/css?family=Krona+One" rel="stylesheet">
-
-
   </head>
 
   <body>
-    
     <!--FORM STARTS HERE-->
+<<<<<<< HEAD
       <div class="mx-auto w-75">
           <form class="form-horizontal" id="myForm">
             <div class="row"> 
@@ -41,48 +38,71 @@
                   </div>
                 </div>
               </div>
+=======
+    <div class="mx-auto w-75">
+      <form class="form-horizontal" id="myForm">
+        <div class="row">
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="filStatus" class="col-sm-4 control-label" id="filingStatus" type="text">Filing Status:</label>
+            <div class="col-sm-6">
+              <select class="form-control" value.bind="filingStatus">
+                <option value="" disabled selected>Select one...</option>
+                <option value="FilingStatus.Joint">Joint</option>
+                <option value="FilingStatus.HeadOfHousehold">Head of Household</option>
+                <option value="FilingStatus.Unmarried">Unmarried</option>
+                <option value="Married">Married</option>
+              </select>
+>>>>>>> 0a9249d9ad4cfed9dac3739fb4bb7b3e904636bc
             </div>
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
             <div class="row">
-              <div class="form-group col-xs-12 col-sm-6">
-                <label for="bAdjustment" class="col-sm-4 control-label" id="basicAdjustment">Basic Adjustment:</label>
-                <div class="col-sm-6">
-                    <input type="basicInput" class="form-control" name="BasicAdjustment" placeholder="Enter Basic Adjustment">
-                </div>
-                <div class="col-sm-2"></div>
-              </div>
-              <div class="form-group col-xs-12 col-sm-6">
-                <div class="row">
-                  <label for="retireDate" class="col-sm-4 control-label" id="retirementDate">Retirement Date:</label>
-                  <div class="col-sm-6">
-                      <input type="rDate" class="form-control" name="RetirementDate" placeholder="Enter Retirement Date">
-                  </div>
-                </div> 
+              <label for="incomeRange" class="col-sm-4 control-label" id="incomeRange" type="text">Select Income:</label>
+              <div class="col-sm-6">
+                <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income">
+                </select>
               </div>
             </div>
-
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="bAdjustment" class="col-sm-4 control-label" id="basicAdjustment">Basic Adjustment:</label>
+            <div class="col-sm-6">
+              <input type="basicInput" class="form-control" name="BasicAdjustment" placeholder="Enter Basic Adjustment" value.bind="basicAdjustment">
+            </div>
+            <div class="col-sm-2"></div>
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
             <div class="row">
-                <div class="form-group col-xs-12 col-sm-6">
-                    <label for="cGains" class="col-sm-4 control-label" id="capitalGains">Capital Gains:</label>
-                    <div class="col-sm-6">
-                        <input type="capitalGains" class="form-control" name="CapitalGains" placeholder="Capital Gains">
-                  </div>
-                  <div class="col-sm-2"></div>
-                </div>
-                <div class="form-group col-xs-12 col-sm-6">
-                  <div class="row">
-                      <label for="endPlan" class="col-sm-4 control-label" id="endPlan">End of Plan:</label>
-                      <div class="col-sm-6">
-                        <input type="endP" class="form-control" name="EndOfPlan" placeholder="End of Plan">
-                    </div>
-                  </div> 
-                </div>
-              </div>        
-          </form>
-        </div> 
-              <!--FORM ENDS HERE-->
-
+              <label for="retireDate" class="col-sm-4 control-label" id="retirementDate">Retirement Date:</label>
+              <div class="col-sm-6">
+                <input type="rDate" class="form-control" name="RetirementDate" placeholder="Enter Retirement Date" value.bind="retirementDate">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="cGains" class="col-sm-4 control-label" id="capitalGains">Capital Gains:</label>
+            <div class="col-sm-6">
+              <input type="capitalGains" class="form-control" name="CapitalGains" placeholder="Capital Gains" value.bind="capitalGains">
+            </div>
+            <div class="col-sm-2"></div>
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <div class="row">
+              <label for="endPlan" class="col-sm-4 control-label" id="endPlan">End of Plan:</label>
+              <div class="col-sm-6">
+                <input type="endP" class="form-control" name="EndOfPlan" placeholder="End of Plan" value.bind="endOfPlan">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--FORM ENDS HERE-->
     <!-- DON'T TOUCH BELOW CODE (TABLE)  -->
-
     <div class="mx-auto w-75">
       <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
         <thead>
@@ -130,9 +150,12 @@
       </table>
     </div>
 
+    <button class="mx-auto" click.delegate="jsonify()">Submit</button>
+
     <div class="myFooter">
       <p>&copy; TAX PLANNING</p>
     </div>
+<<<<<<< HEAD
 
 
     <div>
@@ -150,5 +173,7 @@
       </li>
     </ul>
 
+=======
+>>>>>>> 0a9249d9ad4cfed9dac3739fb4bb7b3e904636bc
   </body>
 </template>

@@ -10,8 +10,9 @@ export class HttpService{
       config
         .withBaseUrl(this.endpoint)
           .withDefaults({
-            mode:'no-cors',
+            mode:'cors',
             headers: {
+              'Access-Control-Allow-Headers':'*',
               'content-type': 'mulipart/form-data',
               'Accept': 'application/json'
             }

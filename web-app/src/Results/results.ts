@@ -8,6 +8,7 @@ export class Results {
 
   constructor(private httpService: HttpService) {
     httpService.ConfigureClient();
+    this.GetResults();
   }
 
   CreateTable() {

@@ -1,0 +1,18 @@
+body {
+  background-image:url("http://avante.biz/wp-content/uploads/Gradient-Wallpapers/Gradient-Wallpapers-048.jpg");
+  background-attachment: fixed;
+  color: white !important;
+}
+
+
+.table-dark {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+#chart {
+  margin-bottom: 20px;
+}
+
+.tables {
+  margin-bottom: 100px; 
+}
