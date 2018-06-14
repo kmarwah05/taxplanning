@@ -59,16 +59,19 @@ export class Home {
   message = '';
   errors = []
   incomeValidate: string = '';
+  desiredAdditions: string = '';
+  desiredWithdrawls: string = '';
 
   constructor(private controller: ValidationController) {
     ValidationRules
-     // .ensure((m: Home) => m.fStatus).displayName("Income value in number").required()
       .ensure((m: Home) => m.filingStatus).displayName("Filing Status").required()
       .ensure((m: Home) => m.incomeValidate).displayName("Income value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.basicAdjustment).displayName("Basic Adjustment value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home)=> m.retirementDate).displayName("Retirement Date in yyyy").required().matches(new RegExp(/^[0-9]{4}$/))
       .ensure((m: Home) => m.capitalGains).displayName("Capital gains value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.endOfPlan).displayName("End of Plan in yyyy").required().matches(new RegExp(/^[0-9]{4}$/))
+      .ensure((m: Home) => m.desiredAdditions).displayName("Desired Additions").required().matches(new RegExp(/[0-9]/))
+      .ensure((m: Home) => m.desiredWithdrawls).displayName("Desired Withdrawls").required().matches(new RegExp(/[0-9]/))
       .on(this);
   }
 

@@ -75,6 +75,25 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="dAdditions" class="col-sm-4 control-label" id="desiredAdditions">Desired Additions:</label>
+            <div class="col-sm-6">
+              <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Desired Additions" value.bind="desiredAdditions & validate">
+            </div>
+            <div class="col-sm-2"></div>
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <div class="row">
+              <label for="dWithdrawls" class="col-sm-4 control-label" id="desiredWithdrawls">Desired Withdrawls:</label>
+              <div class="col-sm-6">
+                <input type="desiredWithdrawls" class="form-control" name="DesiredWithdrawls" placeholder="Enter Desired Withdrawls" value.bind="desiredWithdrawls & validate">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </form>
     </div>
     <!--FORM ENDS HERE-->
