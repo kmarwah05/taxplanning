@@ -1,6 +1,7 @@
 import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
 
+
 @inject(NewInstance.of(ValidationController))
 
 
@@ -60,9 +61,7 @@ export class Home {
   bind() {
     return this.assets
   }
-
-
-
+  
 
   constructor(private controller: ValidationController) {
     ValidationRules
@@ -92,5 +91,12 @@ export class Home {
       })
   }
 
+/*
+minYear = new Date().getFullYear()
+maxYear = this.minYear + 80
+
+myMin = this.minYear;
+myMax = this.maxYear;
+*/
 
 }
