@@ -13,7 +13,8 @@ export class HttpService{
             mode:'cors',
             headers: {
               'Access-Control-Allow-Headers':'*',
-              'content-type': 'mulipart/form-data',
+              'Access-Control-Allow-Origin':'*',
+              'content-type': 'application/json; charset=utf-8',
               'Accept': 'application/json'
             }
           })

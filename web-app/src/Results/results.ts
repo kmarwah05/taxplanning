@@ -73,7 +73,7 @@ export class Results {
   }
 
   GetResults() {
-    let data = JSON.stringify(sessionStorage.userData)
+    let data = sessionStorage.userData
     console.log(data)
 
     this.SendPost(data)
@@ -97,8 +97,9 @@ export class Results {
   //sends the request to the api then formats the data for the table
   SendPost(form) {
     this.httpService.Fetch(form)
-      .then(results => results)
+      .then(results => results.json())
       .then(data => {
+        console.log(data)
         let obj;
         let element;
         let keyNames = Object.keys(data)
@@ -117,8 +118,8 @@ export class Results {
           for (let i = 0; i < table.years.length; i++) { //for each year get the specific details
             element = { //create an object to hold each years details
               "Year": table.years[i],
-              "YearlyAmount": table.yearlyAmounts[i],
-              "YearlyTax": table.yearlyTax[i]        //TODO: Change to yearly change
+              "YearlyAmount": table.yearlyAmount[i],
+              "YearlyTax": table.yearlyChange[i]        //TODO: Change to yearly change
             }
             obj.YearlyDetails = [...obj.YearlyDetails, element] //all the years in an array
           }

@@ -1,5 +1,5 @@
-import {inject, NewInstance} from 'aurelia-framework';
-import {ValidationRules, ValidationController} from 'aurelia-validation';
+import { inject, NewInstance } from 'aurelia-framework';
+import { ValidationRules, ValidationController } from 'aurelia-validation';
 
 @inject(NewInstance.of(ValidationController))
 
@@ -52,8 +52,8 @@ export class Home {
         "EndOfPlan": this.endOfPlan,
         "CapitalGains": this.capitalGains,
         "Assets": this.assets,
-        "DesiredAdditions":this.desiredAdditions,
-        "DesiredWithdrawls":this.desiredWithdrawls
+        "DesiredAdditions": this.desiredAdditions,
+        "DesiredWithdrawls": this.desiredWithdrawls
       });
   }
 
@@ -62,14 +62,14 @@ export class Home {
   }
 
 
-  
+
 
   constructor(private controller: ValidationController) {
     ValidationRules
       .ensure((m: Home) => m.filingStatus).displayName("Filing Status").required()
       .ensure((m: Home) => m.incomeValidate).displayName("Income value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.basicAdjustment).displayName("Basic Adjustment value").required().matches(new RegExp(/[0-9]/))
-      .ensure((m: Home)=> m.retirementDate).displayName("Retirement Date in yyyy").required().matches(new RegExp(/^[0-9]{4}$/))
+      .ensure((m: Home) => m.retirementDate).displayName("Retirement Date in yyyy").required().matches(new RegExp(/^[0-9]{4}$/))
       .ensure((m: Home) => m.capitalGains).displayName("Capital gains value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.endOfPlan).displayName("End of Plan in yyyy").required().matches(new RegExp(/^[0-9]{4}$/))
       .ensure((m: Home) => m.desiredAdditions).displayName("Desired Additions").required().matches(new RegExp(/[0-9]/))
@@ -77,7 +77,7 @@ export class Home {
       .on(this);
   }
 
-  
+
 
   validateButton() {
     this.jsonify()
@@ -85,12 +85,12 @@ export class Home {
       .validate()
       .then(v => {
         if (v.valid)
-        window.location.href = "http://localhost:8080/results"
+          window.location.href = "http://localhost:8080/results"
         else
           this.message = "You have errors!";
-          this.errors = v.results;
+        this.errors = v.results;
       })
   }
 
-  
+
 }
