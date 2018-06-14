@@ -13,6 +13,9 @@
     },
     "bundles": [
       {
+        "prepend": [
+          "node_modules/chart.js/dist/Chart.min.js"
+        ],
         "dependencies": [
           "velocity-animate",
           "tether",

@@ -1,5 +1,6 @@
 import { inject } from 'aurelia-framework';
 import { HttpService } from 'HttpService';
+import { Chart } from 'chart.js';
 
 @inject(HttpService)
 export class Results {
@@ -16,6 +17,7 @@ export class Results {
     var counter = 0;
     var carouselText = '<ol class="carousel-indicators">'
     var carouselInternal = ''
+    var tableString = ''
 
     for (let i = 0; i < (this.data.length / 2); i++) { //for loop for each page
       //only the first item needs to be active
@@ -27,14 +29,13 @@ export class Results {
         carouselInternal += '<div class="item container">'
         carouselText += '<li data-target="results#scheduleCarousel" data-slide-to="' + i + '" class=""></li>'
       }
-      //fake charts TODO: replace with actual chart
-      carouselInternal += '<div id="chart" class="row">' +
-        '<img class="col" src="https://previews.123rf.com/images/gibsonff/gibsonff1204/gibsonff120400099/13362368-growth-chart.jpg"/>' +
-        '<img class="col" src="https://previews.123rf.com/images/gibsonff/gibsonff1204/gibsonff120400099/13362368-growth-chart.jpg"/>' +
-        '</div>'
-        +'<div class="tables row">' 
+      tableString = ''
+      carouselInternal += '<div class ="charts row">'
       for (let i = 0; i < 2; i++) { //for loop for each table, on each page we have two tables
-        carouselInternal += 
+        carouselInternal += '<div class="col"><canvas id="chart' + counter + '">' +
+          '</canvas></div>'
+        if (i == 0) { tableString += '<div class="tables row">' }
+        tableString +=
           '<div class="col">' +
           '<table class="table table-dark table-sm">' +
           '<caption id="tableCaption">' + this.data[counter].Solution + '</caption>' + //Caption the table with the solution
@@ -47,21 +48,23 @@ export class Results {
           '</thead>' +
           '<tbody>';
         this.data[counter].YearlyDetails.forEach(element => { //add all the yearly data to the table
-          carouselInternal += '<tr><td>' + element.Year + '</td>' +
+          tableString += '<tr><td>' + element.Year + '</td>' +
             '<td>' + element.YearlyAmount + '</td>' +
             '<td>' + element.YearlyTax + '</td></tr>'
         });
-        carouselInternal += '<tr>' +
+        tableString += '<tr>' +
           '</tr>' +
           '</tbody>' +
           '</table>' +
-          '</div>' 
+          '</div>'
         if (counter != this.data.length - 1) {
           counter++;
         }
       }
+      carouselInternal += '</div>'
+      carouselInternal += tableString
       carouselInternal += '</div><div class="carousel-caption d-none d-md-block">' + //add the name of the asset type to the page
-        '<h5>' + this.data[counter-1].Name + '</h5>' +
+        '<h5>' + this.data[counter - 1].Name + '</h5>' +
         '</div>' +
         '</div>'
     }
@@ -70,12 +73,45 @@ export class Results {
     //inject all the html
     document.getElementById("carouselAmount").innerHTML = carouselText
     document.getElementById("carouselInner").innerHTML = carouselInternal
+    this.BuildChart(counter)
+  }
+
+  BuildChart(counter) {
+    for(let i = 0; i <= counter; i++){
+      var chart = document.getElementById('chart'+i);
+      var years = []
+      var amount = []
+      this.data[i].YearlyDetails.forEach(element => {
+        years = [...years, element.Year]
+        amount = [...amount, element.YearlyAmount]
+      });
+      var myChart = new Chart(chart, {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [{
+            label: 'Total Value',
+            data: amount,
+            borderColor: 'rgba(255,99,132,1)',
+            fill: false
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    }
   }
 
   GetResults() {
     let data = sessionStorage.userData
     console.log(data)
-
     this.SendPost(data)
   }
 
@@ -105,7 +141,7 @@ export class Results {
         let keyNames = Object.keys(data)
         //for each asset type sent from the api
         for (let i = 0; i < keyNames.length; i++) {
-          var keyName = keyNames[i].split(" ") 
+          var keyName = keyNames[i].split(" ")
           obj = { //create an object to hold all the info coming in
             "Name": "",
             "Solution": "",
