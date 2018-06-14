@@ -24,13 +24,13 @@ namespace tax_planning.Models
             var additions = data.DesiredAdditions;
 
             // Rough estimate to start, quality of estimation increases speed of Newton-Raphson
-            var withdrawal = (additions * timeToRetirement + Value) / retirementLength;
+            var withdrawalGuess = -(additions * timeToRetirement + Value) / retirementLength;
 
             // Initial Condition
-            var amount = GetFutureValueAfter(years: timeToRetirement);
+            var amount = GetFutureValueAfter(years: timeToRetirement, withAdditions: additions);
 
             // Do calculation
-            (List<decimal> amount, List<decimal> change) retirementSchedule = GetScheduleWith((float)withdrawal, amount, 0.00M, retirementLength);
+            (List<decimal> amount, decimal change) retirementSchedule = GetScheduleWith((double)withdrawalGuess, (double)amount, 0.0f, retirementLength);
 
             // Populate entire schedules
             List<decimal> amountForSchedule = new List<decimal>();
@@ -43,7 +43,10 @@ namespace tax_planning.Models
             }
 
             amountForSchedule.AddRange(retirementSchedule.amount);
-            changeForSchedule.AddRange(retirementSchedule.change);
+            for (var i = 0; i < retirementLength; i++)
+            {
+                changeForSchedule.Add(retirementSchedule.change);
+            }
 
             // Add scehdules to the table
             table.YearlyAmount = amountForSchedule;
@@ -62,25 +65,30 @@ namespace tax_planning.Models
             var withdrawal = data.DesiredWithdrawalAmount;
 
             // End condition
-            var peak = Value;
+            var peak = 0.00M;
 
             for (var i = 0; i < retirementLength; i++)
             {
                 peak = (peak + withdrawal) / (InterestRate + 1.00M);
             }
 
+            peak = -peak;
+
             // Guess
             decimal additions = (peak - Value) / timeToRetirement;
 
             // Do calculation, gives partial schedule
-            (List<decimal> amount, List<decimal> change) preRetirementSchedule = GetScheduleWith((float)additions, Value, peak, retirementLength);
+            (List<decimal> amount, decimal change) preRetirementSchedule = GetScheduleWith((double)additions, (double)Value, (double)peak, retirementLength);
 
             // Populate entire schedules
             List<decimal> amountForSchedule = new List<decimal>();
             List<decimal> changeForSchedule = new List<decimal>();
 
             amountForSchedule.AddRange(preRetirementSchedule.amount);
-            changeForSchedule.AddRange(preRetirementSchedule.change);
+
+            for (var i = 0; i < timeToRetirement; i++) {
+                changeForSchedule.Add(preRetirementSchedule.change);
+            }
 
             for (var i = 0; i < retirementLength; i++)
             {
@@ -95,45 +103,62 @@ namespace tax_planning.Models
             return table;
         }
 
-        protected virtual (List<decimal> amount, List<decimal> changes) GetScheduleWith(float delta, decimal initial, decimal final, int steps)
+        protected virtual (List<decimal> amount, decimal change) GetScheduleWith(double guess, double initial, double final, int steps)
         {
-            
-            List<decimal> amount = new List<decimal>() { initial };
-            List<decimal> change = new List<decimal>();
+            var delta = GetDeltaFor(guess, initial, final, steps);
 
-            // Amount at final, want f(x) = 0
-            float f(float x)
-            {
-                var sum = 0.0f;
-                for (var i = 0; i < steps - 1; i++)
-                {
-                    sum += MathF.Pow((float)InterestRate, i);
-                }
-                return MathF.Pow((float)initial, steps) + x * sum - (float)final;
-            }
-
-            // Derivative of f
-            float Df(float x)
-            {
-                return (f(x + 0.0001f) - f(x)) / 0.0001f;
-            }
-
-            // Newton-Raphson method for finding roots of f
-            while (f(delta) / Df(delta) >= 0.005f)
-            {
-                delta -= f(delta) / Df(delta);
-            }
-
+            List<decimal> amount = new List<decimal>() { (decimal)initial };
 
             for (var i = 1; i < steps; i++)
             {
-                amount.Add(CalculateNextYearAmount(amount[i - 1], (decimal)delta));
-                change.Add((decimal)delta);
+                amount.Add(CalculateNextYearAmount(amount[i - 1], delta));
             }
 
-            change.Add((decimal)delta);
+            return (amount, delta);
+        }
 
-            return (amount, change);
+        protected decimal GetDeltaFor(double guess, double initial, double final, int steps)
+        {
+            // Amount at final, want f(x) = 0
+            // Summation k=0 to k=steps-1 of I^k
+            var sum = 0.0;
+            for (var i = 0; i < steps - 1; i++)
+            {
+                sum += Math.Pow(((double)InterestRate + 1.0), i);
+            }
+
+            var principalMultiplier = Math.Pow(((double)InterestRate + 1.0f), steps);
+
+            double f(double x)
+            {
+                // Formula for final amount
+                return initial * principalMultiplier + x * sum - final;
+            }
+
+            // Derivative of f (approximately)
+            double Df(double x)
+            {
+                return (f(x + 0.00001) - f(x)) / 0.00001;
+            }
+
+            // DF != Infinity
+
+            double ans = ApproximateRoot(f, Df, guess);
+            return (decimal)ans;
+        }
+
+        // Newton-Raphson method for root finding
+        protected double ApproximateRoot(Func<double, double> f, Func<double, double> Df, double guess)
+        {
+            var delta = guess;
+            var currentError = f(delta) / Df(delta);
+            while (Math.Abs(currentError) >= 0.0049 && Df(delta) != 0)
+            {
+                delta -= currentError;
+                currentError = f(delta) / Df(delta);
+            }
+
+            return delta;
         }
 
         protected decimal GetFutureValueAfter(int years, decimal withAdditions = 0.00M)
@@ -141,7 +166,7 @@ namespace tax_planning.Models
             var futureValue = Value;
             for (var i = 0; i < years; i++)
             {
-                futureValue += CalculateNextYearAmount(previousYearAmount: futureValue, yearDelta: withAdditions);
+                futureValue = CalculateNextYearAmount(previousYearAmount: futureValue, yearDelta: withAdditions);
             }
             return futureValue;
         }
@@ -151,14 +176,14 @@ namespace tax_planning.Models
             var futureValue = startingFrom;
             for (var i = 0; i < years; i++)
             {
-                futureValue += CalculateNextYearAmount(previousYearAmount: futureValue, yearDelta: withAdditions);
+                futureValue = CalculateNextYearAmount(previousYearAmount: futureValue, yearDelta: withAdditions);
             }
             return futureValue;
         }
 
         protected virtual decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta)
         {
-            return previousYearAmount * InterestRate + yearDelta;
+            return previousYearAmount * (InterestRate + 1.00M) + yearDelta;
         }
 
         protected int GetRetirementLength(Data data)
