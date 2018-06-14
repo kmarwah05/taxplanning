@@ -44,6 +44,10 @@ export class Home {
 
   //stores data so that it can be used on the results page
   jsonify() {
+    if(this.assets.length == 0 && this.name.length != 0 && this.type.length !=0 && this.value.length !=0)
+    {
+      this.addButton()
+    }
     sessionStorage.userData = JSON.stringify(
       {
         "FilingStatus": this.filingStatus,

@@ -13,8 +13,14 @@ namespace tax_planning.Controllers
         [HttpPost]
         public JsonResult Post([FromBody] FormModel request)
         {
-            Data data = new Data(request);
-            Dictionary<string, Table> response = Aggregator.GetTablesFor(data);
+            Dictionary<string, Table> response = null;
+
+            if (ModelState.IsValid && request != null)
+            {
+                Data data = new Data(request);
+                response = Aggregator.GetTablesFor(data);
+            }
+            
             return Json(response);
         }
 
