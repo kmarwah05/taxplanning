@@ -75,6 +75,7 @@ export class Home {
   
 
   validateButton() {
+    this.jsonify()
     this.controller
       .validate()
       .then(v => {

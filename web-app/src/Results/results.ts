@@ -73,19 +73,10 @@ export class Results {
   }
 
   GetResults() {
-    let form = new FormData;
-    let data = JSON.parse(sessionStorage.userData)
-    //console.log(data)
-    //fill out the formdata with info to send to back-end
-    form.set('FilingStatus', data.FilingStatus);
-    form.set('Income', data.Income);
-    form.set('BasicAdjustment', data.BasicAdjustment);
-    form.set('RetirementDate', data.RetirementDate);
-    form.set('EndOfPlanDate', data.EndOfPlanDate);
-    form.set('CapitalGains', data.CapitalGains);
-    form.set('FormAssets', this.BuildAssetString(data.Assets));
+    let data = JSON.stringify(sessionStorage.userData)
+    console.log(data)
 
-    this.SendPost(form)
+    this.SendPost(data)
   }
 
   BuildAssetString(array) {//back end wants assets to be formatted in an array of string arrays
@@ -106,7 +97,7 @@ export class Results {
   //sends the request to the api then formats the data for the table
   SendPost(form) {
     this.httpService.Fetch(form)
-      .then(results => results.json())
+      .then(results => results)
       .then(data => {
         let obj;
         let element;
