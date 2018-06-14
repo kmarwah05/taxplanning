@@ -27,7 +27,10 @@ export class Home {
     let asset = { "name": this.name, "type": this.type, "value": this.value, "id": this.counter }
     this.assets = [...this.assets, asset]
     this.counter++;
-    //console.log("adding ", this.assets);
+    //reset the fields for reasons
+    this.name = ''
+    this.type = ''
+    this.value = ''
   }
 
   removeButton(id) {
@@ -43,7 +46,7 @@ export class Home {
 
   //stores data so that it can be used on the results page
   jsonify() {
-    if(this.assets.length == 0 && this.name.length != 0 && this.type.length !=0 && this.value.length !=0)
+    if(this.name.length != 0 && this.type.length !=0 && this.value.length !=0)
     {
       this.addButton()
     }
