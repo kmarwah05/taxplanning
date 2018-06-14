@@ -16,6 +16,11 @@ export class Home {
   retirementDate: string
   endOfPlan: string
   capitalGains: string
+  message = '';
+  errors = []
+  incomeValidate: string = '';
+  desiredAdditions: string = '';
+  desiredWithdrawls: string = '';
 
   addButton() {
     //create a new asset and add it to the assets array
@@ -46,9 +51,10 @@ export class Home {
         "RetirementDate": this.retirementDate,
         "EndOfPlan": this.endOfPlan,
         "CapitalGains": this.capitalGains,
-        "Assets": this.assets
+        "Assets": this.assets,
+        "DesiredAdditions":this.desiredAdditions,
+        "DesiredWithdrawls":this.desiredWithdrawls
       });
-    window.location.href = "http://localhost:8080/results"
   }
 
   bind() {
@@ -56,11 +62,7 @@ export class Home {
   }
 
 
-  message = '';
-  errors = []
-  incomeValidate: string = '';
-  desiredAdditions: string = '';
-  desiredWithdrawls: string = '';
+  
 
   constructor(private controller: ValidationController) {
     ValidationRules
