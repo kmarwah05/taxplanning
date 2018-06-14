@@ -32,7 +32,7 @@ namespace tax_planning.Models
             CapitalGains = formModel.CapitalGains;
             RetirementDate = formModel.RetirementDate;
             EndOfPlanDate = formModel.EndOfPlanDate;
-            DesiredWithdrawalAmount = formModel.DesiredWithdrawalAmount;
+            DesiredWithdrawalAmount = -formModel.DesiredWithdrawalAmount;
             DesiredAdditions = formModel.DesiredAdditions;
 
             foreach (var asset in formModel.Assets)
