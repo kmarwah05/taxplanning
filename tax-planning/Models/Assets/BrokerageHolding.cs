@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace tax_planning.Models
 {
-    public class EquityHolding : Asset
+    public class BrokerageHolding : Asset
     {
-        protected override decimal CalculateTaxOn()
-        {
-            throw new NotImplementedException();
-        }
+
+        protected override decimal CalculateTaxOnAddition(decimal addition) => 0.00M;
+
+        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal) => 0.00M;
 
         private decimal GetTaxForCapitalGain(decimal gain, FilingStatus filingStatus, decimal income)
         {

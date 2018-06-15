@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace tax_planning.Models
 {
@@ -21,28 +20,25 @@ namespace tax_planning.Models
 
         public List<decimal> YearlyAmount { get; set; }
 
-        public List<decimal> YearlyChange { get; set; }
+        public decimal Additions { get; set; }
 
-        public decimal TotalCashOut => YearlyChange.Aggregate(0.00M, (sum, next) => next < 0M ? sum - next : sum);
+        public decimal Withdrawal { get; set; }
 
-        public decimal NetCashOut => TotalCashOut
-            - YearlyChange.Aggregate(0.00M, (sum, next) => next > 0M ? sum + next : sum);
+        public decimal AfterTaxWithdrawal { get; set; }
 
-        // Extension method allowing you to add two tables together
-        public static Table operator+ (Table a, Table b)
+        public decimal TotalCashOut { get; set; }
+
+        public decimal NetCashOut { get; set; }
+
+        public Table()
         {
-            Table table = new Table();
+            YearlyAmount = new List<decimal>();
+        }
 
-            table.YearlyAmount = new List<decimal>();
-
-            table.YearlyChange = new List<decimal>();
-            for (var i = 0; i < a.YearlyChange.Count; i++)
-            {
-                table.YearlyChange.Add(a.YearlyChange[i] + b.YearlyChange[i]);
-                table.YearlyAmount.Add(a.YearlyAmount[i] + b.YearlyAmount[i]);
-            }
-
-            return table;
+        public Table(int length)
+        {
+            YearlyAmount = new List<decimal>();
+            YearlyAmount.AddRange(new decimal[length]);
         }
     }
 }

@@ -27,8 +27,8 @@ namespace tax_planning.Tests
 
         public static IEnumerable<object[]> DataForGetDelta()
         {
-            yield return new object[] { -10000.00M, 114662.90M, 0.0f, 23, 9319.63M };
-            yield return new object[] { -20000.00M, 278246.18M, 0.0f, 23, 22615.43M };
+            yield return new object[] { -10000.00M, 114662.90M, 0.0f, 23, -9319.63M };
+            yield return new object[] { -20000.00M, 278246.18M, 0.0f, 23, -22615.43M };
         }
 
         [Theory]
@@ -38,25 +38,38 @@ namespace tax_planning.Tests
             Assert.Equal(result, GetFutureValueAfter(years, withAdditions, startingFrom), 2);
         }
 
-        [Theory]
-        [MemberData(nameof(DataForRootFinder))]
-        public void TestApproximateRoot(Func<double, double> f, Func<double, double> Df, double guess, double result)
+        protected override decimal CalculateTaxOnAddition(decimal addition)
         {
-            Assert.Equal(result, ApproximateRoot(f, Df, guess), 0);
-        }
-        
-        [Theory]
-        [MemberData(nameof(DataForGetDelta))]
-        public void TestGetDeltaFor(double guess, double initial, double final, int steps, decimal result)
-        {
-            Assert.Equal(result, GetDeltaFor(guess, initial, final, steps), 2);
+            throw new NotImplementedException();
         }
 
-
-        // Not for testing
-        protected override decimal CalculateTaxOn()
+        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal)
         {
-            throw new NotImplementedException("This is a test class. Peddle your wares elsewhere.");
+            throw new NotImplementedException();
         }
+
+        //protected override decimal CalculateTaxOnAddition(decimal addition)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //[Theory]
+        //[MemberData(nameof(DataForRootFinder))]
+        //public void TestApproximateRoot(Func<double, double> f, Func<double, double> Df, double guess, double result)
+        //{
+        //    Assert.Equal(result, ApproximateRoot(f, Df, guess), 0);
+        //}
+
+        //[Theory]
+        //[MemberData(nameof(DataForGetDelta))]
+        //public void TestGetDeltaFor(double guess, double initial, double final, int steps, decimal result)
+        //{
+        //    Assert.Equal(result, GetDeltaFor(guess, initial, final, steps), 2);
+        //}
     }
 }
