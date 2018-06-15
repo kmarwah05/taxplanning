@@ -1,5 +1,6 @@
 import {RouterConfiguration, Router} from 'aurelia-router';
 import {PLATFORM} from 'aurelia-pal';
+import { Script } from 'vm';
 export class App {
   router:Router;
   configureRouter(config, router) {
@@ -11,4 +12,6 @@ export class App {
     ]);
     this.router = router;
   }
+
 }
+

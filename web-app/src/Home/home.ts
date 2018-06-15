@@ -1,5 +1,6 @@
 import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
+import $ from '../../node_modules/jquery/dist/jquery.js';
 
 
 @inject(NewInstance.of(ValidationController))
@@ -53,15 +54,15 @@ export class Home {
     }
     sessionStorage.userData = JSON.stringify(
       {
-        "FilingStatus": this.filingStatus,
-        "Income": this.incomeValidate,
-        "BasicAdjustment": this.basicAdjustment,
-        "RetirementDate": this.retirementDate,
-        "EndOfPlan": this.endOfPlan,
-        "CapitalGains": this.capitalGains,
-        "Assets": this.assets,
-        "DesiredAdditions": this.desiredAdditions,
-        "DesiredWithdrawls": this.desiredWithdrawls
+        "filingStatus": this.filingStatus,
+        "income": this.incomeValidate,
+        "basicAdjustment": this.basicAdjustment,
+        "retirementDate": this.retirementDate,
+        "endOfPlanDate": this.endOfPlan,
+        "capitalGains": this.capitalGains,
+        "assets": this.assets,
+        "desiredAdditions": this.desiredAdditions,
+        "desiredWithdrawals": this.desiredWithdrawls
       });
   }
 
@@ -83,8 +84,6 @@ export class Home {
       .on(this);
   }
 
-
-
   validateButton() {
     this.jsonify()
     this.controller
@@ -105,5 +104,12 @@ maxYear = this.minYear + 80
 myMin = this.minYear;
 myMax = this.maxYear;
 */
+
+// sliders starts here
+
+  attached() {
+  
+  }
+// sliders ends here
 
 }

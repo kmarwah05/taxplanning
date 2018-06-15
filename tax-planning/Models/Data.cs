@@ -51,6 +51,7 @@ namespace tax_planning.Models
         }
 
         public static void PopulateData(FormModel formModel) {
+            Assets = new List<Asset>();
             // Get data, explicit conversions ok because all nullable fields marked with Required DataAnnotation
             FilingStatus = formModel.FilingStatus.Value;
             Income = formModel.Income.Value;
