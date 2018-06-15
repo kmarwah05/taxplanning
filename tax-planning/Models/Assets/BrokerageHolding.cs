@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace tax_planning.Models
+﻿namespace tax_planning.Models
 {
     public class BrokerageHolding : Asset
     {

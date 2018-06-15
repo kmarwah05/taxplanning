@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace tax_planning.Models
@@ -7,27 +6,35 @@ namespace tax_planning.Models
     public class FormModel
     {
         [Required]
-        public FilingStatus FilingStatus { get; set; }
+        [EnumDataType(typeof(FilingStatus))]
+        public FilingStatus? FilingStatus { get; set; }
 
         [Required]
-        public decimal Income { get; set; }
+        [Range(0, 1000000000000)]
+        public decimal? Income { get; set; }
 
-        public decimal BasicAdjustment { get; set; } = 0.00M;
-
-        [Required]
-        public int RetirementDate { get; set; }
-
-        [Required]
-        public int EndOfPlanDate { get; set; }
+        [Range(0, 1000000000000)]
+        public decimal BasicAdjustment { get; set; }
 
         [Required]
-        public decimal CapitalGains { get; set; }
+        [Range(1900, 2200)]
+        public int? RetirementDate { get; set; }
 
         [Required]
-        public decimal DesiredWithdrawalAmount { get; set; }
+        [Range(1900, 2200)]
+        public int? EndOfPlanDate { get; set; }
 
         [Required]
-        public decimal DesiredAdditions { get; set; }
+        [Range(0, 1000000000000)]
+        public decimal? CapitalGains { get; set; }
+
+        [Required]
+        [Range(0, 1000000000000)]
+        public decimal? DesiredWithdrawalAmount { get; set; }
+
+        [Required]
+        [Range(0, 1000000000000)]
+        public decimal? DesiredAdditions { get; set; }
 
         public IEnumerable<AssetModel> Assets { get; set; }
     }

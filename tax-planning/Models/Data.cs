@@ -49,14 +49,14 @@ namespace tax_planning.Models
         }
 
         public static void PopulateData(FormModel formModel) {
-            // Get data
-            FilingStatus = formModel.FilingStatus;
-            Income = formModel.Income;
+            // Get data, explicit conversions ok because all nullable fields marked with Required DataAnnotation
+            FilingStatus = formModel.FilingStatus.Value;
+            Income = formModel.Income.Value;
             BasicAdjustment = formModel.BasicAdjustment;
-            CapitalGains = formModel.CapitalGains;
-            RetirementDate = formModel.RetirementDate;
-            EndOfPlanDate = formModel.EndOfPlanDate;
-            DesiredAdditions = formModel.DesiredAdditions;
+            CapitalGains = formModel.CapitalGains.Value;
+            RetirementDate = formModel.RetirementDate.Value;
+            EndOfPlanDate = formModel.EndOfPlanDate.Value;
+            DesiredAdditions = formModel.DesiredAdditions.Value;
 
             // Generate existing assets
             foreach (var asset in formModel.Assets)
