@@ -17,7 +17,7 @@ namespace tax_planning.Models
             return IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, withdrawal, 0.00M); ;
         }
 
-        protected decimal CalculateTaxOnDividend(decimal dividend, decimal currentIncome)
+        private decimal CalculateTaxOnDividend(decimal dividend, decimal currentIncome)
         {
             var bracket = TaxBrackets.CapitalGainsBracketFor(Data.FilingStatus, currentIncome);
             return TaxBrackets.CapitalGainsRateForBracket[bracket] * dividend;
