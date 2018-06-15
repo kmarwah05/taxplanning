@@ -1,42 +1,45 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 using tax_planning.Models;
-using System.Collections;
 
 namespace tax_planning.Tests
 {
     public class AssetTests : Asset
     {
-       
-
-        // Test data
-        public static IEnumerable<object[]> DataForFutureValues()
+        public static IEnumerable<object[]> FutureValueCases()
         {
-            yield return new object[] { 12, 3000M, 35000M, 121036.70M };
-            yield return new object[] { 12, 10000M, 65000M, 299492.18M };
-        }
-
-        public static IEnumerable<object[]> DataForRootFinder()
-        {
-            yield return new object[] { new Func<double, double>(x => x * x), new Func<double, double>(x => 2 * x), 1.0f, 0.0f };
-            yield return new object[] { new Func<double, double>(x => 1 - x), new Func<double, double>(x => -1.0f), 5.0f, 1.0f };
-        }
-
-        public static IEnumerable<object[]> DataForGetDelta()
-        {
-            yield return new object[] { -10000.00M, 114662.90M, 0.0f, 23, -9319.63M };
-            yield return new object[] { -20000.00M, 278246.18M, 0.0f, 23, -22615.43M };
+            yield return new object[] { 30, 5500M, 121036.70M };
+            yield return new object[] { 30, 18500, 299492.18M };
         }
 
         [Theory]
-        [MemberData(nameof(DataForFutureValues))]
-        public void TestGetFutureValueAfter(int years, decimal startingFrom, decimal withAdditions, decimal result)
+        [MemberData(nameof(FutureValueCases))]
+        public void TestGetFutureValueAfter(int years, decimal withAdditions, decimal result)
         {
-            Assert.Equal(result, GetFutureValueAfter(years, withAdditions, startingFrom), 2);
+            Assert.Equal(result, GetFutureValueAfter(years, withAdditions), 2);
         }
+
+        public static IEnumerable<object[]> WithdrawalCases()
+        {
+            yield return new object[] { 434820.02, 30, 31589.20 };
+            yield return new object[] { 359982.44, 30, 26152.33 };
+            yield return new object[] { 1462576.44, 30, 106254.59 };
+            yield return new object[] { 1210850.04, 30, 87966.94 };
+            yield return new object[] { 66067.32, 30, 4799.71 };
+        }
+
+        [Theory]
+        [MemberData(nameof(WithdrawalCases))]
+        public void TestGetWithdrawal(decimal initial, int steps, decimal result)
+        {
+            Assert.Equal(result, GetWithdrawalFor(initial, steps), 1);
+        }
+
+
+
+
+        // To satisfy the compiler
 
         protected override decimal CalculateTaxOnAddition(decimal addition)
         {
@@ -47,29 +50,6 @@ namespace tax_planning.Tests
         {
             throw new NotImplementedException();
         }
-
-        //protected override decimal CalculateTaxOnAddition(decimal addition)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //[Theory]
-        //[MemberData(nameof(DataForRootFinder))]
-        //public void TestApproximateRoot(Func<double, double> f, Func<double, double> Df, double guess, double result)
-        //{
-        //    Assert.Equal(result, ApproximateRoot(f, Df, guess), 0);
-        //}
-
-        //[Theory]
-        //[MemberData(nameof(DataForGetDelta))]
-        //public void TestGetDeltaFor(double guess, double initial, double final, int steps, decimal result)
-        //{
-        //    Assert.Equal(result, GetDeltaFor(guess, initial, final, steps), 2);
-        //}
+        
     }
 }

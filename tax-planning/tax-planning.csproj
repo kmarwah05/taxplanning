@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Tools\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
