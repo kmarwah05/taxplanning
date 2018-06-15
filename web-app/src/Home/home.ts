@@ -1,5 +1,6 @@
 import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
+import $ from '../../node_modules/jquery/dist/jquery.js';
 
 
 @inject(NewInstance.of(ValidationController))
@@ -83,8 +84,6 @@ export class Home {
       .on(this);
   }
 
-
-
   validateButton() {
     this.jsonify()
     this.controller
@@ -105,5 +104,12 @@ maxYear = this.minYear + 80
 myMin = this.minYear;
 myMax = this.maxYear;
 */
+
+// sliders starts here
+
+  attached() {
+  
+  }
+// sliders ends here
 
 }

@@ -1,16 +1,22 @@
 <template>
   <require from="styles/home.css"></require>
 
-
   <head>
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Krona+One" rel="stylesheet">
 
+    <script src="https://demos.jquerymobile.com/1.4.2/js/jquery.js"></script>
+    <script src="https://demos.jquerymobile.com/1.4.2/js/jquery.mobile-1.4.2.min.js"></script>
+
+
+
+    
   </head>
 
   <body>
@@ -57,7 +63,7 @@
               <div class="col-sm-6">
                 <input type="rDate" class="form-control" name="RetirementDate" placeholder="Enter Retirement Date" value.bind="retirementDate & validate">
               </div>
-            
+
             </div>
           </div>
         </div>
@@ -118,7 +124,7 @@
               <input type="text" class="form-control" id="Aname" value.bind="name">
             </td>
             <td>
-              <select class="form-control h-100" id="Atype" value.bind="type">         
+              <select class="form-control h-100" id="Atype" value.bind="type">
                 <option value="" disabled selected>Choose Asset Type</option>
                 <option value="IRA">IRA</option>
                 <option value="Roth IRA">Roth IRA</option>
@@ -149,8 +155,7 @@
         </tbody>
       </table>
     </div>
-
-
+    
     <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
     <button class="btn btn-primary center-block mySubmit" click.delegate="validateButton()">Submit</button>
     <h3 align="center">${message}</h3>
@@ -162,19 +167,27 @@
     <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
 
 
+
+        <!--SLIDERS START-->
+
+        <form>
+            <div data-role="rangeslider">
+                <label for="range-1a">Rangeslider:</label>
+                <input type="range" name="range-1a" id="range-1a" min="0" max="100" value="40" data-popup-enabled="true" data-show-value="true">
+                <label for="range-1b">Rangeslider:</label>
+                <input type="range" name="range-1b" id="range-1b" min="0" max="100" value="80" data-popup-enabled="true" data-show-value="true">
+            </div>
+        </form>
+        
+        <!--SLIDERS END-->
+
+        <script type="text/javascript">
+        $('input').popup();
+        </script>
+
     <div class="myFooter">
       <p>&copy; TAX PLANNING</p>
     </div>
-
-
-
-    <!--SLIDERS START-->
-
-    
-    <!--SLIDERS END-->
   </body>
-
-  
-
 
 </template>
