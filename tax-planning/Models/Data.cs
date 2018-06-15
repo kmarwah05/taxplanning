@@ -9,6 +9,8 @@ namespace tax_planning.Models
     
         public static decimal Income { get; set; }
 
+        public static decimal RetirementIncome { get; set; }
+
         public static decimal BasicAdjustment { get; set; }
     
         public static decimal CapitalGains { get; set; }
@@ -103,9 +105,11 @@ namespace tax_planning.Models
 
             assetPairs.ForEach(pair =>
             {
-                pair.Item1.Preferred = pair.Item1.Schedule.AfterTaxWithdrawal > pair.Item2.Schedule.AfterTaxWithdrawal;
+                pair.Item1.Preferred = pair.Item1.AfterTaxWithdrawal > pair.Item2.AfterTaxWithdrawal;
                 pair.Item2.Preferred = !pair.Item1.Preferred;
             });
+
+            Assets.FindAll(asset => asset.Preferred).ForEach(asset => RetirementIncome += asset.AfterTaxWithdrawal);
         }
 
         private static List<(TraditionalRetirementAsset, RothRetirementAsset)> GetAssetPairs()

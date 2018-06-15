@@ -58,7 +58,7 @@ namespace tax_planning.Models
             // Add additions up to retirement
             for (var i = 0; i < timeToRetirement; i++)
             {
-                amounts.Add(GetFutureValueAfter(years: i, withAdditions: (Additions - CalculateTaxOnAddition(Additions))));
+                amounts.Add(GetFutureValueAfter(years: i, currentIncome: Data.Income, withAdditions: (Additions - CalculateTaxOnAddition(Additions))));
             }
 
             // Get the withdrawal
@@ -67,7 +67,7 @@ namespace tax_planning.Models
             // Populate the rest of the schedule
             for (var i = timeToRetirement; i < retirementLength + timeToRetirement; i++)
             {
-                amounts.Add(CalculateNextYearAmount(amounts[i - 1], -delta));
+                amounts.Add(CalculateNextYearAmount(amounts[i - 1], -delta, Data.RetirementIncome));
             }
 
             Withdrawal = delta;
@@ -83,17 +83,17 @@ namespace tax_planning.Models
             return (InterestRate * principal) / (1 - (decimal)Math.Pow(1 + (double)InterestRate, -steps));
         }
 
-        protected decimal GetFutureValueAfter(int years, decimal withAdditions = 0.00M)
+        protected decimal GetFutureValueAfter(int years, decimal currentIncome, decimal withAdditions = 0.00M)
         {
             var futureValue = Value;
             for (var i = 0; i < years; i++)
             {
-                futureValue = CalculateNextYearAmount(previousYearAmount: futureValue, yearDelta: withAdditions);
+                futureValue = CalculateNextYearAmount(previousYearAmount: futureValue, yearDelta: withAdditions, currentIncome: currentIncome);
             }
             return futureValue;
         }
 
-        protected virtual decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta)
+        protected virtual decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta, decimal currentIncome)
         {
             return previousYearAmount * (InterestRate + 1.00M) + yearDelta;
         }
