@@ -57,7 +57,7 @@ export class Home {
         "Income": this.incomeValidate,
         "BasicAdjustment": this.basicAdjustment,
         "RetirementDate": this.retirementDate,
-        "EndOfPlan": this.endOfPlan,
+        "EndOfPlanDate": this.endOfPlan,
         "CapitalGains": this.capitalGains,
         "Assets": this.assets,
         "DesiredAdditions": this.desiredAdditions,
