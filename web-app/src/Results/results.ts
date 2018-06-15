@@ -14,7 +14,6 @@ export class Results {
   }
 
   BuildChart(counter) {
-    console.log(counter)
     for (let i = 0; i <= counter; i++) {
       var chart = document.getElementById('chart' + i);
       var years = this.data[i].years
@@ -84,7 +83,12 @@ export class Results {
     this.httpService.Fetch(form)
       .then(results => results.json())
       .then(data => {
-        this.data = data
+        let temp = data
+        data = data.map(x  => x.yearlyAmount.map(e => e > 0? e : 0))  //yup you read that right...
+        for(let i = 0; i < data.length; i++){
+          temp[i].yearlyAmount = data[i]
+        }
+        this.data = temp
         console.log(this.data)
       })
       .then(nothing => {
@@ -191,7 +195,7 @@ export class Results {
     var tableString: string = '<tbody>';
     for (let j = 0; j < currentSet.years.length; j++) { //add all the yearly data to the table
       tableString += '<tr><td>' + currentSet.years[j] + '</td>' +
-        '<td>' + currentSet.yearlyAmount[j] + '</td>'
+        '<td>' + currentSet.yearlyAmount[j].toFixed(2) + '</td>'
       tableString += '</tr>'
     }
     tableString += '</tbody>'
