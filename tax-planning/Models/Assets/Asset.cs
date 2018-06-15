@@ -18,16 +18,38 @@ namespace tax_planning.Models
 
         public bool Preferred { get; set; }
 
-        public Table Schedule { get; set; }
-        
+        public List<int> Years
+        {
+            get
+            {
+                List<int> list = new List<int>();
+
+                for (var i = 0; i < YearlyAmount.Count; i++)
+                {
+                    list.Add(DateTime.Today.Year + i);
+                }
+
+                return list;
+            }
+        }
+
+        public List<decimal> YearlyAmount { get; set; }
+
+        public decimal Withdrawal { get; set; }
+
+        public decimal AfterTaxWithdrawal { get; set; }
+
+        public decimal TotalCashOut { get; set; }
+
+        public decimal NetCashOut { get; set; }
+
 
         // Methods
 
         // Given desired additions, get withdrawal schedule
+        // Not a constructor because assets may be initialized with empty properties
         public void CalculateSchedule()
         {
-            Table table = new Table();
-
             var retirementLength = Data.EndOfPlanDate - Data.RetirementDate;
             var timeToRetirement = Data.RetirementDate - DateTime.Today.Year;
 
@@ -48,16 +70,14 @@ namespace tax_planning.Models
                 amounts.Add(CalculateNextYearAmount(amounts[i - 1], -delta));
             }
 
-            table.Withdrawal = delta;
-            table.AfterTaxWithdrawal = table.Withdrawal - CalculateTaxOnWithdrawal(table.Withdrawal);
-            table.YearlyAmount = amounts;
-            table.TotalCashOut = table.AfterTaxWithdrawal * retirementLength;
-            table.NetCashOut = table.TotalCashOut - Additions;
-
-            Schedule = table;
+            Withdrawal = delta;
+            AfterTaxWithdrawal = Withdrawal - CalculateTaxOnWithdrawal(Withdrawal);
+            YearlyAmount = amounts;
+            TotalCashOut = AfterTaxWithdrawal * retirementLength;
+            NetCashOut = TotalCashOut - Additions;
         }
 
-        protected virtual decimal GetWithdrawalFor(decimal principal, int steps)
+        protected decimal GetWithdrawalFor(decimal principal, int steps)
         {
             // Payment calculation
             return (InterestRate * principal) / (1 - (decimal)Math.Pow(1 + (double)InterestRate, -steps));
@@ -78,48 +98,8 @@ namespace tax_planning.Models
             return previousYearAmount * (InterestRate + 1.00M) + yearDelta;
         }
 
+        // Abstract methods
         protected abstract decimal CalculateTaxOnAddition(decimal addition);
         protected abstract decimal CalculateTaxOnWithdrawal(decimal withdrawal);
-
-
-        // Data storage class
-        public class Table
-        {
-            public List<int> Years
-            {
-                get
-                {
-                    List<int> list = new List<int>();
-
-                    for (var i = 0; i < YearlyAmount.Count; i++)
-                    {
-                        list.Add(DateTime.Today.Year + i);
-                    }
-
-                    return list;
-                }
-            }
-
-            public List<decimal> YearlyAmount { get; set; }
-
-            public decimal Withdrawal { get; set; }
-
-            public decimal AfterTaxWithdrawal { get; set; }
-
-            public decimal TotalCashOut { get; set; }
-
-            public decimal NetCashOut { get; set; }
-
-            public Table()
-            {
-                YearlyAmount = new List<decimal>();
-            }
-
-            public Table(int length)
-            {
-                YearlyAmount = new List<decimal>();
-                YearlyAmount.AddRange(new decimal[length]);
-            }
-        }
     }
 }
