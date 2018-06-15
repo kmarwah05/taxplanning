@@ -53,15 +53,15 @@ export class Home {
     }
     sessionStorage.userData = JSON.stringify(
       {
-        "FilingStatus": this.filingStatus,
-        "Income": this.incomeValidate,
-        "BasicAdjustment": this.basicAdjustment,
-        "RetirementDate": this.retirementDate,
-        "EndOfPlanDate": this.endOfPlan,
-        "CapitalGains": this.capitalGains,
-        "Assets": this.assets,
-        "DesiredAdditions": this.desiredAdditions,
-        "DesiredWithdrawls": this.desiredWithdrawls
+        "filingStatus": this.filingStatus,
+        "income": this.incomeValidate,
+        "basicAdjustment": this.basicAdjustment,
+        "retirementDate": this.retirementDate,
+        "endOfPlanDate": this.endOfPlan,
+        "capitalGains": this.capitalGains,
+        "assets": this.assets,
+        "desiredAdditions": this.desiredAdditions,
+        "desiredWithdrawals": this.desiredWithdrawls
       });
   }
 
