@@ -16,6 +16,8 @@ namespace tax_planning.Models
 
         public decimal Additions { get; set; }
 
+        public bool Preferred { get; set; }
+
         public Table Schedule { get; set; }
         
 
@@ -26,48 +28,39 @@ namespace tax_planning.Models
         {
             Table table = new Table();
 
-            var retirementLength = GetRetirementLength();
-            var timeToRetirement = GetTimeToRetirement();
+            var retirementLength = Data.EndOfPlanDate - Data.RetirementDate;
+            var timeToRetirement = Data.RetirementDate - DateTime.Today.Year;
 
-            // Present value
-            var amount = GetFutureValueAfter(years: timeToRetirement, withAdditions: (Additions - CalculateTaxOnAddition(Additions)));
+            List<decimal> amounts = new List<decimal>();
 
-            // Do calculation
-            (List<decimal> amount, decimal change) retirementSchedule = GetScheduleWith(amount, 0.00M, retirementLength);
-
-            table.Additions = Additions;
-            table.Withdrawal = retirementSchedule.change;
-            table.AfterTaxWithdrawal = table.Withdrawal - CalculateTaxOnWithdrawal(table.Withdrawal);
-
-            // Populate entire schedules
-            List<decimal> amountForSchedule = new List<decimal>();
-
+            // Add additions up to retirement
             for (var i = 0; i < timeToRetirement; i++)
             {
-                amountForSchedule.Add(GetFutureValueAfter(years: i, withAdditions: Data.DesiredAdditions));
+                amounts.Add(GetFutureValueAfter(years: i, withAdditions: (Additions - CalculateTaxOnAddition(Additions))));
             }
 
-            amountForSchedule.AddRange(retirementSchedule.amount);
+            // Get the withdrawal
+            var delta = GetWithdrawalFor(amounts[timeToRetirement - 1], retirementLength);
 
-            // Add schedules to the table
-            table.YearlyAmount = amountForSchedule;
+            // Populate the rest of the schedule
+            for (var i = timeToRetirement; i < retirementLength + timeToRetirement; i++)
+            {
+                amounts.Add(CalculateNextYearAmount(amounts[i - 1], -delta));
+            }
+
+            table.Withdrawal = delta;
+            table.AfterTaxWithdrawal = table.Withdrawal - CalculateTaxOnWithdrawal(table.Withdrawal);
+            table.YearlyAmount = amounts;
+            table.TotalCashOut = table.AfterTaxWithdrawal * retirementLength;
+            table.NetCashOut = table.TotalCashOut - Additions;
 
             Schedule = table;
         }
 
-        protected virtual (List<decimal> amount, decimal change) GetScheduleWith(decimal initial, decimal final, int steps)
+        protected virtual decimal GetWithdrawalFor(decimal principal, int steps)
         {
             // Payment calculation
-            var delta = (InterestRate * initial) / (1 - (decimal)Math.Pow(1 + (double)InterestRate, -steps));
-
-            List<decimal> amount = new List<decimal>() { (decimal)initial };
-
-            for (var i = 1; i < steps; i++)
-            {
-                amount.Add(CalculateNextYearAmount(amount[i - 1], delta));
-            }
-
-            return (amount, delta);
+            return (InterestRate * principal) / (1 - (decimal)Math.Pow(1 + (double)InterestRate, -steps));
         }
 
         protected decimal GetFutureValueAfter(int years, decimal withAdditions = 0.00M)
@@ -85,17 +78,48 @@ namespace tax_planning.Models
             return previousYearAmount * (InterestRate + 1.00M) + yearDelta;
         }
 
-        protected int GetRetirementLength()
-        {
-            return Data.EndOfPlanDate - Data.RetirementDate;
-        }
-
-        protected int GetTimeToRetirement()
-        {
-            return Data.RetirementDate - DateTime.Today.Year;
-        }
-
         protected abstract decimal CalculateTaxOnAddition(decimal addition);
         protected abstract decimal CalculateTaxOnWithdrawal(decimal withdrawal);
+
+
+        // Data storage class
+        public class Table
+        {
+            public List<int> Years
+            {
+                get
+                {
+                    List<int> list = new List<int>();
+
+                    for (var i = 0; i < YearlyAmount.Count; i++)
+                    {
+                        list.Add(DateTime.Today.Year + i);
+                    }
+
+                    return list;
+                }
+            }
+
+            public List<decimal> YearlyAmount { get; set; }
+
+            public decimal Withdrawal { get; set; }
+
+            public decimal AfterTaxWithdrawal { get; set; }
+
+            public decimal TotalCashOut { get; set; }
+
+            public decimal NetCashOut { get; set; }
+
+            public Table()
+            {
+                YearlyAmount = new List<decimal>();
+            }
+
+            public Table(int length)
+            {
+                YearlyAmount = new List<decimal>();
+                YearlyAmount.AddRange(new decimal[length]);
+            }
+        }
     }
 }
