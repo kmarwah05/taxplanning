@@ -7,10 +7,15 @@ namespace tax_planning.Tests
 {
     public class AssetTests : Asset
     {
+        public AssetTests()
+        {
+            InterestRateMultiplier = 1.0M;
+        }
+
         public static IEnumerable<object[]> FutureValueCases()
         {
-            yield return new object[] { 30, 5500M, 121036.70M };
-            yield return new object[] { 30, 18500, 299492.18M };
+            yield return new object[] { 30, 5500M, 434820.02 };
+            yield return new object[] { 30, 18500, 1462576.44M };
         }
 
         [Theory]

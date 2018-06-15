@@ -19,7 +19,7 @@ namespace tax_planning.Models
         {
             get
             {
-                return _InterestRate * InterestRateMultiplier;
+                return _InterestRate * InterestRateMultiplier.Value;
             }
             set
             {
@@ -56,7 +56,7 @@ namespace tax_planning.Models
 
         public decimal NetCashOut { get; set; }
 
-        protected decimal InterestRateMultiplier { get; set; } = 0.0M;
+        protected decimal? InterestRateMultiplier { get; set; }
 
 
         // Methods
@@ -66,7 +66,7 @@ namespace tax_planning.Models
         public void CalculateSchedule()
         {
             // If InterestRateMultiplier is not overridden
-            if (InterestRateMultiplier == 0.0M)
+            if (InterestRateMultiplier == null)
             {
                 var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
                 InterestRateMultiplier = 1 - liability;
@@ -78,7 +78,7 @@ namespace tax_planning.Models
             List<decimal> amounts = new List<decimal>();
 
             // Add additions up to retirement
-            for (var i = 0; i < timeToRetirement; i++)
+            for (var i = 1; i <= timeToRetirement; i++)
             {
                 amounts.Add(Decimal.Round(GetFutureValueAfter(years: i, withAdditions: (Additions - CalculateTaxOnAddition(Additions))), 2));
             }
@@ -87,8 +87,9 @@ namespace tax_planning.Models
             var delta = GetWithdrawalFor(amounts[timeToRetirement - 1], retirementLength);
 
             // If InterestRateMultiplier is not overridden
-            if (InterestRateMultiplier == 0.0M)
+            if (InterestRateMultiplier != 1.0M)
             {
+                InterestRate = 0.06M;
                 var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.RetirementIncome, Data.BasicAdjustment) / Data.RetirementIncome;
                 InterestRateMultiplier = 1 - liability;
             }

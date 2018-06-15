@@ -8,7 +8,7 @@ namespace tax_planning.Models
 
         protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal)
         {
-            return IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, withdrawal, 0.00M); ;
+            return IncomeTaxCalculator.CapitalGainsTaxFor(Data.FilingStatus, withdrawal); ;
         }
     }
 }
