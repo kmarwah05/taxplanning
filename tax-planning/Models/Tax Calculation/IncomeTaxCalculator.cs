@@ -5,6 +5,9 @@ namespace tax_planning.Models.Tax_Calculation
 {
     public class IncomeTaxCalculator
     {
+        public static decimal CapitalGainsTaxFor(FilingStatus status, decimal gain) =>
+            CalculateGraduatedTaxFor(status: status, jurisdiction: "Capital Gains", income: gain, basicAdjustment: 0.00M);
+
         public static decimal TotalIncomeTaxFor(FilingStatus status, decimal income, decimal basicAdjustment) =>
             FederalTaxFor(status, income, basicAdjustment) + VaStateTaxFor(status, income);
 
@@ -25,8 +28,12 @@ namespace tax_planning.Models.Tax_Calculation
                     rateForBracket = TaxBrackets.FederalIncomeRateForBracket.Select(x => (float)x).ToArray();
                     break;
                 case "VA State":
-                    brackets = TaxBrackets.FederalIncomeBracketsFor(filingStatus: status);
-                    rateForBracket = TaxBrackets.FederalIncomeRateForBracket.Select(x => (float)x).ToArray();
+                    brackets = TaxBrackets.VaStateBrackets();
+                    rateForBracket = TaxBrackets.VaStateIncomeRateForBracket.Select(x => (float)x).ToArray();
+                    break;
+                case "Capital Gains":
+                    brackets = TaxBrackets.CapitalGainsBracketsFor(filingStatus: status);
+                    rateForBracket = TaxBrackets.CapitalGainsRateForBracket.Select(x => (float)x).ToArray();
                     break;
                 default:
                     Console.WriteLine("Jurisdiction not supported");
