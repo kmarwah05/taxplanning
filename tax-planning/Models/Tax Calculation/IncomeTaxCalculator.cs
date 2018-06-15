@@ -5,6 +5,9 @@ namespace tax_planning.Models.Tax_Calculation
 {
     public class IncomeTaxCalculator
     {
+        public static decimal TotalIncomeTaxFor(FilingStatus status, decimal income, decimal basicAdjustment) =>
+            FederalTaxFor(status, income, basicAdjustment) + VaStateTaxFor(status, income);
+
         public static decimal FederalTaxFor(FilingStatus status, decimal income, decimal basicAdjustment) => CalculateGraduatedTaxFor(status, "Federal", income, basicAdjustment);
 
         public static decimal VaStateTaxFor(FilingStatus status, decimal income) => CalculateGraduatedTaxFor(status, "VA State", income, 0.00M);
@@ -15,7 +18,8 @@ namespace tax_planning.Models.Tax_Calculation
             (decimal lowerBound, decimal upperBound)[] brackets;
             float[] rateForBracket;
 
-            switch (jurisdiction) {
+            switch (jurisdiction)
+            {
                 case "Federal":
                     brackets = TaxBrackets.FederalIncomeBracketsFor(filingStatus: status);
                     rateForBracket = TaxBrackets.FederalIncomeRateForBracket.Select(x => (float)x).ToArray();
@@ -28,26 +32,8 @@ namespace tax_planning.Models.Tax_Calculation
                     Console.WriteLine("Jurisdiction not supported");
                     return 0.00M;
             }
-            
-            // Standard deduction
-            var standardDeduction = 0.00M;
-            switch (status)
-            {
-                case FilingStatus.Joint:
-                    standardDeduction = 24000.00M;
-                    break;
-                case FilingStatus.HeadOfHousehold:
-                    standardDeduction = 18000.00M;
-                    break;
-                case FilingStatus.MarriedSeparate:
-                case FilingStatus.Unmarried:
-                default:
-                    standardDeduction = 12000;
-                    break;
-            }
 
-            income -= standardDeduction;
-
+            income -= GetStandardDeduction(filingStatus: status, jurisdiction: jurisdiction);
 
             // After standard deduction
             var ranges = brackets.Select(bracket => bracket.upperBound - bracket.lowerBound);
@@ -65,5 +51,51 @@ namespace tax_planning.Models.Tax_Calculation
 
             return (decimal)(tax + cherryOnTop);
         }
+
+        private static decimal GetStandardDeduction(FilingStatus filingStatus, string jurisdiction)
+        {
+            var standardDeduction = 0.00M;
+
+            switch (jurisdiction)
+            {
+                case "Federal":
+                    switch (filingStatus)
+                    {
+                        case FilingStatus.Joint:
+                            standardDeduction = 24000.00M;
+                            break;
+                        case FilingStatus.HeadOfHousehold:
+                            standardDeduction = 18000.00M;
+                            break;
+                        case FilingStatus.MarriedSeparate:
+                        case FilingStatus.Unmarried:
+                        default:
+                            standardDeduction = 12000;
+                            break;
+                    }
+                    break;
+                case "VA State":
+                    switch (filingStatus)
+                    {
+                        case FilingStatus.Joint:
+                            standardDeduction = 6000.00M;
+                            break;
+                        case FilingStatus.HeadOfHousehold:
+                            standardDeduction = 4500.00M;
+                            break;
+                        case FilingStatus.Unmarried:
+                        case FilingStatus.MarriedSeparate:
+                        default:
+                            standardDeduction = 3000.00M;
+                            break;
+                    }
+                    break;
+                default:
+                    Console.WriteLine("Jurisdiction not supported");
+                    return 0.00M;
+            }
+            return standardDeduction;
+        }
+
     }
 }
