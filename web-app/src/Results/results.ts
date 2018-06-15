@@ -19,17 +19,46 @@ export class Results {
       var chart = document.getElementById('chart' + i);
       var years = this.data[i].years
       var amount = this.data[i].yearlyAmount
-
+      var datasets = [];
+      var dataset = {
+        data: [],
+        label: "",
+        borderColor: "",
+        fill: false
+      }
+      if (i == 0) {
+        for (let j = 0; j < this.data.length; j++) {
+          dataset = {
+            data: [],
+            label: "",
+            borderColor: "",
+            fill: false
+          }
+          this.data[j].yearlyAmount.forEach(element => {
+            dataset.data = [...dataset.data,element]
+          });
+          dataset.label = this.data[j].name
+          dataset.borderColor = 'rgba(' + this.getRandomInt(1) + ',' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',1)'
+          dataset.fill = false
+          datasets = [...datasets,dataset];
+          console.log(this.data, dataset )
+        }
+        
+      }
+      else {
+        datasets = [{
+          label: 'Total Value',
+          data: amount,
+          borderColor: 'rgba(255,99,132,1)',
+          fill: false
+        }
+      ]
+      }
       var myChart = new Chart(chart, {
         type: 'line',
         data: {
           labels: years,
-          datasets: [{
-            label: 'Total Value',
-            data: amount,
-            borderColor: 'rgba(255,99,132,1)',
-            fill: false
-          }]
+          datasets: datasets
         },
         options: {
           scales: {
@@ -58,7 +87,7 @@ export class Results {
         this.data = data
         console.log(this.data)
       })
-      .then(nothing => {    
+      .then(nothing => {
         this.BuildOverall()
       }) //build the table once the data is in
   }
@@ -184,5 +213,8 @@ export class Results {
     tableString += this.FillTableRows(currentSet)
     tableString += '</table></div>'
     return tableString
+  }
+  getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
   }
 }
