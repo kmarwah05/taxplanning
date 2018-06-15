@@ -5,6 +5,9 @@ namespace tax_planning.Models.Tax_Calculation
 {
     public class IncomeTaxCalculator
     {
+        public static decimal TotalIncomeTaxFor(FilingStatus status, decimal income, decimal basicAdjustment) =>
+            FederalTaxFor(status, income, basicAdjustment) + VaStateTaxFor(status, income);
+
         public static decimal FederalTaxFor(FilingStatus status, decimal income, decimal basicAdjustment) => CalculateGraduatedTaxFor(status, "Federal", income, basicAdjustment);
 
         public static decimal VaStateTaxFor(FilingStatus status, decimal income) => CalculateGraduatedTaxFor(status, "VA State", income, 0.00M);

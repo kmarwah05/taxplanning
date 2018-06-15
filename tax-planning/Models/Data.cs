@@ -9,6 +9,8 @@ namespace tax_planning.Models
     
         public static decimal Income { get; set; }
 
+        public static decimal RetirementIncome { get; set; }
+
         public static decimal BasicAdjustment { get; set; }
     
         public static decimal CapitalGains { get; set; }
@@ -19,44 +21,46 @@ namespace tax_planning.Models
     
         public static decimal DesiredAdditions { get; set; }
 
-        public static List<decimal> Additions
+        public static List<Asset> Assets { get; set; } = new List<Asset>();
+
+        private static List<decimal> Additions
         {
             get
             {
                 var breakdown = new List<decimal>();
                 var total = DesiredAdditions;
-                if (total - 18500 <= 0)
+                if (total - _401k.MaxContributions <= 0)
                 {
                     breakdown.Add(total);
                     breakdown.Add(0);
                     breakdown.Add(0);
-                } else if (total - 18500 - 5500 <= 0)
+                } else if (total - _401k.MaxContributions - Ira.MaxContributions <= 0)
                 {
-                    breakdown.Add(18500);
-                    breakdown.Add(total - 18500);
+                    breakdown.Add(_401k.MaxContributions);
+                    breakdown.Add(total - _401k.MaxContributions);
                     breakdown.Add(0);
                 } else
                 {
-                    breakdown.Add(18500);
-                    breakdown.Add(5500);
-                    breakdown.Add(total - 18500 - 5500);
+                    breakdown.Add(_401k.MaxContributions);
+                    breakdown.Add(Ira.MaxContributions);
+                    breakdown.Add(total - _401k.MaxContributions - Ira.MaxContributions);
                 }
 
                 return breakdown;
             }
         }
-    
-        public static List<Asset> Assets { get; set; } = new List<Asset>();
 
         public static void PopulateData(FormModel formModel) {
-            FilingStatus = formModel.FilingStatus;
-            Income = formModel.Income;
+            // Get data, explicit conversions ok because all nullable fields marked with Required DataAnnotation
+            FilingStatus = formModel.FilingStatus.Value;
+            Income = formModel.Income.Value;
             BasicAdjustment = formModel.BasicAdjustment;
-            CapitalGains = formModel.CapitalGains;
-            RetirementDate = formModel.RetirementDate;
-            EndOfPlanDate = formModel.EndOfPlanDate;
-            DesiredAdditions = formModel.DesiredAdditions;
+            CapitalGains = formModel.CapitalGains.Value;
+            RetirementDate = formModel.RetirementDate.Value;
+            EndOfPlanDate = formModel.EndOfPlanDate.Value;
+            DesiredAdditions = formModel.DesiredAdditions.Value;
 
+            // Generate existing assets
             foreach (var asset in formModel.Assets)
             {
                 try
@@ -73,8 +77,10 @@ namespace tax_planning.Models
                 }
             }
 
+            // Complete list of assets so client can compare them
             Assets.AddRange(AssetFactory.Complete(Assets));
 
+            // Set optimal additions for each asset
             foreach (var asset in Assets)
             {
                 if (asset.AssetType.Contains("401k"))
@@ -92,6 +98,35 @@ namespace tax_planning.Models
 
                 asset.CalculateSchedule();
             }
+
+            // Picks preferred assets
+            Assets.FindAll(asset => asset.AssetType.Equals("Brokerage Holding")).ForEach(holding => holding.Preferred = true);
+            var assetPairs = GetAssetPairs();
+
+            assetPairs.ForEach(pair =>
+            {
+                pair.Item1.Preferred = pair.Item1.AfterTaxWithdrawal > pair.Item2.AfterTaxWithdrawal;
+                pair.Item2.Preferred = !pair.Item1.Preferred;
+            });
+
+            Assets.FindAll(asset => asset.Preferred).ForEach(asset => RetirementIncome += asset.AfterTaxWithdrawal);
+        }
+
+        private static List<(TraditionalRetirementAsset, RothRetirementAsset)> GetAssetPairs()
+        {
+            List<(TraditionalRetirementAsset, RothRetirementAsset)> pairs = new List<(TraditionalRetirementAsset, RothRetirementAsset)>();
+
+            // 401ks
+            List<Asset> _401ks = Assets.FindAll(asset => asset.AssetType.Contains("401k"));
+            pairs.Add((_401ks.Find(_401k => !_401k.AssetType.Contains("Roth")) as TraditionalRetirementAsset,
+                _401ks.Find(_401k => _401k.AssetType.Contains("Roth")) as RothRetirementAsset));
+
+            // IRAs
+            List<Asset> iras = Assets.FindAll(asset => asset.AssetType.Contains("IRA"));
+            pairs.Add((iras.Find(ira => !ira.AssetType.Contains("Roth")) as TraditionalRetirementAsset,
+                iras.Find(ira => ira.AssetType.Contains("Roth")) as RothRetirementAsset));
+
+            return pairs;
         }
     }
 }
