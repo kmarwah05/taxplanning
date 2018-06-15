@@ -7,7 +7,6 @@ export class Results {
   total: number = 4325;
   net: number = 2834;
   data = [];
-
   constructor(private httpService: HttpService) {
     httpService.ConfigureClient(); //set the http client up only once when we start results
     this.GetResults();
@@ -18,7 +17,7 @@ export class Results {
     var carouselText = '<ol class="carousel-indicators">'
     var carouselInternal = ''
     var tableString = ''
-
+    
     for (let i = 0; i < (this.data.length / 2); i++) { //for loop for each page
       //only the first item needs to be active
       if (i == 0) {
@@ -43,7 +42,8 @@ export class Results {
           '<tr>' +
           '<th>Year</th>' +
           '<th>Amount</th>' +
-          '<th>Amount Change</th>' +
+          '<th>Additions</th>' +
+          '<th>Withdrawls</th>' +
           '</tr>' +
           '</thead>' +
           '<tbody>';
@@ -77,8 +77,8 @@ export class Results {
   }
 
   BuildChart(counter) {
-    for(let i = 0; i <= counter; i++){
-      var chart = document.getElementById('chart'+i);
+    for (let i = 0; i <= counter; i++) {
+      var chart = document.getElementById('chart' + i);
       var years = []
       var amount = []
       this.data[i].YearlyDetails.forEach(element => {
@@ -111,23 +111,7 @@ export class Results {
 
   GetResults() {
     let data = sessionStorage.userData
-    console.log(data)
     this.SendPost(data)
-  }
-
-  BuildAssetString(array) {//back end wants assets to be formatted in an array of string arrays
-    var assetString: string = "["
-
-    for (let i = 0; i < array.length; i++) {
-      assetString += ("[\"" + array[i].name + "\",\"" + array[i].type + "\",\"" + array[i].value + "\"]");
-
-      if ((i + 1) <= array.length) { //while you have more assets add a comma
-        assetString += ","
-      }
-    }
-
-    assetString += "]"
-    return assetString
   }
 
   //sends the request to the api then formats the data for the table
@@ -163,6 +147,9 @@ export class Results {
         }
         //console.log(this.data)
       })
-      .then(nothing => this.BuildTable()) //build the table once the data is in
+      .then(nothing => {
+        console.log(this.data)
+        this.BuildTable()
+      }) //build the table once the data is in
   }
 }

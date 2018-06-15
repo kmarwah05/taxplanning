@@ -1,6 +1,7 @@
 import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
 
+
 @inject(NewInstance.of(ValidationController))
 
 
@@ -27,7 +28,10 @@ export class Home {
     let asset = { "name": this.name, "type": this.type, "value": this.value, "id": this.counter }
     this.assets = [...this.assets, asset]
     this.counter++;
-    //console.log("adding ", this.assets);
+    //reset the fields for reasons
+    this.name = ''
+    this.type = ''
+    this.value = ''
   }
 
   removeButton(id) {
@@ -43,6 +47,10 @@ export class Home {
 
   //stores data so that it can be used on the results page
   jsonify() {
+    if(this.name.length != 0 && this.type.length !=0 && this.value.length !=0)
+    {
+      this.addButton()
+    }
     sessionStorage.userData = JSON.stringify(
       {
         "FilingStatus": this.filingStatus,
@@ -60,9 +68,7 @@ export class Home {
   bind() {
     return this.assets
   }
-
-
-
+  
 
   constructor(private controller: ValidationController) {
     ValidationRules
@@ -92,5 +98,12 @@ export class Home {
       })
   }
 
+/*
+minYear = new Date().getFullYear()
+maxYear = this.minYear + 80
+
+myMin = this.minYear;
+myMax = this.maxYear;
+*/
 
 }
