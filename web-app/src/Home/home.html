@@ -1,5 +1,9 @@
 <template>
   <require from="styles/home.css"></require>
+  <require from="ion-rangeslider/css/ion.rangeSlider.css"></require>
+  <require from="ion-rangeslider/css/ion.rangeSlider.skinModern.css"></require> 
+
+  
 
   <head>
     <title>Bootstrap Example</title>
@@ -21,89 +25,58 @@
 
   <body>
 
-
     <!--FORM STARTS HERE-->
-
     <div class="mx-auto w-75">
-      <form class="form-horizontal" id="myForm">
-        <div class="row">
-          <div class="form-group col-xs-12 col-sm-6">
+        <form class="form-horizontal" id="myForm">
+      <div class="row">
+      
+        <div class="col-xs-6">
             <label for="filStatus" class="col-sm-4 control-label" id="filingStatus" type="text">Filing Status:</label>
-            <div class="col-sm-6">
-              <select class="form-control mySelect" value.bind="filingStatus & validate">
+            <select class="form-control mySelect" value.bind="filingStatus & validate">
                 <option value="" disabled selected>Select one...</option>
                 <option value="Joint">Joint</option>
                 <option value="HeadOfHousehold">Head of Household</option>
                 <option value="Unmarried">Unmarried</option>
                 <option value="Married">Married</option>
               </select>
-            </div>
-          </div>
-          <div class="form-group col-xs-12 col-sm-6">
-            <div class="row">
-              <label for="incomeRange" class="col-sm-4 control-label" id="incomeRange" type="text">Select Income:</label>
-              <div class="col-sm-6">
-                <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
-                </select>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="row">
-          <div class="form-group col-xs-12 col-sm-6">
+
+        <div class="col-xs-6">
+            <label for="incomeRange" class="col-sm-4 control-label" id="incomeRange" type="text">Select Income:</label>
+            <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-xs-3">
             <label for="bAdjustment" class="col-sm-4 control-label" id="basicAdjustment">Basic Adjustment:</label>
-            <div class="col-sm-6">
-              <input type="basicInput" class="form-control" name="BasicAdjustment" placeholder="Enter Basic Adjustment" value.bind="basicAdjustment & validate">
-            </div>
-            <div class="col-sm-2"></div>
-          </div>
-          <div class="form-group col-xs-12 col-sm-6">
-            <div class="row">
-              <label for="retireDate" class="col-sm-4 control-label" id="retirementDate">Retirement Date:</label>
-              <div class="col-sm-6">
-                <input type="rDate" class="form-control" name="RetirementDate" placeholder="Enter Retirement Date" value.bind="retirementDate & validate">
-              </div>
-
-            </div>
-          </div>
+            <input type="basicInput" class="form-control" name="BasicAdjustment" placeholder="Enter Basic Adjustment" value.bind="basicAdjustment & validate">
         </div>
-        <div class="row">
-          <div class="form-group col-xs-12 col-sm-6">
+
+        <div class="col-xs-4">
             <label for="cGains" class="col-sm-4 control-label" id="capitalGains">Capital Gains:</label>
-            <div class="col-sm-6">
-              <input type="capitalGains" class="form-control" name="CapitalGains" placeholder="Capital Gains" value.bind="capitalGains & validate">
-            </div>
-            <div class="col-sm-2"></div>
-          </div>
-          <div class="form-group col-xs-12 col-sm-6">
-            <div class="row">
-              <label for="endPlan" class="col-sm-4 control-label" id="endPlan">End of Plan:</label>
-              <div class="col-sm-6">
-                <input type="endP" class="form-control" name="EndOfPlan" placeholder="End of Plan" value.bind="endOfPlan & validate">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-xs-12 col-sm-6">
-            <label for="dAdditions" class="col-sm-4 control-label" id="desiredAdditions">Desired Additions:</label>
-            <div class="col-sm-6">
-              <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Desired Additions" value.bind="desiredAdditions & validate">
-            </div>
-            <div class="col-sm-2"></div>
-          </div>
-          <div class="form-group col-xs-12 col-sm-6">
-            <div class="row">
-              <label for="dWithdrawls" class="col-sm-4 control-label" id="desiredWithdrawls">Desired Withdrawls:</label>
-              <div class="col-sm-6">
-                <input type="desiredWithdrawls" class="form-control" name="DesiredWithdrawls" placeholder="Enter Desired Withdrawls" value.bind="desiredWithdrawls & validate">
-              </div>
-            </div>
-          </div>
+            <input type="capitalGains" class="form-control" name="CapitalGains" placeholder="Capital Gains" value.bind="capitalGains & validate">
         </div>
 
+        <div class="col-xs-5">
+            <label for="dAdditions" class="col-sm-4 control-label" id="desiredAdditions">Additions:</label>
+            <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Desired Additions" value.bind="desiredAdditions & validate">
+        </div>
 
-      </form>
+        <br>
+        </div>
+
+        <br><br><br>
+
+         <!--SLIDERS START-->
+         <input type="text" id="range" name="range" value.bind="retirementDate & validate" />
+         <p id = "test"></p>
+         <!--SLIDERS END-->
+
+      </div>
+     </form>
     </div>
     <!--FORM ENDS HERE-->
 
@@ -167,23 +140,6 @@
     <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
 
 
-
-        <!--SLIDERS START-->
-
-        <form>
-            <div data-role="rangeslider">
-                <label for="range-1a">Rangeslider:</label>
-                <input type="range" name="range-1a" id="range-1a" min="0" max="100" value="40" data-popup-enabled="true" data-show-value="true">
-                <label for="range-1b">Rangeslider:</label>
-                <input type="range" name="range-1b" id="range-1b" min="0" max="100" value="80" data-popup-enabled="true" data-show-value="true">
-            </div>
-        </form>
-        
-        <!--SLIDERS END-->
-
-        <script type="text/javascript">
-        $('input').popup();
-        </script>
 
     <div class="myFooter">
       <p>&copy; TAX PLANNING</p>
