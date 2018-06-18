@@ -73,7 +73,7 @@ namespace tax_planning.Models
                     name: asset.Name,
                     assetType: asset.Type,
                     value: asset.Value,
-                    matching: (asset.EmployerMatchProportion, asset.EmployerMatchCap)
+                    matching: (asset.EmployerMatchPercentage, asset.EmployerMatchCap)
                 ));
                 }
                 catch (Exception)

@@ -28,7 +28,7 @@ namespace tax_planning.Models
             }
         }
 
-        public decimal Additions { get; set; }
+        public virtual decimal Additions { get; set; }
 
         public bool Preferred { get; set; }
 
@@ -49,7 +49,7 @@ namespace tax_planning.Models
 
         public List<decimal> YearlyAmount { get; set; }
 
-        public decimal Withdrawal { get; set; }
+        public virtual decimal Withdrawal { get; set; }
 
         public decimal AfterTaxWithdrawal { get; set; }
 

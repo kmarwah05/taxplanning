@@ -26,7 +26,7 @@ namespace tax_planning.Models
         }
 
         // assetType string should be one of "IRA", "Roth IRA", "401k, Equity Holding"
-        public static Asset Create(string name, string assetType, decimal value, (decimal proportion, decimal cap) matching) {
+        public static Asset Create(string name, string assetType, decimal value, (decimal percentage, decimal cap) matching) {
             switch (assetType)
             {
                 case "IRA":

@@ -6,16 +6,16 @@
         public string Type { get; set; }
         public decimal Value { get; set; }
 
-        private decimal _EmployerMatchProportion = 0.00M;
-        public decimal EmployerMatchProportion
+        private decimal _EmployerMatchPercentage = 0.00M;
+        public decimal EmployerMatchPercentage
         {
             get
             {
-                return _EmployerMatchProportion;
+                return _EmployerMatchPercentage;
             }
             set
             {
-                _EmployerMatchProportion = value / 100;
+                _EmployerMatchPercentage = value / 100;
             }
         }
 
