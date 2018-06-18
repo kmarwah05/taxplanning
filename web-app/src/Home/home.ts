@@ -9,9 +9,9 @@ import $ from '../../node_modules/jquery/dist/jquery.js';
 export class Home {
   counter: number = 0;
   assets = [];
-  name: string
-  type: string
-  value: string
+  name: string = ''
+  type: string = ''
+  value: string = ''
   filingStatus: string
   income: string
   basicAdjustment: string = '';
@@ -61,8 +61,7 @@ export class Home {
         "endOfPlanDate": this.endOfPlan,
         "capitalGains": this.capitalGains,
         "assets": this.assets,
-        "desiredAdditions": this.desiredAdditions,
-        "desiredWithdrawals": this.desiredWithdrawls
+        "desiredAdditions": this.desiredAdditions
       });
   }
 
