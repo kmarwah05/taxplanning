@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Extensions;
 using tax_planning.Models;
 
 namespace tax_planning.Models
@@ -83,6 +84,8 @@ namespace tax_planning.Models
             // Complete list of assets so client can compare them
             Assets.AddRange(AssetFactory.Complete(Assets));
 
+            Assets = Assets.SortAssets();
+
             // Set optimal additions for each asset
             foreach (var asset in Assets)
             {
@@ -140,7 +143,7 @@ namespace Extensions
 {
     public static class AssetListExtensions
     {
-        public static List<Asset> Sort(this List<Asset> unsortedList)
+        public static List<Asset> SortAssets(this List<Asset> unsortedList)
         {
             List<Asset> sortedList = new List<Asset>();
 
