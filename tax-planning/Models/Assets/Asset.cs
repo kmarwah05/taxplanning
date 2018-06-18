@@ -68,7 +68,7 @@ namespace tax_planning.Models
         // Not a constructor because assets may be initialized with empty properties
         public void CalculateSchedule()
         {
-            // If InterestRateMultiplier is not overridden
+            // Tax for interest accrued on equity
             if (GetType() == typeof(BrokerageHolding))
             {
                 var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
@@ -83,15 +83,11 @@ namespace tax_planning.Models
                 amounts.Add(Decimal.Round(GetFutureValueAfter(years: i, withAdditions: (Additions - CalculateTaxOnAddition(Additions))), 2));
             }
 
+            // We are not calculating tax during withdrawal period?
+            if (GetType() == typeof(BrokerageHolding)) { InterestRateMultiplier = 1.0M; }
+
             // Get the withdrawal
             var delta = GetWithdrawalFor(amounts[TimeToRetirement - 1], RetirementLength);
-
-            //// If InterestRateMultiplier is not overridden
-            //if (GetType() == typeof(BrokerageHolding))
-            //{
-            //    var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.RetirementIncome, Data.BasicAdjustment) / Data.RetirementIncome;
-            //    InterestRateMultiplier = 1 - liability;
-            //}
 
             // Populate the rest of the schedule
             for (var i = TimeToRetirement; i < RetirementLength + TimeToRetirement; i++)
@@ -107,7 +103,7 @@ namespace tax_planning.Models
         {
             AfterTaxWithdrawal = Decimal.Round(Withdrawal - CalculateTaxOnWithdrawal(Withdrawal, Data.RetirementIncome), 2);
             TotalCashOut = Decimal.Round(AfterTaxWithdrawal * RetirementLength, 2);
-            NetCashOut = Decimal.Round(TotalCashOut - Additions, 2);
+            NetCashOut = Decimal.Round(TotalCashOut - (Additions * TimeToRetirement), 2);
         }
 
         protected decimal GetWithdrawalFor(decimal principal, int steps)
