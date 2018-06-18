@@ -7,6 +7,7 @@ export class Results {
   total: number = 4325;
   net: number = 2834;
   data = [];
+  max: number = 0;
 
   constructor(private httpService: HttpService) {
     httpService.ConfigureClient(); //set the http client up only once when we start results
@@ -14,28 +15,58 @@ export class Results {
   }
 
   BuildChart(counter) {
-    console.log(counter)
     for (let i = 0; i <= counter; i++) {
       var chart = document.getElementById('chart' + i);
       var years = this.data[i].years
       var amount = this.data[i].yearlyAmount
+      var datasets = [];
+      var dataset = {
+        data: [],
+        label: "",
+        borderColor: "",
+        fill: false
+      }
+      if (i == 0) {
+        for (let j = 0; j < this.data.length; j++) {
+          dataset = {
+            data: [],
+            label: "",
+            borderColor: "",
+            fill: false
+          }
+          this.data[j].yearlyAmount.forEach(element => {
+            dataset.data = [...dataset.data, element]
+          });
+          dataset.label = this.data[j].name
+          dataset.borderColor = 'rgba(' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',1)'
+          dataset.fill = false
+          datasets = [...datasets, dataset];
+          console.log(this.data, dataset)
+        }
 
+      }
+      else {
+        datasets = [{
+          label: 'Total Value',
+          data: amount,
+          borderColor: 'rgba(255,99,132,1)',
+          fill: false
+        }
+        ]
+      }
       var myChart = new Chart(chart, {
         type: 'line',
         data: {
           labels: years,
-          datasets: [{
-            label: 'Total Value',
-            data: amount,
-            borderColor: 'rgba(255,99,132,1)',
-            fill: false
-          }]
+          datasets: datasets
         },
         options: {
           scales: {
             yAxes: [{
               ticks: {
-                beginAtZero: true
+                max: (Math.ceil(this.max*1.1/10000)*10000),
+                beginAtZero: true,
+                
               }
             }]
           }
@@ -50,15 +81,20 @@ export class Results {
     this.SendPost(data)
   }
 
-  //sends the request to the api then formats the data for the table
+  //sends the request to the api
   SendPost(form) {
     this.httpService.Fetch(form)
       .then(results => results.json())
       .then(data => {
-        this.data = data
+        let temp = data
+        data = data.map(x => x.yearlyAmount.map(e => e > 0 ? e : 0))  //yup you read that right... 
+        for (let i = 0; i < data.length; i++) {
+          temp[i].yearlyAmount = data[i]
+        }
+        this.data = temp
         console.log(this.data)
       })
-      .then(nothing => {    
+      .then(nothing => {
         this.BuildOverall()
       }) //build the table once the data is in
   }
@@ -68,14 +104,17 @@ export class Results {
     var carouselText = '<ol class="carousel-indicators">'
     var carouselInternal = ''
     var tableString = ''
+    var withdrawlsString = ''
+    var totalString = ''
 
     for (let i = 0; i < 3; i++) { //for loop for each page
       tableString = '' //reset the table string for each page
-      if (i == 0) { //build the overall page
+      if (i == 0) { //build the overall page, must be done as a special case since its a single table, also the first div needs to be marked active
         carouselText += '<li data-target="results#scheduleCarousel" data-slide-to="' + i + '" class="active"></li>' //Build carousel indicators based on how many assets we have
         carouselInternal += '<div class="item container active">'
         carouselInternal += '<div class="col"><canvas id="chart' + counter + '">' +
           '</canvas></div>'
+        
         tableString += this.BuildTable(this.data[counter]) //make the table inside the container
         counter++;
       }
@@ -83,22 +122,18 @@ export class Results {
         carouselInternal += '<div class="item container">'
         carouselText += '<li data-target="results#scheduleCarousel" data-slide-to="' + i + '" class=""></li>'
         carouselInternal += '<div class ="charts row">' //create a row for charts so they are side by side
+        tableString += '</div><div class="tables row">' //create a table row so tables are side by side
         for (let i = 0; i < 2; i++) { //on each page we have two tables
           carouselInternal += '<div class="col"><canvas id="chart' + counter + '">' +
             '</canvas></div>'
-          if (i == 0) { tableString += '</div><div class="tables row">' } //create one table row so tables are side by side
           tableString += this.BuildTable(this.data[counter])
           counter++;
         }
       }
-
-
       carouselInternal += tableString
-      carouselInternal += '</div>'
-      carouselInternal += '</div><div class="carousel-caption d-none d-md-block">' + //add the name of the asset type to the page
-        '<h5>' + this.data[counter].name + '</h5>' +
-        '</div>' +
-        '</div>'
+      carouselInternal += '<div class="carousel-caption d-none d-md-block">' + //add the name of the asset type to the page
+        '<h5>' + this.data[counter - 1].name + '</h5>' +
+        '</div></div></div>'
     }
     carouselInternal += '</div>'
     carouselText += '</ol>';
@@ -118,12 +153,12 @@ export class Results {
     var tNetCash: number = 0;
     var tTotalCash: number = 0;
 
-    var overall = {
+    var overall = { //combines the optimal accounts to see what the max payout is
       "additions": 0,
       "name": "Overall",
       "assetType": "Overall",
-      "afterTaxWithdrawls": 0,
-      "withdrawls": 0,
+      "afterTaxWithdrawal": 0,
+      "withdrawal": 0,
       "netCashOut": 0,
       "totalCashOut": 0,
       "yearlyAmount": [],
@@ -136,33 +171,34 @@ export class Results {
       if (element.preferred == true) { //find the best account options
         counter = 0;
         tAdditions += element.additions
-        tWithdrawls += element.withdrawls
-        tAfterTax += element.afterTaxWithdrawls
+        tWithdrawls += element.withdrawal
+        tAfterTax += element.afterTaxWithdrawal
         tNetCash += element.netCashOut
         tTotalCash += element.totalCashOut
 
-        element.yearlyAmount.forEach(element => {
+        element.yearlyAmount.forEach(element => { //add up all the amounts for the perfered accounts
           tYearlyAmount[counter] += element
           counter++;
         });
       }
     })
+    this.max = Math.max(...tYearlyAmount)
     overall.additions = tAdditions
-    overall.afterTaxWithdrawls = tAfterTax
+    overall.afterTaxWithdrawal = tAfterTax
     overall.netCashOut = tNetCash
     overall.totalCashOut = tTotalCash
-    overall.withdrawls = tWithdrawls
+    overall.withdrawal = tWithdrawls
     overall.yearlyAmount = tYearlyAmount
     overall.years = tYears
-    this.data.unshift(overall)
-    this.MakePage()
+    this.data.unshift(overall) //makes the overall table the first element
+    this.MakePage() //once the overall table is done we can create the pages
   }
 
   FillTableRows(currentSet): string {
     var tableString: string = '<tbody>';
     for (let j = 0; j < currentSet.years.length; j++) { //add all the yearly data to the table
       tableString += '<tr><td>' + currentSet.years[j] + '</td>' +
-        '<td>' + currentSet.yearlyAmount[j] + '</td>'
+        '<td>' + currentSet.yearlyAmount[j].toFixed(2) + '</td>'
       tableString += '</tr>'
     }
     tableString += '</tbody>'
@@ -170,9 +206,12 @@ export class Results {
   }
 
   BuildTable(currentSet) {
+    var withdrawlsString = '<table class="table table-dark table-sm"><tr><th>Withdrawal</th><td>'+currentSet.withdrawal+'</td></tr><tr><th>After Tax withdrawal</th><td>'+currentSet.afterTaxWithdrawal+'</td></tr></table>'
+    var totalString = '<table class="table table-dark table-sm"><tr><th>Total cash out</th><td>'+currentSet.totalCashOut+'</td></tr><tr><th>Net cash out</th><td>'+currentSet.netCashOut+'</td></tr></table>'
     var tableString: string = ''
     tableString +=
       '<div class="col">' +
+      withdrawlsString+
       '<table class="table table-dark table-sm">' +
       '<caption id="tableCaption">' + currentSet.assetType + '</caption>' + //Caption the table with the type
       '<thead>' +
@@ -182,7 +221,10 @@ export class Results {
       '</tr>' +
       '</thead>'
     tableString += this.FillTableRows(currentSet)
-    tableString += '</table></div>'
+    tableString += '</table>'+totalString+'</div>'
     return tableString
+  }
+  getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
   }
 }

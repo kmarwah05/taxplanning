@@ -4,14 +4,12 @@ namespace tax_planning.Models
 {
     public abstract class TraditionalRetirementAsset : Asset
     {
-        protected new decimal InterestRateMultiplier { get; set; } = 1.0M;
+        protected override decimal CalculateTaxOnAddition(decimal addition) => 0.00M;
 
-        protected override decimal CalculateTaxOnAddition(decimal addition)
+        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal, decimal income)
         {
-            var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
-            return addition * liability;
+            var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, income, 0.00M) / income;
+            return withdrawal * liability;
         }
-
-        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal) => 0.00M;
     }
 }

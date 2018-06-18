@@ -9,8 +9,8 @@ namespace tax_planning.Tests
     {
         public static IEnumerable<object[]> FutureValueCases()
         {
-            yield return new object[] { 30, 5500M, 121036.70M };
-            yield return new object[] { 30, 18500, 299492.18M };
+            yield return new object[] { 30, 5500M, 434820.02 };
+            yield return new object[] { 30, 18500, 1462576.44M };
         }
 
         [Theory]
@@ -46,7 +46,7 @@ namespace tax_planning.Tests
             throw new NotImplementedException();
         }
 
-        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal)
+        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal, decimal income)
         {
             throw new NotImplementedException();
         }
