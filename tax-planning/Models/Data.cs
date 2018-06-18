@@ -145,10 +145,11 @@ namespace Extensions
             List<Asset> sortedList = new List<Asset>();
 
             // Look at this elegant sorting algorithm >>>
-            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("401k")));
+
             sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("Roth 401k")));
-            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("IRA")));
+            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("401k")));
             sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("Roth IRA")));
+            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("IRA")));
             sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("Brokerage Holding")));
 
             return sortedList;
