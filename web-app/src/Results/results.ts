@@ -38,7 +38,7 @@ export class Results {
             dataset.data = [...dataset.data, element]
           });
           dataset.label = this.data[j].name
-          dataset.borderColor = 'rgba(' + 0 + ',' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',1)'
+          dataset.borderColor = 'rgba(' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',1)'
           dataset.fill = false
           datasets = [...datasets, dataset];
           console.log(this.data, dataset)
