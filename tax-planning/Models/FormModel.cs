@@ -28,9 +28,6 @@ namespace tax_planning.Models
         [Range(0, 1000000000000)]
         public decimal? CapitalGains { get; set; }
 
-        [Range(0, 1000000000000)]
-        public decimal? DesiredWithdrawalAmount { get; set; }
-
         [Required]
         [Range(0, 1000000000000)]
         public decimal? DesiredAdditions { get; set; }

@@ -72,7 +72,8 @@ namespace tax_planning.Models
                     Assets.Add(AssetFactory.Create(
                     name: asset.Name,
                     assetType: asset.Type,
-                    value: asset.Value
+                    value: asset.Value,
+                    matching: (asset.EmployerMatchProportion, asset.EmployerMatchCap)
                 ));
                 }
                 catch (Exception)
