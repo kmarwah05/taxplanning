@@ -1,22 +1,20 @@
 import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
 import $ from '../../node_modules/jquery/dist/jquery.js';
-
+import 'aurelia-ion-rangeslider';
 
 @inject(NewInstance.of(ValidationController))
-
-
 export class Home {
   counter: number = 0;
   assets = [];
-  name: string
-  type: string
-  value: string
+  name: string = ''
+  type: string = ''
+  value: string = ''
   filingStatus: string
   income: string
   basicAdjustment: string = '';
-  retirementDate: string
-  endOfPlan: string
+  retirementDate: string;
+  endOfPlan: string;
   capitalGains: string
   message = '';
   errors = []
@@ -48,10 +46,13 @@ export class Home {
 
   //stores data so that it can be used on the results page
   jsonify() {
-    if(this.name.length != 0 && this.type.length !=0 && this.value.length !=0)
-    {
+    if (this.name.length != 0 && this.type.length != 0 && this.value.length != 0) {
       this.addButton()
     }
+    var t = document.getElementById("test").innerText.split(",")
+    this.retirementDate = t[0]
+    this.endOfPlan = t[1]
+    console.log("T: ", t, " RD: ", this.retirementDate, " EOP: ", this.endOfPlan)
     sessionStorage.userData = JSON.stringify(
       {
         "filingStatus": this.filingStatus,
@@ -61,26 +62,21 @@ export class Home {
         "endOfPlanDate": this.endOfPlan,
         "capitalGains": this.capitalGains,
         "assets": this.assets,
-        "desiredAdditions": this.desiredAdditions,
-        "desiredWithdrawals": this.desiredWithdrawls
+        "desiredAdditions": this.desiredAdditions
       });
   }
 
   bind() {
     return this.assets
   }
-  
 
   constructor(private controller: ValidationController) {
     ValidationRules
       .ensure((m: Home) => m.filingStatus).displayName("Filing Status").required()
       .ensure((m: Home) => m.incomeValidate).displayName("Income value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.basicAdjustment).displayName("Basic Adjustment value").required().matches(new RegExp(/[0-9]/))
-      .ensure((m: Home) => m.retirementDate).displayName("Retirement Date in yyyy").required().matches(new RegExp(/^[0-9]{4}$/))
       .ensure((m: Home) => m.capitalGains).displayName("Capital gains value").required().matches(new RegExp(/[0-9]/))
-      .ensure((m: Home) => m.endOfPlan).displayName("End of Plan in yyyy").required().matches(new RegExp(/^[0-9]{4}$/))
-      .ensure((m: Home) => m.desiredAdditions).displayName("Desired Additions").required().matches(new RegExp(/[0-9]/))
-      .ensure((m: Home) => m.desiredWithdrawls).displayName("Desired Withdrawls").required().matches(new RegExp(/[0-9]/))
+      .ensure((m: Home) => m.desiredAdditions).displayName("Additions").required().matches(new RegExp(/[0-9]/))
       .on(this);
   }
 
@@ -97,19 +93,30 @@ export class Home {
       })
   }
 
-/*
-minYear = new Date().getFullYear()
-maxYear = this.minYear + 80
-
-myMin = this.minYear;
-myMax = this.maxYear;
-*/
-
-// sliders starts here
-
+  // sliders starts here
   attached() {
-  
-  }
-// sliders ends here
+    var from = new Date().getFullYear()
+    var to = this.endOfPlan
 
+    var date = new Date().getFullYear()
+    $(function () {
+      $('#range').ionRangeSlider({
+        min: date,
+        max: date + 80,
+        from: from,
+        to: to,
+        type: 'int',
+        grid: true,
+        grid_num: 10,
+        prettify_enabled: false,
+        onChange: function (data) {
+          $('#test').prop("innerText", [data.from, data.to])
+        },
+        onStart: function (data) {
+          $('#test').prop("innerText", [data.from, data.to])
+        }
+      });
+    });
+  }
+  // sliders ends here
 }

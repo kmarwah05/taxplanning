@@ -1,7 +1,8 @@
 body {
-  background-image:url("http://avante.biz/wp-content/uploads/Gradient-Wallpapers/Gradient-Wallpapers-048.jpg");
+  background-color:#ececec !important;
   background-attachment: fixed;
   color: white !important;
+  font-family: 'Krona One', sans-serif !important;
 }
 
 

@@ -38,7 +38,7 @@ export class Results {
             dataset.data = [...dataset.data, element]
           });
           dataset.label = this.data[j].name
-          dataset.borderColor = 'rgba(' + 0 + ',' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',1)'
+          dataset.borderColor = 'rgba(' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',1)'
           dataset.fill = false
           datasets = [...datasets, dataset];
           console.log(this.data, dataset)
@@ -64,9 +64,9 @@ export class Results {
           scales: {
             yAxes: [{
               ticks: {
-                max: (Math.ceil(this.max*1.1/10000)*10000),
+                max: (Math.ceil(this.max * 1.1 / 10000) * 10000),
                 beginAtZero: true,
-                
+
               }
             }]
           }
@@ -114,7 +114,7 @@ export class Results {
         carouselInternal += '<div class="item container active">'
         carouselInternal += '<div class="col"><canvas id="chart' + counter + '">' +
           '</canvas></div>'
-        
+
         tableString += this.BuildTable(this.data[counter]) //make the table inside the container
         counter++;
       }
@@ -198,7 +198,7 @@ export class Results {
     var tableString: string = '<tbody>';
     for (let j = 0; j < currentSet.years.length; j++) { //add all the yearly data to the table
       tableString += '<tr><td>' + currentSet.years[j] + '</td>' +
-        '<td>' + currentSet.yearlyAmount[j].toFixed(2) + '</td>'
+        '<td>$' + this.numberWithCommas(currentSet.yearlyAmount[j].toFixed(2)) + '</td>'
       tableString += '</tr>'
     }
     tableString += '</tbody>'
@@ -206,12 +206,13 @@ export class Results {
   }
 
   BuildTable(currentSet) {
-    var withdrawlsString = '<table class="table table-dark table-sm"><tr><th>Withdrawal</th><td>'+currentSet.withdrawal+'</td></tr><tr><th>After Tax withdrawal</th><td>'+currentSet.afterTaxWithdrawal+'</td></tr></table>'
-    var totalString = '<table class="table table-dark table-sm"><tr><th>Total cash out</th><td>'+currentSet.totalCashOut+'</td></tr><tr><th>Net cash out</th><td>'+currentSet.netCashOut+'</td></tr></table>'
+    var sliderString = '<div class="range-slider"><input type="text" class="js-range-slider"/></div>'
+    var withdrawlsString = '<table class="table table-dark table-sm"><tr><th>Withdrawal rate</th><td>$' + this.numberWithCommas(currentSet.withdrawal.toFixed(2)) + '</td></tr><tr><th>After Tax withdrawal rate</th><td>$' + this.numberWithCommas(currentSet.afterTaxWithdrawal.toFixed(2)) + '</td></tr></table>'
+    var totalString = '<table class="table table-dark table-sm"><tr><th>Total cash out</th><td>$' + this.numberWithCommas(currentSet.totalCashOut.toFixed(2)) + '</td></tr><tr><th>Net cash out</th><td>$' + this.numberWithCommas(currentSet.netCashOut.toFixed(2)) + '</td></tr></table>'
     var tableString: string = ''
     tableString +=
       '<div class="col">' +
-      withdrawlsString+
+      withdrawlsString +
       '<table class="table table-dark table-sm">' +
       '<caption id="tableCaption">' + currentSet.assetType + '</caption>' + //Caption the table with the type
       '<thead>' +
@@ -221,10 +222,13 @@ export class Results {
       '</tr>' +
       '</thead>'
     tableString += this.FillTableRows(currentSet)
-    tableString += '</table>'+totalString+'</div>'
+    tableString += '</table>' + totalString + '</div>'
     return tableString
   }
   getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
+  }
+  numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 }
