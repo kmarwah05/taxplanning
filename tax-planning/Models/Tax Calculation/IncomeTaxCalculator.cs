@@ -5,8 +5,13 @@ namespace tax_planning.Models.Tax_Calculation
 {
     public class IncomeTaxCalculator
     {
-        public static decimal CapitalGainsTaxFor(FilingStatus status, decimal gain) =>
-            CalculateGraduatedTaxFor(status: status, jurisdiction: "Capital Gains", income: gain, basicAdjustment: 0.00M);
+        public static decimal CapitalGainsTaxFor(FilingStatus status, decimal gain, decimal income)
+        {
+            income -= GetStandardDeduction(filingStatus: status, jurisdiction: "Federal");
+            var bracket = TaxBrackets.CapitalGainsBracketFor(status, income);
+            var rate = TaxBrackets.CapitalGainsRateForBracket[bracket];
+            return gain * rate;
+        }
 
         public static decimal TotalIncomeTaxFor(FilingStatus status, decimal income, decimal basicAdjustment) =>
             FederalTaxFor(status, income, basicAdjustment) + VaStateTaxFor(status, income);
@@ -29,11 +34,7 @@ namespace tax_planning.Models.Tax_Calculation
                     break;
                 case "VA State":
                     brackets = TaxBrackets.VaStateBrackets();
-                    rateForBracket = TaxBrackets.VaStateIncomeRateForBracket.Select(x => (float)x).ToArray();
-                    break;
-                case "Capital Gains":
-                    brackets = TaxBrackets.CapitalGainsBracketsFor(filingStatus: status);
-                    rateForBracket = TaxBrackets.CapitalGainsRateForBracket.Select(x => (float)x).ToArray();
+                    rateForBracket = TaxBrackets.VaStateIncomeRateForBracket.Select(x => x).ToArray();
                     break;
                 default:
                     Console.WriteLine("Jurisdiction not supported");
@@ -54,7 +55,7 @@ namespace tax_planning.Models.Tax_Calculation
                 i++;
             }
 
-            var cherryOnTop = (float)(income - brackets[i].lowerBound - basicAdjustment - ranges.Take(i).Sum()) * rateForBracket[i];
+            var cherryOnTop = (float)(income - brackets[i].lowerBound - basicAdjustment) * rateForBracket[i];
 
             return (decimal)(tax + cherryOnTop);
         }
@@ -96,6 +97,8 @@ namespace tax_planning.Models.Tax_Calculation
                             standardDeduction = 3000.00M;
                             break;
                     }
+                    break;
+                case "Capital Gains":
                     break;
                 default:
                     Console.WriteLine("Jurisdiction not supported");

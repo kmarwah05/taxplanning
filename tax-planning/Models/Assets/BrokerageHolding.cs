@@ -6,9 +6,9 @@ namespace tax_planning.Models
     {
         protected override decimal CalculateTaxOnAddition(decimal addition) => 0.00M;
 
-        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal)
+        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal, decimal income)
         {
-            return IncomeTaxCalculator.CapitalGainsTaxFor(Data.FilingStatus, withdrawal); ;
+            return IncomeTaxCalculator.CapitalGainsTaxFor(Data.FilingStatus, withdrawal, income);
         }
     }
 }

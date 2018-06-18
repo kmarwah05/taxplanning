@@ -19,7 +19,7 @@ namespace tax_planning.Models
         {
             get
             {
-                return _InterestRate * InterestRateMultiplier.Value;
+                return _InterestRate * InterestRateMultiplier;
             }
             set
             {
@@ -56,8 +56,11 @@ namespace tax_planning.Models
 
         public decimal NetCashOut { get; set; }
 
-        protected decimal? InterestRateMultiplier { get; set; }
+        protected decimal InterestRateMultiplier { get; set; } = 1.0M;
 
+        private readonly int RetirementLength = Data.EndOfPlanDate - Data.RetirementDate;
+
+        private readonly int TimeToRetirement = Data.RetirementDate - DateTime.Today.Year;
 
         // Methods
 
@@ -66,46 +69,45 @@ namespace tax_planning.Models
         public void CalculateSchedule()
         {
             // If InterestRateMultiplier is not overridden
-            if (InterestRateMultiplier == null)
+            if (GetType() == typeof(BrokerageHolding))
             {
                 var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
                 InterestRateMultiplier = 1 - liability;
             }
 
-            var retirementLength = Data.EndOfPlanDate - Data.RetirementDate;
-            var timeToRetirement = Data.RetirementDate - DateTime.Today.Year;
-
             List<decimal> amounts = new List<decimal>();
 
             // Add additions up to retirement
-            for (var i = 1; i <= timeToRetirement; i++)
+            for (var i = 1; i <= TimeToRetirement; i++)
             {
                 amounts.Add(Decimal.Round(GetFutureValueAfter(years: i, withAdditions: (Additions - CalculateTaxOnAddition(Additions))), 2));
             }
 
             // Get the withdrawal
-            var delta = GetWithdrawalFor(amounts[timeToRetirement - 1], retirementLength);
+            var delta = GetWithdrawalFor(amounts[TimeToRetirement - 1], RetirementLength);
 
-            // If InterestRateMultiplier is not overridden
-            if (InterestRateMultiplier != 1.0M)
-            {
-                InterestRate = 0.06M;
-                var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.RetirementIncome, Data.BasicAdjustment) / Data.RetirementIncome;
-                InterestRateMultiplier = 1 - liability;
-            }
+            //// If InterestRateMultiplier is not overridden
+            //if (GetType() == typeof(BrokerageHolding))
+            //{
+            //    var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.RetirementIncome, Data.BasicAdjustment) / Data.RetirementIncome;
+            //    InterestRateMultiplier = 1 - liability;
+            //}
 
             // Populate the rest of the schedule
-            for (var i = timeToRetirement; i < retirementLength + timeToRetirement; i++)
+            for (var i = TimeToRetirement; i < RetirementLength + TimeToRetirement; i++)
             {
                 amounts.Add(Decimal.Round(CalculateNextYearAmount(amounts[i - 1], -delta), 2));
             }
 
             Withdrawal = Decimal.Round(delta, 2);
-            AfterTaxWithdrawal = Decimal.Round(Withdrawal - CalculateTaxOnWithdrawal(Withdrawal), 2);
             YearlyAmount = amounts;
-            TotalCashOut = Decimal.Round(AfterTaxWithdrawal * retirementLength, 2);
+        }
+
+        public void CalculateData()
+        {
+            AfterTaxWithdrawal = Decimal.Round(Withdrawal - CalculateTaxOnWithdrawal(Withdrawal, Data.RetirementIncome), 2);
+            TotalCashOut = Decimal.Round(AfterTaxWithdrawal * RetirementLength, 2);
             NetCashOut = Decimal.Round(TotalCashOut - Additions, 2);
-            Data.RetirementIncome += Withdrawal;
         }
 
         protected decimal GetWithdrawalFor(decimal principal, int steps)
@@ -131,6 +133,6 @@ namespace tax_planning.Models
 
         // Abstract methods
         protected abstract decimal CalculateTaxOnAddition(decimal addition);
-        protected abstract decimal CalculateTaxOnWithdrawal(decimal withdrawal);
+        protected abstract decimal CalculateTaxOnWithdrawal(decimal withdrawal, decimal income);
     }
 }
