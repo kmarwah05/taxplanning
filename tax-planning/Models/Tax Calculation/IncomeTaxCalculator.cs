@@ -42,6 +42,7 @@ namespace tax_planning.Models.Tax_Calculation
             }
 
             income -= GetStandardDeduction(filingStatus: status, jurisdiction: jurisdiction);
+            income = income < 0.00M ? 0.00M : income;
 
             // After standard deduction
             var ranges = brackets.Select(bracket => bracket.upperBound - bracket.lowerBound);
