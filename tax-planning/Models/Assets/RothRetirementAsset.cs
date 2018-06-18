@@ -10,11 +10,6 @@ namespace tax_planning.Models
             return addition * liability;
         }
 
-        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal) => 0.00M;
-
-        public RothRetirementAsset()
-        {
-            InterestRateMultiplier = 1.0M;
-        }
+        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawa, decimal income) => 0.00M;
     }
 }

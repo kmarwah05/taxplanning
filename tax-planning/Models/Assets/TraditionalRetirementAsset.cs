@@ -6,15 +6,10 @@ namespace tax_planning.Models
     {
         protected override decimal CalculateTaxOnAddition(decimal addition) => 0.00M;
 
-        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal)
+        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal, decimal income)
         {
-            var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
+            var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, income, 0.00M) / income;
             return withdrawal * liability;
-        }
-
-        public TraditionalRetirementAsset()
-        {
-            InterestRateMultiplier = 1.0M;
         }
     }
 }

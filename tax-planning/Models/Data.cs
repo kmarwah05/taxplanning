@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using tax_planning.Models;
 
 namespace tax_planning.Models
 {
@@ -23,6 +24,7 @@ namespace tax_planning.Models
 
         public static List<Asset> Assets { get; set; } = new List<Asset>();
 
+        // [0] additions for 401k, [1] additions for IRA, [2] leftovers go in equity
         private static List<decimal> Additions
         {
             get
@@ -110,7 +112,9 @@ namespace tax_planning.Models
                 pair.Item2.Preferred = !pair.Item1.Preferred;
             });
 
-            Assets.FindAll(asset => asset.Preferred).ForEach(asset => RetirementIncome += asset.AfterTaxWithdrawal);
+            // Calculates tax information
+            Assets.FindAll(asset => asset.Preferred).ForEach(asset => RetirementIncome += asset.Withdrawal);
+            Assets.ForEach(asset => asset.CalculateData());
         }
 
         private static List<(TraditionalRetirementAsset, RothRetirementAsset)> GetAssetPairs()
@@ -128,6 +132,26 @@ namespace tax_planning.Models
                 iras.Find(ira => ira.AssetType.Contains("Roth")) as RothRetirementAsset));
 
             return pairs;
+        }
+    }
+}
+
+namespace Extensions
+{
+    public static class AssetListExtensions
+    {
+        public static List<Asset> Sort(this List<Asset> unsortedList)
+        {
+            List<Asset> sortedList = new List<Asset>();
+
+            // Look at this elegant sorting algorithm >>>
+            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("401k")));
+            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("Roth 401k")));
+            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("IRA")));
+            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("Roth IRA")));
+            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("Brokerage Holding")));
+
+            return sortedList;
         }
     }
 }

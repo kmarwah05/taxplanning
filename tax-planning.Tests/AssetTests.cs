@@ -7,11 +7,6 @@ namespace tax_planning.Tests
 {
     public class AssetTests : Asset
     {
-        public AssetTests()
-        {
-            InterestRateMultiplier = 1.0M;
-        }
-
         public static IEnumerable<object[]> FutureValueCases()
         {
             yield return new object[] { 30, 5500M, 434820.02 };
@@ -51,7 +46,7 @@ namespace tax_planning.Tests
             throw new NotImplementedException();
         }
 
-        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal)
+        protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal, decimal income)
         {
             throw new NotImplementedException();
         }
