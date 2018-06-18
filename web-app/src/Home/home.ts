@@ -31,7 +31,6 @@ export class Home {
     this.name = ''
     this.type = ''
     this.value = ''
-    this.jsonify()
   }
 
   removeButton(id) {
@@ -47,9 +46,9 @@ export class Home {
 
   //stores data so that it can be used on the results page
   jsonify() {
-    // if (this.name.length != 0 && this.type.length != 0 && this.value.length != 0) {
-    //   this.addButton()
-    // }
+    if (this.name.length != 0 && this.type.length != 0 && this.value.length != 0) {
+      this.addButton()
+    }
     var t = document.getElementById("test").innerText.split(",")
     this.retirementDate = t[0]
     this.endOfPlan = t[1]
@@ -65,18 +64,6 @@ export class Home {
         "assets": this.assets,
         "desiredAdditions": this.desiredAdditions
       });
-    console.log(sessionStorage.userData = JSON.stringify(
-      {
-        "filingStatus": this.filingStatus,
-        "income": this.incomeValidate,
-        "basicAdjustment": this.basicAdjustment,
-        "retirementDate": this.retirementDate,
-        "endOfPlanDate": this.endOfPlan,
-        "capitalGains": this.capitalGains,
-        "assets": this.assets,
-        "desiredAdditions": this.desiredAdditions,
-        "desiredWithdrawals": this.desiredWithdrawls
-      }))
   }
 
   bind() {
