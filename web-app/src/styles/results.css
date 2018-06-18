@@ -1,8 +1,8 @@
 body {
   background-color:#ececec !important;
   background-attachment: fixed;
-  color: white !important;
-  font-family: 'Krona One', sans-serif !important;
+  color: rgb(0, 0, 0) !important;
+  font-family: sans-serif !important;
 }
 
 
@@ -16,4 +16,13 @@ body {
 
 .tables {
   margin-bottom: 100px; 
+}
+
+#add{
+  display: none;
+}
+
+.js-input{
+  display: block;
+  clear: both;
 }
