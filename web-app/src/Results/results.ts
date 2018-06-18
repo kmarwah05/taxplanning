@@ -206,6 +206,7 @@ export class Results {
   }
 
   BuildTable(currentSet) {
+    var sliderString = '<div class="range-slider"><input type="text" class="js-range-slider"/></div>'
     var withdrawlsString = '<table class="table table-dark table-sm"><tr><th>Withdrawal rate</th><td>$' + this.numberWithCommas(currentSet.withdrawal.toFixed(2)) + '</td></tr><tr><th>After Tax withdrawal rate</th><td>$' + this.numberWithCommas(currentSet.afterTaxWithdrawal.toFixed(2)) + '</td></tr></table>'
     var totalString = '<table class="table table-dark table-sm"><tr><th>Total cash out</th><td>$' + this.numberWithCommas(currentSet.totalCashOut.toFixed(2)) + '</td></tr><tr><th>Net cash out</th><td>$' + this.numberWithCommas(currentSet.netCashOut.toFixed(2)) + '</td></tr></table>'
     var tableString: string = ''

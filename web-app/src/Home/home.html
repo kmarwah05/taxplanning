@@ -31,7 +31,7 @@
       <div class="row">
       
         <div class="col-xs-6">
-            <label for="filStatus" class="col-sm-4 control-label" id="filingStatus" type="text">Filing Status:</label>
+            <label for="filStatus" class="control-label" id="filingStatus" type="text">Filing Status:</label>
             <select class="form-control mySelect" value.bind="filingStatus & validate">
                 <option value="" disabled selected>Select one...</option>
                 <option value="Joint">Joint</option>
@@ -42,7 +42,7 @@
         </div>
 
         <div class="col-xs-6">
-            <label for="incomeRange" class="col-sm-4 control-label" id="incomeRange" type="text">Select Income:</label>
+            <label for="incomeRange" class="control-label" id="incomeRange" type="text">Select Income:</label>
             <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
         </div>
       </div>
@@ -50,18 +50,18 @@
       <br>
 
       <div class="row">
-        <div class="col-xs-3">
-            <label for="bAdjustment" class="col-sm-4 control-label" id="basicAdjustment">Basic Adjustment:</label>
+        <div class="col-xs-4">
+            <label for="bAdjustment" class="control-label" id="basicAdjustment">Basic Adjustment:</label>
             <input type="basicInput" class="form-control" name="BasicAdjustment" placeholder="Enter Basic Adjustment" value.bind="basicAdjustment & validate">
         </div>
 
         <div class="col-xs-4">
-            <label for="cGains" class="col-sm-4 control-label" id="capitalGains">Capital Gains:</label>
+            <label for="cGains" class="control-label" id="capitalGains">Capital Gains:</label>
             <input type="capitalGains" class="form-control" name="CapitalGains" placeholder="Capital Gains" value.bind="capitalGains & validate">
         </div>
 
-        <div class="col-xs-5">
-            <label for="dAdditions" class="col-sm-4 control-label" id="desiredAdditions">Additions:</label>
+        <div class="col-xs-4">
+            <label for="dAdditions" class="control-label" id="desiredAdditions">Additions:</label>
             <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Desired Additions" value.bind="desiredAdditions & validate">
         </div>
 
@@ -71,7 +71,7 @@
         <br><br><br>
 
          <!--SLIDERS START-->
-         <input type="text" id="range" name="range" value.bind="retirementDate & validate" />
+         <input type="text" id="range" name="range" />
          <p id = "test"></p>
          <!--SLIDERS END-->
 

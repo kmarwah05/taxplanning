@@ -1,15 +1,9 @@
-import { Home } from './home';
 import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
 import $ from '../../node_modules/jquery/dist/jquery.js';
 import 'aurelia-ion-rangeslider';
-;
-
 
 @inject(NewInstance.of(ValidationController))
-
-
-
 export class Home {
   counter: number = 0;
   assets = [];
@@ -59,7 +53,7 @@ export class Home {
     var t = document.getElementById("test").innerText.split(",")
     this.retirementDate = t[0]
     this.endOfPlan = t[1]
-    console.log("T: ",t," RD: ",this.retirementDate," EOP: ",this.endOfPlan)
+    console.log("T: ", t, " RD: ", this.retirementDate, " EOP: ", this.endOfPlan)
     sessionStorage.userData = JSON.stringify(
       {
         "filingStatus": this.filingStatus,
@@ -71,24 +65,23 @@ export class Home {
         "assets": this.assets,
         "desiredAdditions": this.desiredAdditions
       });
-      console.log(sessionStorage.userData = JSON.stringify(
-        {
-          "filingStatus": this.filingStatus,
-          "income": this.incomeValidate,
-          "basicAdjustment": this.basicAdjustment,
-          "retirementDate": this.retirementDate,
-          "endOfPlanDate": this.endOfPlan,
-          "capitalGains": this.capitalGains,
-          "assets": this.assets,
-          "desiredAdditions": this.desiredAdditions,
-          "desiredWithdrawals": this.desiredWithdrawls
-        }))
+    console.log(sessionStorage.userData = JSON.stringify(
+      {
+        "filingStatus": this.filingStatus,
+        "income": this.incomeValidate,
+        "basicAdjustment": this.basicAdjustment,
+        "retirementDate": this.retirementDate,
+        "endOfPlanDate": this.endOfPlan,
+        "capitalGains": this.capitalGains,
+        "assets": this.assets,
+        "desiredAdditions": this.desiredAdditions,
+        "desiredWithdrawals": this.desiredWithdrawls
+      }))
   }
 
   bind() {
     return this.assets
   }
-
 
   constructor(private controller: ValidationController) {
     ValidationRules
@@ -97,7 +90,6 @@ export class Home {
       .ensure((m: Home) => m.basicAdjustment).displayName("Basic Adjustment value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.capitalGains).displayName("Capital gains value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.desiredAdditions).displayName("Additions").required().matches(new RegExp(/[0-9]/))
-      .ensure((m: Home) => m.retirementDate).displayName("Retirement Date and End of Plan").required()
       .on(this);
   }
 
@@ -114,10 +106,7 @@ export class Home {
       })
   }
 
-
-
   // sliders starts here
-
   attached() {
     var from = new Date().getFullYear()
     var to = this.endOfPlan
@@ -132,33 +121,15 @@ export class Home {
         type: 'int',
         grid: true,
         grid_num: 10,
-        onChange: function (data){
-          $('#test').prop("innerText",[data.from, data.to])
+        prettify_enabled: false,
+        onChange: function (data) {
+          $('#test').prop("innerText", [data.from, data.to])
         },
-        onStart: function (data){
-          $('#test').prop("innerText",[data.from, data.to])
+        onStart: function (data) {
+          $('#test').prop("innerText", [data.from, data.to])
         }
       });
     });
-
   }
-
-
   // sliders ends here
-
 }
-
- /*
-    $('#range').on("change", function () {
-      var $this = $(this),
-        value = $this.prop("value").split(";");
-      this.retirementDate = value[0]
-      console.log("ON FINISH:", this.retirementDate)
-      this.endOfPlan = value[1] 
-      this.save(value[0],value[1])
-    })
-    
-     save(from , to){
-    this.retirementDate = from;
-    this.endOfPlan = to;
-    */
