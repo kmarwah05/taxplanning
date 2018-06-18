@@ -23,6 +23,8 @@ namespace tax_planning.Models
     
         public static decimal DesiredAdditions { get; set; }
 
+        public static int NumberOfChildren { get; set; }
+
         public static List<Asset> Assets { get; set; } = new List<Asset>();
 
         // [0] additions for 401k, [1] additions for IRA, [2] leftovers go in equity
@@ -63,6 +65,7 @@ namespace tax_planning.Models
             RetirementDate = formModel.RetirementDate.Value;
             EndOfPlanDate = formModel.EndOfPlanDate.Value;
             DesiredAdditions = formModel.DesiredAdditions.Value;
+            NumberOfChildren = formModel.NumberOfDependents;
 
             // Generate existing assets
             foreach (var asset in formModel.Assets)

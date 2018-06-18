@@ -32,6 +32,10 @@ namespace tax_planning.Models
         [Range(0, 1000000000000)]
         public decimal? DesiredAdditions { get; set; }
 
+        [Required]
+        [Range(0, int.MaxValue)]
+        public int NumberOfDependents { get; set; }
+
         public IEnumerable<AssetModel> Assets { get; set; }
     }
 }

@@ -58,7 +58,18 @@ namespace tax_planning.Models.Tax_Calculation
 
             var cherryOnTop = (float)(income - brackets[i].lowerBound - basicAdjustment) * rateForBracket[i];
 
-            return (decimal)(tax + cherryOnTop);
+            var preCredit = tax + cherryOnTop;
+
+            var childTaxCredit = 2000.0f;
+
+            switch (status)
+            {
+                // Weird exceptions
+            }
+
+            childTaxCredit *= Data.NumberOfChildren;
+
+            return (decimal)(preCredit - childTaxCredit);
         }
 
         private static decimal GetStandardDeduction(FilingStatus filingStatus, string jurisdiction)
