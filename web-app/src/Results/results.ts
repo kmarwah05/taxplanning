@@ -27,21 +27,28 @@ export class Results {
         data: [],
         label: "",
         borderColor: "",
-        fill: false
+        backgroundColor: "",
+        fill: false,
+        pointBackgroundColor: ""
       }
       if (i == 0) {
         for (let j = 0; j < this.data.length; j++) {
+          var randomColor = 'rgba(' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',1)'
           dataset = {
             data: [],
             label: "",
             borderColor: "",
-            fill: false
+            backgroundColor: "",
+            fill: false,
+            pointBackgroundColor: ""
           }
           this.data[j].yearlyAmount.forEach(element => {
             dataset.data = [...dataset.data, element]
           });
           dataset.label = this.data[j].name
-          dataset.borderColor = 'rgba(' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',1)'
+          dataset.pointBackgroundColor = randomColor
+          dataset.borderColor = randomColor
+          dataset.backgroundColor = randomColor
           dataset.fill = false
           datasets = [...datasets, dataset];
           console.log(this.data, dataset)
@@ -53,6 +60,8 @@ export class Results {
           label: 'Total Value',
           data: amount,
           borderColor: 'rgba(255,99,132,1)',
+          backgroundColor: "rgba(255,99,132,1)",
+          pointBackgroundColor: "rgba(255,99,132,1)",
           fill: false
         }
         ]
@@ -73,11 +82,18 @@ export class Results {
               }
             }]
           },
+          hover: {
+            mode: 'nearest',
+            intersect: true
+          },
           tooltips: {
-            mode: 'label',
+            mode: 'index',
+            intersect: false,
             callbacks: {
               label: function (tooltipItem, data) {
-                // var datasetLabel = data.datasets[tooltipItem.]
+                var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
+                var label = (data.datasets[tooltipItem.datasetIndex].data[tooltipItem.datasetIndex]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                return datasetLabel+': $'+label;
               }
             }
           }
@@ -104,12 +120,11 @@ export class Results {
       .then(data => {
         console.log(data)
         let temp = data
-        data = data.map(x => x.yearlyAmount.map(e => e > 0 ? e : 0))  //yup you read that right... 
+        data = data.map(x => x.yearlyAmount.map(e => e > 0 ? e : 0))
         for (let i = 0; i < data.length; i++) {
           temp[i].yearlyAmount = data[i]
         }
         this.data = temp
-        console.log(this.data)
       })
       .then(nothing => {
         this.BuildOverall()
