@@ -95,14 +95,13 @@ export class Home {
 
   // sliders starts here
   attached() {
-    var from = new Date().getFullYear()
-    var to = this.endOfPlan
+    var from = new Date().getFullYear()+1
+    var to = from + 80
 
-    var date = new Date().getFullYear()
     $(function () {
       $('#range').ionRangeSlider({
-        min: date,
-        max: date + 80,
+        min: from,
+        max: to,
         from: from,
         to: to,
         type: 'int',
@@ -117,6 +116,10 @@ export class Home {
         }
       });
     });
+
+   
   }
   // sliders ends here
+
+
 }
