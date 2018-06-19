@@ -1,9 +1,27 @@
 .heading {
-  font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif;
+  /*font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif;*/
+  font-family: 'Muli', sans-serif;
   color: #333;
 }
 
 .text {
-  font-family: 'Merriweather', 'Times New Roman', Times, serif;
+ /* font-family: 'Merriweather', 'Times New Roman', Times, serif;*/
+ font-family: 'Muli', sans-serif;
   color: #333;
+}
+
+#myPara{
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: #5a5959;
+  -webkit-box-shadow: 0 0 13px 3px rgba(0,0,0,.5);
+  box-shadow: 0 0 13px 3px rgb(0, 0, 0,.5);
+  overflow: hidden;
+  padding: 25px;
+  color: white;
 }
