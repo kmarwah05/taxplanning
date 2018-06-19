@@ -72,6 +72,14 @@ export class Results {
 
               }
             }]
+          },
+          tooltips: {
+            mode: 'label',
+            callbacks: {
+              label: function (tooltipItem, data) {
+                // var datasetLabel = data.datasets[tooltipItem.]
+              }
+            }
           }
         }
       });
