@@ -11,11 +11,9 @@ namespace tax_planning.Models
     
         public static decimal Income { get; set; }
 
-        public static decimal RetirementIncome { get; set; }
-
         public static decimal BasicAdjustment { get; set; }
-    
-        public static decimal CapitalGains { get; set; }
+
+        public static decimal RetirementIncome { get; set; }
     
         public static int RetirementDate { get; set; }
     
@@ -67,8 +65,6 @@ namespace tax_planning.Models
             // Get data, explicit conversions ok because all nullable fields marked with Required DataAnnotation
             FilingStatus = formModel.FilingStatus.Value;
             Income = formModel.Income.Value;
-            BasicAdjustment = formModel.BasicAdjustment;
-            CapitalGains = formModel.CapitalGains.Value;
             RetirementDate = formModel.RetirementDate.Value;
             EndOfPlanDate = formModel.EndOfPlanDate.Value;
             DesiredAdditions = formModel.DesiredAdditions.Value;

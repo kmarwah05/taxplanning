@@ -70,5 +70,9 @@ namespace tax_planning.Models
                 base.CalculateData();
             }
         }
+
+        protected override void UpdateCapsFor(int age)
+        {
+        }
     }
 }
