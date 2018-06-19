@@ -13,9 +13,6 @@ namespace tax_planning.Models
         [Range(0, 1000000000000)]
         public decimal? Income { get; set; }
 
-        [Range(0, 1000000000000)]
-        public decimal BasicAdjustment { get; set; }
-
         [Required]
         [Range(1900, 2200)]
         public int? RetirementDate { get; set; }
@@ -23,10 +20,6 @@ namespace tax_planning.Models
         [Required]
         [Range(1900, 2200)]
         public int? EndOfPlanDate { get; set; }
-
-        [Required]
-        [Range(0, 1000000000000)]
-        public decimal? CapitalGains { get; set; }
 
         [Required]
         [Range(0, 1000000000000)]

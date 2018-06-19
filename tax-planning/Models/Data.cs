@@ -21,7 +21,7 @@ namespace tax_planning.Models
     
         public static decimal DesiredAdditions { get; set; }
 
-        public static List<int> ChildrensAges { get; set; }
+        public static List<int> ChildrensAges { get; set; } = new List<int>();
 
         public static int NumberOfChildren
         {
@@ -91,6 +91,8 @@ namespace tax_planning.Models
             Assets.AddRange(AssetFactory.Complete(Assets));
             Assets = Assets.SortAssets();
 
+            Assets.ForEach(asset => asset.CalculateSchedule());
+
             // Picks preferred assets
             Assets.FindAll(asset => asset.AssetType.Equals("Brokerage Holding")).ForEach(holding => holding.Preferred = true);
             var assetPairs = GetAssetPairs();
@@ -102,7 +104,11 @@ namespace tax_planning.Models
             });
 
             // Calculates tax information
-            Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset => RetirementIncome += asset.Withdrawal);
+            Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset =>
+            {
+                RetirementIncome += asset.Withdrawal;
+                Console.WriteLine(asset.Withdrawal);
+            });
             Assets.ForEach(asset => asset.CalculateData());
         }
 
@@ -134,7 +140,6 @@ namespace Extensions
             List<Asset> sortedList = new List<Asset>();
 
             // Look at this elegant sorting algorithm >>>
-
             sortedList.AddRange(unsortedList.FindAll(asset => asset.AssetType.Equals("Roth 401k")));
             sortedList.AddRange(unsortedList.FindAll(asset => asset.AssetType.Equals("401k")));
             sortedList.AddRange(unsortedList.FindAll(asset => asset.AssetType.Equals("Roth IRA")));
