@@ -96,20 +96,31 @@ namespace tax_planning.Models
             // Picks preferred assets
             Assets.FindAll(asset => asset.AssetType.Equals("Brokerage Holding")).ForEach(holding => holding.Preferred = true);
             var assetPairs = GetAssetPairs();
+            var maximum = 0.0M;
 
             assetPairs.ForEach(pair =>
             {
-                pair.Item1.Preferred = pair.Item1.AfterTaxWithdrawal > pair.Item2.AfterTaxWithdrawal;
+                pair.Item1.Preferred = pair.Item1.Withdrawal > pair.Item2.Withdrawal;
                 pair.Item2.Preferred = !pair.Item1.Preferred;
             });
 
-            // Calculates tax information
-            Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset =>
+            for (var i = 0; i < 4; i++)
             {
-                RetirementIncome += asset.Withdrawal;
-                Console.WriteLine(asset.Withdrawal);
-            });
-            Assets.ForEach(asset => asset.CalculateData());
+                if (i % 2 == 0)
+                {
+                    assetPairs[0].Item1.Preferred = !assetPairs[0].Item1.Preferred;
+                    assetPairs[0].Item2.Preferred = !assetPairs[0].Item2.Preferred;
+                } else
+                {
+                    assetPairs[1].Item1.Preferred = !assetPairs[1].Item1.Preferred;
+                    assetPairs[1].Item2.Preferred = !assetPairs[1].Item2.Preferred;
+                }
+
+                // Calculates tax information
+                RetirementIncome = 0;
+                Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset => RetirementIncome += asset.Withdrawal);
+                Assets.ForEach(asset => asset.CalculateData());
+            }
         }
 
         // Updates contribution caps, used in Asset.CalculateSchedule()
