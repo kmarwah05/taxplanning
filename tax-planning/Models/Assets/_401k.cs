@@ -7,7 +7,7 @@ namespace tax_planning.Models
     {
         private decimal _Withdrawal;
 
-        public static decimal MaxContributions => 18500.00M;
+        public static decimal MaxContributions = 18500.00M;
 
         public override decimal Additions
         {
@@ -70,11 +70,11 @@ namespace tax_planning.Models
             }
         }
 
-        protected override void UpdateCapsFor(int age)
+        public override void UpdateCapsFor(int age)
         {
             if (age >= 50)
             {
-
+                MaxContributions = 22500.00M;
             }
         }
     }

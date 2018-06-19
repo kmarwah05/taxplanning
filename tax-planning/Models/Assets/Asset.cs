@@ -135,6 +135,6 @@ namespace tax_planning.Models
         // Abstract methods
         protected abstract decimal CalculateTaxOnAddition(decimal addition);
         protected abstract decimal CalculateTaxOnWithdrawal(decimal withdrawal, decimal income);
-        protected abstract void UpdateCapsFor(int age);
+        public abstract void UpdateCapsFor(int age);
     }
 }

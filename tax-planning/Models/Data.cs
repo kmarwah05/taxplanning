@@ -112,6 +112,12 @@ namespace tax_planning.Models
             Assets.ForEach(asset => asset.CalculateData());
         }
 
+        // Updates contribution caps, used in Asset.CalculateSchedule()
+        public static void UpdateCapsFor(int age)
+        {
+            Assets.ForEach(asset => asset.UpdateCapsFor(age));
+        }
+
         private static List<(TraditionalRetirementAsset, RothRetirementAsset)> GetAssetPairs()
         {
             List<(TraditionalRetirementAsset, RothRetirementAsset)> pairs = new List<(TraditionalRetirementAsset, RothRetirementAsset)>();
