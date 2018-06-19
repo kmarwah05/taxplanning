@@ -5,7 +5,6 @@ namespace tax_planning.Models
 {
     public class Roth401k : RothRetirementAsset
     {
-        private decimal _Additions;
         private decimal _Withdrawal;
 
         public static decimal MaxContributions => 18500.00M;
@@ -14,10 +13,7 @@ namespace tax_planning.Models
 
         public override decimal Additions
         {
-            get
-            {
-                return _Additions;
-            }
+            get => Data.Additions[0];
             set
             {
                 if (Match != null)
@@ -26,7 +22,6 @@ namespace tax_planning.Models
                             Data.Income * EmployerMatchCap :
                             value * EmployerMatchPercentage;
                 }
-                _Additions = value;
             }
         }
 
