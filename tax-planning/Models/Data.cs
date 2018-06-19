@@ -120,6 +120,29 @@ namespace tax_planning.Models
                 RetirementIncome = 0;
                 Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset => RetirementIncome += asset.Withdrawal);
                 Assets.ForEach(asset => asset.CalculateData());
+
+                maximum = RetirementIncome > maximum ? RetirementIncome : maximum;
+            }
+
+            for (var i = 0; i < 4; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    assetPairs[0].Item1.Preferred = !assetPairs[0].Item1.Preferred;
+                    assetPairs[0].Item2.Preferred = !assetPairs[0].Item2.Preferred;
+                }
+                else
+                {
+                    assetPairs[1].Item1.Preferred = !assetPairs[1].Item1.Preferred;
+                    assetPairs[1].Item2.Preferred = !assetPairs[1].Item2.Preferred;
+                }
+
+                // Calculates tax information
+                RetirementIncome = 0;
+                Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset => RetirementIncome += asset.Withdrawal);
+                Assets.ForEach(asset => asset.CalculateData());
+
+                if (RetirementIncome == maximum) { return; }
             }
         }
 
