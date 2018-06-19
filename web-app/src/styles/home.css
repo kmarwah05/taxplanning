@@ -123,6 +123,14 @@ body {
   padding : 15px ;
 }
 
+#Matchtext{
+  display: none
+}
+
+#Ematch{
+  display: none
+}
+
 
 
 

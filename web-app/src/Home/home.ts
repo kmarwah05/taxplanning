@@ -2,6 +2,7 @@ import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
 import $ from '../../node_modules/jquery/dist/jquery.js';
 import 'aurelia-ion-rangeslider';
+import { EvalSourceMapDevToolPlugin } from 'webpack';
 
 @inject(NewInstance.of(ValidationController))
 export class Home {
@@ -117,7 +118,7 @@ export class Home {
         }
       });
     });
-    $('#Atype').change(function(data){
+    $('#Atype').change(function(){
       if($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k"){
         $('#Matchtext').css("display","block");
         $('#Ematch').css("display","block");
@@ -126,7 +127,16 @@ export class Home {
         $('#Matchtext').css("display","none");
         $('#Ematch').css("display","none");
       }
-    })
+    });
+    $('#filing').change(function(){
+      console.log($('#filing option:selected').val())
+      if($('#filing option:selected').val() == "Joint"){
+        $('#incomeRange').text("Enter Joint Income:")
+      }
+      else{
+        $('#incomeRange').text("Enter Income:")
+      }
+    });
   }
   // sliders ends here
 }
