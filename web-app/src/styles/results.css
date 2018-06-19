@@ -26,3 +26,7 @@ body {
   display: block;
   clear: both;
 }
+
+body {
+  padding: 15px;
+}
