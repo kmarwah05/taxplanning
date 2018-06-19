@@ -111,13 +111,6 @@ export class Results {
     var carouselText = '<ol class="carousel-indicators">'
     var carouselInternal = ''
     var tableString = ''
-    var sliderString = '<div class="slider row">' +
-      '<form class="form-horizontal" id="form">' +
-      '<h4>Change Additions</h4>' +
-      '<input type="text" id="range" name="range" />' +
-      '<p id="test"></p>' +
-      '</form>' +
-      '</div>'
 
     for (let i = 0; i < 3; i++) { //for loop for each page
       tableString = '' //reset the table string for each page
