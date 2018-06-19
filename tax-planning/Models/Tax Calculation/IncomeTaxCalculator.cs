@@ -58,7 +58,9 @@ namespace tax_planning.Models.Tax_Calculation
 
             var cherryOnTop = (float)(income - brackets[i].lowerBound - basicAdjustment) * rateForBracket[i];
 
-            return (decimal)(tax + cherryOnTop);
+            var total = tax + cherryOnTop - GetChildTaxCredit(status, Data.NumberOfChildren, income);
+
+            return (decimal)total;
         }
 
         private static decimal GetStandardDeduction(FilingStatus filingStatus, string jurisdiction)
@@ -108,5 +110,41 @@ namespace tax_planning.Models.Tax_Calculation
             return standardDeduction;
         }
 
+        private static float GetChildTaxCredit(FilingStatus status, int numberOfChildren, decimal adjustedGrossIncome)
+        {
+            var childTaxCredit = 2000.00f;
+
+            // Phaseout thresholds
+            switch (status)
+            {
+                case FilingStatus.Joint:
+                    if (adjustedGrossIncome >= 400000.00M && adjustedGrossIncome < 440000)
+                    {
+                        var overage = MathF.Floor(((float)adjustedGrossIncome - 400000.00f) / 1000);
+                        childTaxCredit -= 50 * overage;
+                    }
+                    else if (adjustedGrossIncome >= 440000.00M)
+                    {
+                        childTaxCredit = 0;
+                    }
+                    break;
+                case FilingStatus.HeadOfHousehold:
+                case FilingStatus.Unmarried:
+                case FilingStatus.MarriedSeparate:
+                default:
+                    if (adjustedGrossIncome >= 200000.00M && adjustedGrossIncome < 240000)
+                    {
+                        var overage = MathF.Floor(((float)adjustedGrossIncome - 200000.00f) / 1000);
+                        childTaxCredit -= 50 * overage;
+                    }
+                    else if (adjustedGrossIncome >= 240000.00M)
+                    {
+                        childTaxCredit = 0;
+                    }
+                    break;
+            }
+            
+            return childTaxCredit * numberOfChildren;
+        }
     }
 }
