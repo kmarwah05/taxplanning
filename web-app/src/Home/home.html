@@ -48,24 +48,21 @@
             <label for="dAdditions" class="control-label" id="desiredAdditions">Additions:</label>
             <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Additions" value.bind="desiredAdditions & validate">
           </div>
-
-
           <br>
         </div>
 
         <br>
 
-         <!--SLIDERS START-->
-         <h4>Select Retirement Date:</h4>
-         <input type="text" id="range" name="range" />
-         <p id = "test"></p>
-         <!--SLIDERS END-->
+        <!--SLIDERS START-->
+        <h4>Select Retirement Date:</h4>
+        <input type="text" id="range" name="range" />
+        <p id="test"></p>
+        <!--SLIDERS END-->
 
     </div>
     </form>
     </div>
     <!--FORM ENDS HERE-->
-
 
     <!-- DON'T TOUCH BELOW CODE (TABLE)  -->
     <div class="mx-auto w-75">
@@ -74,7 +71,13 @@
           <tr>
             <th>Asset Name</th>
             <th>Asset Type</th>
-            <th><div class="display-block row mx-auto"><div class="col mx-2">Asset Value</div><div id="Matchtext" class="col mx-2">Employer Match</div></div></th>
+            <th>
+              <div class="display-block row mx-auto">
+                <div class="col mx-1">Asset Value</div>
+                <div id="Matchtext" class="col mx-1">Employer Match</div>
+                <div id="Captext" class="col mx-1">Employer Match Cap</div>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody id="AssetTable">
@@ -93,8 +96,9 @@
             </td>
             <td>
               <div class="display-block row mx-auto">
-              <input type="text" class="form-control col mx-1" id="Avalue" value.bind="value">
-              <input type="number" class="form-control col mx-1" id="Ematch" value.bind="match">
+                <input type="text" class="form-control col mx-1" id="Avalue" value.bind="value">
+                <input type="number" class="form-control col mx-1" id="Ematch" value.bind="match">
+                <input type="number" class="form-control col mx-1" id="Ecap" value.bind="cap">
               </div>
             </td>
             <td>
@@ -107,7 +111,7 @@
           <tr repeat.for="user of $displayData">
             <td>${user.name}</td>
             <td>${user.type}</td>
-            <td>${user.value}</td>
+            <td><div class="display-block row mx-auto"><div class="col mx-1">$${user.value}</div> <div id="Displaymatch" class="col mx-1" >${user.match}</div><div class="col mx-1" >${user.cap}</div></div></td>
             <td>
               <button click.delegate="removeButton(user.id)" id="myButton">
                 <span class="glyphicon glyphicon-minus minusBtn">
@@ -129,11 +133,8 @@
     </ul>
     <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
 
-
-
     <div class="myFooter">
       <p>&copy; TAX PLANNING</p>
     </div>
   </body>
-
 </template>
