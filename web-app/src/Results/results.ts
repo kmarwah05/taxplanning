@@ -227,7 +227,7 @@ export class Results {
       '<table class="table table-dark table-sm">' +
       '<caption id="tableCaption">' + currentSet.assetType + '</caption>' + //Caption the table with the type
       '<thead>' +
-      '<tr>' +
+      '<tr align="center">' +
       '<th>Year</th>' +
       '<th>Amount</th>' +
       '</tr>' +
@@ -279,7 +279,6 @@ export class Results {
         from: val
       });
     });
-
   }
 
   UpdateAdditions() {

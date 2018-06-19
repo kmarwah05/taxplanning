@@ -21,8 +21,6 @@ namespace tax_planning.Controllers
                 Data.PopulateData(request);
                 response = Data.Assets;
             }
-
-            Console.WriteLine(Data.RetirementIncome);
             
             return Json(response);
         }

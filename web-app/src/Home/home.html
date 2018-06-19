@@ -78,7 +78,7 @@
           <tr>
             <th>Asset Name</th>
             <th>Asset Type</th>
-            <th>Asset Value</th>
+            <th><div class="display-block row mx-auto"><div class="col mx-2">Asset Value</div><div id="Matchtext" class="col mx-2">Employer Match</div></div></th>
           </tr>
         </thead>
         <tbody id="AssetTable">
@@ -96,7 +96,10 @@
               </select>
             </td>
             <td>
-              <input type="text" class="form-control" id="Avalue" value.bind="value">
+              <div class="display-block row mx-auto">
+              <input type="text" class="form-control col mx-2" id="Avalue" value.bind="value">
+              <input type="text" class="form-control col mx-2" id="Ematch" value.bind="match">
+              </div>
             </td>
             <td>
               <button click.delegate="addButton()" id="myButton">
