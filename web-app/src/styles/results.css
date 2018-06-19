@@ -1,13 +1,8 @@
 body {
   background-color:#ececec !important;
   background-attachment: fixed;
-<<<<<<< HEAD
   color: white !important;
   font-family: 'Muli', sans-serif;
-=======
-  color: rgb(0, 0, 0) !important;
-  font-family: sans-serif !important;
->>>>>>> 8ce96217c8205540dc5f3ecb709e4b3513269931
 }
 
 
@@ -30,4 +25,8 @@ body {
 .js-input{
   display: block;
   clear: both;
+}
+
+body {
+  padding: 15px;
 }
