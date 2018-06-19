@@ -18,9 +18,8 @@
     <div class="mx-auto w-75">
       <form class="form-horizontal" id="myForm">
         <div class="row">
-
           <div class="col-xs-6">
-            <label for="filStatus" class="control-label" id="filingStatus" type="text">Filing Status:</label>
+            <label for="filStatus" class="control-label" id="filingStatus" type="text" data-tip="Lorem Ipsum Lorem Ipsum">Filing Status:</label>
             <select class="form-control mySelect" value.bind="filingStatus & validate" id="filing">
               <option value="" disabled selected>Select one...</option>
               <option value="Joint">Joint</option>
@@ -28,10 +27,11 @@
               <option value="Unmarried">Unmarried</option>
               <option value="Married">Married</option>
             </select>
+    
           </div>
 
           <div class="col-xs-6">
-            <label for="incomeRange" class="control-label" id="incomeRange" type="text">Enter Income:</label>
+            <label for="incomeRange" class="control-label" id="incomeRange" type="text" data-tip="Lorem Ipsum Lorem Ipsum">Enter Income:</label>
             <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
           </div>
         </div>
@@ -40,25 +40,31 @@
 
         <div class="row">
           <div class="col-xs-6">
+<<<<<<< HEAD
             <label for="noChildren" class="control-label" id="noOfChildren">No. of children under 17:</label>
+            <input type="nChildren" class="form-control" name="NoOfChildrenUnder17" placeholder="Enter No of Children Under 17" value.bind="children & validate">
+          </div>
+
+          <div class="col-xs-6">
+            <label for="dAdditions" class="control-label" id="desiredAdditions">Yearly Additions:</label>
+=======
+            <label for="noChildren" class="control-label" id="noOfChildren" data-tip="Lorem Ipsum Lorem Ipsum">No. of children under 17:</label>
             <input type="nChildren" class="form-control" name="NoOfChildrenUnder17" placeholder="Enter No of Children Under 17" value.bind="noOfChildren & validate">
           </div>
 
           <div class="col-xs-6">
-            <label for="dAdditions" class="control-label" id="desiredAdditions">Additions:</label>
+            <label for="dAdditions" class="control-label" id="desiredAdditions" data-tip="Lorem Ipsum Lorem Ipsum">Additions:</label>
+>>>>>>> d24d663f124516cc7a4b1987a49f9ee1c31c3d86
             <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Additions" value.bind="desiredAdditions & validate">
           </div>
           <br>
         </div>
-
         <br>
-
-        <!--SLIDERS START-->
-        <h4>Select Retirement Date:</h4>
-        <input type="text" id="range" name="range" />
-        <p id="test"></p>
-        <!--SLIDERS END-->
-
+         <!--SLIDERS START-->
+         <h4 data-tip="Lorem Ipsum Lorem Ipsum">Select Retirement Date:</h4>
+         <input type="text" id="range" name="range" />
+         <p id = "test"></p>
+         <!--SLIDERS END-->
     </div>
     </form>
     </div>
@@ -136,5 +142,8 @@
     <div class="myFooter">
       <p>&copy; TAX PLANNING</p>
     </div>
+
+  
+    
   </body>
 </template>
