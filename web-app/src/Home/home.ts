@@ -21,6 +21,7 @@ export class Home {
   incomeValidate: string = '';
   desiredAdditions: string = '';
   desiredWithdrawls: string = '';
+  match: string = '';
 
   addButton() {
     //create a new asset and add it to the assets array
@@ -116,10 +117,11 @@ export class Home {
         }
       });
     });
-
-   
+    $('#Atype').onChange(function(data){
+      if(data.value == "Roth 401k" || data.value == "401k"){
+        $('#Matchtext').hide()
+      }
+    })
   }
   // sliders ends here
-
-
 }
