@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Extensions;
 using tax_planning.Models;
 
@@ -21,7 +22,7 @@ namespace tax_planning.Models
     
         public static decimal DesiredAdditions { get; set; }
 
-        public static List<int> ChildrensAges { get; set; } = new List<int>();
+        public static List<int> ChildrensAges { get; set; }
 
         public static int NumberOfChildren
         {
@@ -68,6 +69,7 @@ namespace tax_planning.Models
             RetirementDate = formModel.RetirementDate.Value;
             EndOfPlanDate = formModel.EndOfPlanDate.Value;
             DesiredAdditions = formModel.DesiredAdditions.Value;
+            ChildrensAges = formModel.ChildrensAges?.ToList() ?? new List<int>();
 
             // Generate existing assets
             foreach (var asset in formModel.Assets)
