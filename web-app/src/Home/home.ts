@@ -62,10 +62,8 @@ export class Home {
       {
         "filingStatus": this.filingStatus,
         "income": this.incomeValidate,
-        "basicAdjustment": this.basicAdjustment,
         "retirementDate": this.retirementDate,
         "endOfPlanDate": this.endOfPlan,
-        "capitalGains": this.capitalGains,
         "assets": this.assets,
         "desiredAdditions": this.desiredAdditions,
         "numberOfChildren": this.children
