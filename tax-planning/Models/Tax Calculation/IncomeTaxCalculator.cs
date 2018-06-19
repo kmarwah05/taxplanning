@@ -41,8 +41,7 @@ namespace tax_planning.Models.Tax_Calculation
                     return 0.00M;
             }
 
-            income -= GetStandardDeduction(filingStatus: status, jurisdiction: jurisdiction);
-            income = income < 0.00M ? 0.00M : income;
+            income = GetAdjustedGrossIncome(status, income);
 
             // After standard deduction
             var ranges = brackets.Select(bracket => bracket.upperBound - bracket.lowerBound);
@@ -61,6 +60,12 @@ namespace tax_planning.Models.Tax_Calculation
             var total = tax + cherryOnTop - GetChildTaxCredit(status, Data.NumberOfChildren, income);
 
             return (decimal)total;
+        }
+
+        public static decimal GetAdjustedGrossIncome(FilingStatus status, decimal income)
+        {
+            income -= GetStandardDeduction(filingStatus: status, jurisdiction: "Federal");
+            return income < 0.00M ? 0.00M : income;
         }
 
         private static decimal GetStandardDeduction(FilingStatus filingStatus, string jurisdiction)
