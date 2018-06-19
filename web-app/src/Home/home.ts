@@ -139,4 +139,6 @@ export class Home {
     });
   }
   // sliders ends here
+
+
 }
