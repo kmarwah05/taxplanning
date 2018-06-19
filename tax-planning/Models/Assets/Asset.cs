@@ -69,18 +69,20 @@ namespace tax_planning.Models
         // Not a constructor because Asset may be initialized with empty properties, in which case this would break
         public virtual void CalculateSchedule()
         {
-            // Tax for dividends
-            if (GetType() == typeof(BrokerageHolding))
-            {
-                var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
-                InterestRateMultiplier = 1 - liability;
-            }
-
             List<decimal> amounts = new List<decimal>();
 
             // Add additions up to retirement
             for (var i = 1; i <= TimeToRetirement; i++)
             {
+                // Tax for dividends
+                if (GetType() == typeof(BrokerageHolding))
+                {
+                    var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
+                    InterestRateMultiplier = 1 - liability;
+                }
+
+                UpdateCapsFor(Data.CurrentAge + i);
+                Data.ChildrensAges.RemoveAll(age => (age + i) >= 17);
                 amounts.Add(Decimal.Round(GetFutureValueAfter(years: i, withAdditions: (Additions - CalculateTaxOnAddition(Additions))), 2));
             }
 
@@ -133,5 +135,6 @@ namespace tax_planning.Models
         // Abstract methods
         protected abstract decimal CalculateTaxOnAddition(decimal addition);
         protected abstract decimal CalculateTaxOnWithdrawal(decimal withdrawal, decimal income);
+        protected abstract void UpdateCapsFor(int age);
     }
 }

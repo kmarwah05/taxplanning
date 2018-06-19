@@ -5,17 +5,13 @@ namespace tax_planning.Models
 {
     public class _401k : TraditionalRetirementAsset
     {
-        private decimal _Additions;
         private decimal _Withdrawal;
 
         public static decimal MaxContributions => 18500.00M;
 
         public override decimal Additions
         {
-            get
-            {
-                return _Additions;
-            }
+            get => Data.Additions[0];
             set
             {
                 if (Match != null)
@@ -24,7 +20,6 @@ namespace tax_planning.Models
                             Data.Income * EmployerMatchCap :
                             value * EmployerMatchPercentage;
                 }
-                _Additions = value;
             }
         }
 
@@ -72,6 +67,14 @@ namespace tax_planning.Models
             else
             {
                 base.CalculateData();
+            }
+        }
+
+        protected override void UpdateCapsFor(int age)
+        {
+            if (age >= 50)
+            {
+
             }
         }
     }

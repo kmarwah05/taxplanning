@@ -131,6 +131,13 @@ body {
   display: none
 }
 
+#Ecap{
+  display: none
+}
+#Captext{
+  display: none
+}
+
 
 [data-tip] {
 	position:relative;

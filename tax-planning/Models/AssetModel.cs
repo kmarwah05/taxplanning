@@ -6,29 +6,29 @@
         public string Type { get; set; }
         public decimal Value { get; set; }
 
-        private decimal _EmployerMatchPercentage = 0.00M;
-        public decimal EmployerMatchPercentage
+        private decimal _Match = 0.00M;
+        public decimal Match
         {
             get
             {
-                return _EmployerMatchPercentage;
+                return _Match;
             }
             set
             {
-                _EmployerMatchPercentage = value / 100;
+                _Match = value / 100;
             }
         }
 
-        private decimal _EmployerMatchCap = 0.00M;
-        public decimal EmployerMatchCap
+        private decimal _Cap = 0.00M;
+        public decimal Cap
         {
             get
             {
-                return _EmployerMatchCap;
+                return _Cap;
             }
             set
             {
-                _EmployerMatchCap = value / 100;
+                _Cap = value / 100;
             }
         }
     }

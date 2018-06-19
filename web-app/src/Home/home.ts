@@ -2,7 +2,6 @@ import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
 import $ from '../../node_modules/jquery/dist/jquery.js';
 import 'aurelia-ion-rangeslider';
-import { EvalSourceMapDevToolPlugin } from 'webpack';
 
 @inject(NewInstance.of(ValidationController))
 export class Home {
@@ -23,16 +22,20 @@ export class Home {
   desiredAdditions: string = '';
   desiredWithdrawls: string = '';
   match: string = '';
+  cap: string = '';
+  children: string = '';
 
   addButton() {
     //create a new asset and add it to the assets array
-    let asset = { "name": this.name, "type": this.type, "value": this.value, "id": this.counter }
+    let asset = { "name": this.name, "type": this.type, "value": this.value, "match": this.match, "cap":this.cap,"id": this.counter }
     this.assets = [...this.assets, asset]
     this.counter++;
-    //reset the fields for reasons
+    //reset the fields
     this.name = ''
     this.type = ''
     this.value = ''
+    this.match = ''
+    this.cap = ''
   }
 
   removeButton(id) {
@@ -64,7 +67,8 @@ export class Home {
         "endOfPlanDate": this.endOfPlan,
         "capitalGains": this.capitalGains,
         "assets": this.assets,
-        "desiredAdditions": this.desiredAdditions
+        "desiredAdditions": this.desiredAdditions,
+        "numberOfChildren": this.children
       });
   }
 
@@ -122,10 +126,14 @@ export class Home {
       if($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k"){
         $('#Matchtext').css("display","block");
         $('#Ematch').css("display","block");
+        $('#Ecap').css("display","block");
+        $('#Captext').css("display","block");
       }
       else{
         $('#Matchtext').css("display","none");
         $('#Ematch').css("display","none");
+        $('#Ecap').css("display","none");
+        $('#Captext').css("display","none");
       }
     });
     $('#filing').change(function(){

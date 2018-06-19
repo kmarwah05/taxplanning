@@ -11,11 +11,9 @@ namespace tax_planning.Models
     
         public static decimal Income { get; set; }
 
-        public static decimal RetirementIncome { get; set; }
-
         public static decimal BasicAdjustment { get; set; }
-    
-        public static decimal CapitalGains { get; set; }
+
+        public static decimal RetirementIncome { get; set; }
     
         public static int RetirementDate { get; set; }
     
@@ -23,12 +21,19 @@ namespace tax_planning.Models
     
         public static decimal DesiredAdditions { get; set; }
 
-        public static int NumberOfChildren { get; set; }
+        public static List<int> ChildrensAges { get; set; } = new List<int>();
+
+        public static int NumberOfChildren
+        {
+            get => ChildrensAges.Count;
+        }
+
+        public static int CurrentAge { get; set; }
 
         public static List<Asset> Assets { get; set; } = new List<Asset>();
 
         // [0] additions for 401k, [1] additions for IRA, [2] leftovers go in equity
-        private static List<decimal> Additions
+        public static List<decimal> Additions
         {
             get
             {
@@ -60,12 +65,9 @@ namespace tax_planning.Models
             // Get data, explicit conversions ok because all nullable fields marked with Required DataAnnotation
             FilingStatus = formModel.FilingStatus.Value;
             Income = formModel.Income.Value;
-            BasicAdjustment = formModel.BasicAdjustment;
-            CapitalGains = formModel.CapitalGains.Value;
             RetirementDate = formModel.RetirementDate.Value;
             EndOfPlanDate = formModel.EndOfPlanDate.Value;
             DesiredAdditions = formModel.DesiredAdditions.Value;
-            NumberOfChildren = formModel.NumberOfChildren;
 
             // Generate existing assets
             foreach (var asset in formModel.Assets)
@@ -76,7 +78,7 @@ namespace tax_planning.Models
                     name: asset.Name,
                     assetType: asset.Type,
                     value: asset.Value,
-                    matching: (asset.EmployerMatchPercentage, asset.EmployerMatchCap)
+                    matching: (asset.Match, asset.Cap)
                 ));
                 }
                 catch (Exception)
@@ -87,27 +89,9 @@ namespace tax_planning.Models
 
             // Complete list of assets so client can compare them
             Assets.AddRange(AssetFactory.Complete(Assets));
-
             Assets = Assets.SortAssets();
 
-            // Set optimal additions for each asset
-            foreach (var asset in Assets)
-            {
-                if (asset.AssetType.Contains("401k"))
-                {
-                    asset.Additions = Additions[0];
-                }
-                else if (asset.AssetType.Contains("IRA"))
-                {
-                    asset.Additions = Additions[1];
-                }
-                else
-                {
-                    asset.Additions = Additions[2];
-                }
-
-                asset.CalculateSchedule();
-            }
+            Assets.ForEach(asset => asset.CalculateSchedule());
 
             // Picks preferred assets
             Assets.FindAll(asset => asset.AssetType.Equals("Brokerage Holding")).ForEach(holding => holding.Preferred = true);
@@ -120,7 +104,11 @@ namespace tax_planning.Models
             });
 
             // Calculates tax information
-            Assets.FindAll(asset => asset.Preferred).ForEach(asset => RetirementIncome += asset.Withdrawal);
+            Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset =>
+            {
+                RetirementIncome += asset.Withdrawal;
+                Console.WriteLine(asset.Withdrawal);
+            });
             Assets.ForEach(asset => asset.CalculateData());
         }
 
@@ -152,12 +140,11 @@ namespace Extensions
             List<Asset> sortedList = new List<Asset>();
 
             // Look at this elegant sorting algorithm >>>
-
-            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("Roth 401k")));
-            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("401k")));
-            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("Roth IRA")));
-            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("IRA")));
-            sortedList.Add(unsortedList.Find(asset => asset.AssetType.Equals("Brokerage Holding")));
+            sortedList.AddRange(unsortedList.FindAll(asset => asset.AssetType.Equals("Roth 401k")));
+            sortedList.AddRange(unsortedList.FindAll(asset => asset.AssetType.Equals("401k")));
+            sortedList.AddRange(unsortedList.FindAll(asset => asset.AssetType.Equals("Roth IRA")));
+            sortedList.AddRange(unsortedList.FindAll(asset => asset.AssetType.Equals("IRA")));
+            sortedList.AddRange(unsortedList.FindAll(asset => asset.AssetType.Equals("Brokerage Holding")));
 
             return sortedList;
         }
