@@ -34,7 +34,7 @@ namespace tax_planning.Models
 
         [Required]
         [Range(0, int.MaxValue)]
-        public int NumberOfDependents { get; set; }
+        public int NumberOfChildren { get; set; }
 
         public IEnumerable<AssetModel> Assets { get; set; }
     }

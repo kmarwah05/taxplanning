@@ -65,7 +65,7 @@ namespace tax_planning.Models
             RetirementDate = formModel.RetirementDate.Value;
             EndOfPlanDate = formModel.EndOfPlanDate.Value;
             DesiredAdditions = formModel.DesiredAdditions.Value;
-            NumberOfChildren = formModel.NumberOfDependents;
+            NumberOfChildren = formModel.NumberOfChildren;
 
             // Generate existing assets
             foreach (var asset in formModel.Assets)
