@@ -21,7 +21,7 @@
 
           <div class="col-xs-6">
             <label for="filStatus" class="control-label" id="filingStatus" type="text">Filing Status:</label>
-            <select class="form-control mySelect" value.bind="filingStatus & validate">
+            <select class="form-control mySelect" value.bind="filingStatus & validate" id="filing">
               <option value="" disabled selected>Select one...</option>
               <option value="Joint">Joint</option>
               <option value="HeadOfHousehold">Head of Household</option>
@@ -31,7 +31,7 @@
           </div>
 
           <div class="col-xs-6">
-            <label for="incomeRange" class="control-label" id="incomeRange" type="text">Select Income:</label>
+            <label for="incomeRange" class="control-label" id="incomeRange" type="text">Enter Income:</label>
             <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
           </div>
         </div>
@@ -39,37 +39,30 @@
         <br>
 
         <div class="row">
-          <div class="col-xs-4">
-            <label for="bAdjustment" class="control-label" id="basicAdjustment">Basic Adjustment:</label>
-            <input type="basicInput" class="form-control" name="BasicAdjustment" placeholder="Enter Basic Adjustment" value.bind="basicAdjustment & validate">
+          <div class="col-xs-6">
+            <label for="noChildren" class="control-label" id="noOfChildren">No. of children under 17:</label>
+            <input type="nChildren" class="form-control" name="NoOfChildrenUnder17" placeholder="Enter No of Children Under 17" value.bind="noOfChildren & validate">
           </div>
 
-          <div class="col-xs-4">
-            <label for="cGains" class="control-label" id="capitalGains">Capital Gains:</label>
-            <input type="capitalGains" class="form-control" name="CapitalGains" placeholder="Capital Gains" value.bind="capitalGains & validate">
-          </div>
-
-          <div class="col-xs-4">
+          <div class="col-xs-6">
             <label for="dAdditions" class="control-label" id="desiredAdditions">Additions:</label>
-            <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Desired Additions" value.bind="desiredAdditions & validate">
+            <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Additions" value.bind="desiredAdditions & validate">
           </div>
-
           <br>
         </div>
 
         <br>
 
-         <!--SLIDERS START-->
-         <h4>Select Retirement Date:</h4>
-         <input type="text" id="range" name="range" />
-         <p id = "test"></p>
-         <!--SLIDERS END-->
+        <!--SLIDERS START-->
+        <h4>Select Retirement Date:</h4>
+        <input type="text" id="range" name="range" />
+        <p id="test"></p>
+        <!--SLIDERS END-->
 
     </div>
     </form>
     </div>
     <!--FORM ENDS HERE-->
-
 
     <!-- DON'T TOUCH BELOW CODE (TABLE)  -->
     <div class="mx-auto w-75">
@@ -78,7 +71,13 @@
           <tr>
             <th>Asset Name</th>
             <th>Asset Type</th>
-            <th><div class="display-block row mx-auto"><div class="col mx-2">Asset Value</div><div id="Matchtext" class="col mx-2">Employer Match</div></div></th>
+            <th>
+              <div class="display-block row mx-auto">
+                <div class="col mx-1">Asset Value</div>
+                <div id="Matchtext" class="col mx-1">Employer Match</div>
+                <div id="Captext" class="col mx-1">Employer Match Cap</div>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody id="AssetTable">
@@ -97,8 +96,9 @@
             </td>
             <td>
               <div class="display-block row mx-auto">
-              <input type="text" class="form-control col mx-2" id="Avalue" value.bind="value">
-              <input type="text" class="form-control col mx-2" id="Ematch" value.bind="match">
+                <input type="text" class="form-control col mx-1" id="Avalue" value.bind="value">
+                <input type="number" class="form-control col mx-1" id="Ematch" value.bind="match">
+                <input type="number" class="form-control col mx-1" id="Ecap" value.bind="cap">
               </div>
             </td>
             <td>
@@ -111,7 +111,7 @@
           <tr repeat.for="user of $displayData">
             <td>${user.name}</td>
             <td>${user.type}</td>
-            <td>${user.value}</td>
+            <td><div class="display-block row mx-auto"><div class="col mx-1">$${user.value}</div> <div id="Displaymatch" class="col mx-1" >${user.match}</div><div class="col mx-1" >${user.cap}</div></div></td>
             <td>
               <button click.delegate="removeButton(user.id)" id="myButton">
                 <span class="glyphicon glyphicon-minus minusBtn">
@@ -133,11 +133,8 @@
     </ul>
     <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
 
-
-
     <div class="myFooter">
       <p>&copy; TAX PLANNING</p>
     </div>
   </body>
-
 </template>

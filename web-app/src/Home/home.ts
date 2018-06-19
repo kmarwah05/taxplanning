@@ -22,16 +22,19 @@ export class Home {
   desiredAdditions: string = '';
   desiredWithdrawls: string = '';
   match: string = '';
+  cap: string = '';
 
   addButton() {
     //create a new asset and add it to the assets array
-    let asset = { "name": this.name, "type": this.type, "value": this.value, "id": this.counter }
+    let asset = { "name": this.name, "type": this.type, "value": this.value, "match": this.match, "cap":this.cap,"id": this.counter }
     this.assets = [...this.assets, asset]
     this.counter++;
-    //reset the fields for reasons
+    //reset the fields
     this.name = ''
     this.type = ''
     this.value = ''
+    this.match = ''
+    this.cap = ''
   }
 
   removeButton(id) {
@@ -117,11 +120,29 @@ export class Home {
         }
       });
     });
-    $('#Atype').onChange(function(data){
-      if(data.value == "Roth 401k" || data.value == "401k"){
-        $('#Matchtext').hide()
+    $('#Atype').change(function(){
+      if($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k"){
+        $('#Matchtext').css("display","block");
+        $('#Ematch').css("display","block");
+        $('#Ecap').css("display","block");
+        $('#Captext').css("display","block");
       }
-    })
+      else{
+        $('#Matchtext').css("display","none");
+        $('#Ematch').css("display","none");
+        $('#Ecap').css("display","none");
+        $('#Captext').css("display","none");
+      }
+    });
+    $('#filing').change(function(){
+      console.log($('#filing option:selected').val())
+      if($('#filing option:selected').val() == "Joint"){
+        $('#incomeRange').text("Enter Joint Income:")
+      }
+      else{
+        $('#incomeRange').text("Enter Income:")
+      }
+    });
   }
   // sliders ends here
 }
