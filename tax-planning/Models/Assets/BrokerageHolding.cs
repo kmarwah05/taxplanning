@@ -12,5 +12,10 @@ namespace tax_planning.Models
         {
             return IncomeTaxCalculator.CapitalGainsTaxFor(Data.FilingStatus, withdrawal, income);
         }
+
+        protected override void UpdateCapsFor(int age)
+        {
+            return;
+        }
     }
 }
