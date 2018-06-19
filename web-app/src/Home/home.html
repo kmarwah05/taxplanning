@@ -27,12 +27,12 @@
               <option value="Unmarried">Unmarried</option>
               <option value="Married">Married</option>
             </select>
-    
+
           </div>
 
           <div class="col-xs-6">
             <label for="incomeRange" class="control-label" id="incomeRange" type="text" data-tip="Lorem Ipsum Lorem Ipsum">Enter Income:</label>
-            <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
+            <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income & validate">
           </div>
         </div>
 
@@ -41,7 +41,7 @@
         <div class="row">
           <div class="col-xs-6">
             <label for="noChildren" class="control-label" id="noOfChildren">No. of children under 17:</label>
-            <input type="nChildren" class="form-control" name="NoOfChildrenUnder17" placeholder="Enter No of Children Under 17" value.bind="children & validate">
+            <input type="nChildren" class="form-control" name="NoOfChildrenUnder17" placeholder="Enter No of Children Under 17" value.bind="numberOfChildren & validate">
           </div>
 
           <div class="col-xs-6">
@@ -51,11 +51,11 @@
           <br>
         </div>
         <br>
-         <!--SLIDERS START-->
-         <h4 data-tip="Lorem Ipsum Lorem Ipsum">Select Retirement Date:</h4>
-         <input type="text" id="range" name="range" />
-         <p id = "test"></p>
-         <!--SLIDERS END-->
+        <!--SLIDERS START-->
+        <h4 data-tip="Lorem Ipsum Lorem Ipsum">Select Retirement Date:</h4>
+        <input type="text" id="range" name="range" />
+        <p id="test"></p>
+        <!--SLIDERS END-->
     </div>
     </form>
     </div>
@@ -108,18 +108,53 @@
           <tr repeat.for="user of $displayData">
             <td>${user.name}</td>
             <td>${user.type}</td>
-            <td><div class="display-block row mx-auto"><div class="col mx-1">$${user.value}</div> <div id="Displaymatch" class="col mx-1" >${user.match}</div><div class="col mx-1" >${user.cap}</div></div></td>
+            <td>
+              <div class="display-block row mx-auto">
+                <div class="col mx-1">$${user.value}</div>
+                <div id="Displaymatch" class="col mx-1">${user.match}</div>
+                <div class="col mx-1">${user.cap}</div>
+              </div>
+            </td>
             <td>
               <button click.delegate="removeButton(user.id)" id="myButton">
-                <span class="glyphicon glyphicon-minus minusBtn">
+                <span class="glyphicon glyphicon-minus minusBtn"> </span>
               </button>
-              </span>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
+    <div>
+      <table class="table table-bordered" aurelia-table="data.bind: Tchildren; display-data.bind: $childData" id="childTable">
+        <thead>
+          <tr>
+            <th>
+              Age
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" class="form-control" placeholder="Age of your child at the end of the year" value.from-view="age" id="childAge"/></td>
+            <td>
+              <button click.delegate="addChildren()" id="myButton">
+                <span class="glyphicon glyphicon-plus addBtn">
+                </span>
+              </button>
+            </td>
+          </tr>
+          <tr repeat.for="element of $childData">
+            <td>${element}</td>
+            <td>
+                <button click.delegate="removeButton(user.id)" id="myButton">
+                  <span class="glyphicon glyphicon-minus minusBtn"> </span>
+                </button>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
     <button class="btn btn-primary center-block mySubmit" click.delegate="validateButton()">Submit</button>
     <h3 align="center">${message}</h3>
@@ -133,8 +168,5 @@
     <div class="myFooter">
       <p>&copy; TAX PLANNING</p>
     </div>
-
-  
-    
   </body>
 </template>
