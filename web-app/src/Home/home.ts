@@ -23,6 +23,7 @@ export class Home {
   desiredWithdrawls: string = '';
   match: string = '';
   cap: string = '';
+  children: string = '';
 
   addButton() {
     //create a new asset and add it to the assets array
@@ -66,7 +67,8 @@ export class Home {
         "endOfPlanDate": this.endOfPlan,
         "capitalGains": this.capitalGains,
         "assets": this.assets,
-        "desiredAdditions": this.desiredAdditions
+        "desiredAdditions": this.desiredAdditions,
+        "numberOfChildren": this.children
       });
   }
 

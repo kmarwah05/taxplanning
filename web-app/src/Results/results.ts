@@ -85,6 +85,7 @@ export class Results {
       data.desiredAdditions = this.additionChange
       data = JSON.stringify(data)
     }
+    console.log(data)
     this.SendPost(data)
   }
 
@@ -93,6 +94,7 @@ export class Results {
     this.httpService.Fetch(form)
       .then(results => results.json())
       .then(data => {
+        console.log(data)
         let temp = data
         data = data.map(x => x.yearlyAmount.map(e => e > 0 ? e : 0))  //yup you read that right... 
         for (let i = 0; i < data.length; i++) {
