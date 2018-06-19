@@ -42,7 +42,10 @@ namespace tax_planning.Models
         {
             if (matching.percentage > 0.00M)
             {
-                Match = new _401k();
+                Match = new _401k()
+                {
+                    Name = "Match"
+                };
                 EmployerMatchPercentage = matching.percentage;
                 EmployerMatchCap = matching.cap;
             }
@@ -72,7 +75,7 @@ namespace tax_planning.Models
 
         public override void UpdateCapsFor(int age)
         {
-            if (age >= 50)
+            if (age >= 50 && !Name.Equals("Match"))
             {
                 MaxContributions = 22500.00M;
             }
