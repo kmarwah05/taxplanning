@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using tax_planning.Models;
 
@@ -20,6 +21,8 @@ namespace tax_planning.Controllers
                 Data.PopulateData(request);
                 response = Data.Assets;
             }
+
+            Console.WriteLine(Data.RetirementIncome);
             
             return Json(response);
         }

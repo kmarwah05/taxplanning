@@ -1,6 +1,8 @@
 import { inject } from 'aurelia-framework';
 import { HttpService } from 'HttpService';
 import { Chart } from 'chart.js';
+import $ from '../../node_modules/jquery/dist/jquery.js';
+import 'aurelia-ion-rangeslider';
 
 @inject(HttpService)
 export class Results {
@@ -8,6 +10,7 @@ export class Results {
   net: number = 2834;
   data = [];
   max: number = 0;
+  additionChange: string;
 
   constructor(private httpService: HttpService) {
     httpService.ConfigureClient(); //set the http client up only once when we start results
@@ -76,8 +79,12 @@ export class Results {
   }
 
   GetResults() {
-    let data = sessionStorage.userData
-    console.log(data)
+    var data = sessionStorage.userData
+    if (this.additionChange != null) {
+      data = JSON.parse(data)
+      data.desiredAdditions = this.additionChange
+      data = JSON.stringify(data)
+    }
     this.SendPost(data)
   }
 
@@ -104,8 +111,13 @@ export class Results {
     var carouselText = '<ol class="carousel-indicators">'
     var carouselInternal = ''
     var tableString = ''
-    var withdrawlsString = ''
-    var totalString = ''
+    var sliderString = '<div class="slider row">' +
+      '<form class="form-horizontal" id="form">' +
+      '<h4>Change Additions</h4>' +
+      '<input type="text" id="range" name="range" />' +
+      '<p id="test"></p>' +
+      '</form>' +
+      '</div>'
 
     for (let i = 0; i < 3; i++) { //for loop for each page
       tableString = '' //reset the table string for each page
@@ -206,7 +218,6 @@ export class Results {
   }
 
   BuildTable(currentSet) {
-    var sliderString = '<div class="range-slider"><input type="text" class="js-range-slider"/></div>'
     var withdrawlsString = '<table class="table table-dark table-sm"><tr><th>Withdrawal rate</th><td>$' + this.numberWithCommas(currentSet.withdrawal.toFixed(2)) + '</td></tr><tr><th>After Tax withdrawal rate</th><td>$' + this.numberWithCommas(currentSet.afterTaxWithdrawal.toFixed(2)) + '</td></tr></table>'
     var totalString = '<table class="table table-dark table-sm"><tr><th>Total cash out</th><td>$' + this.numberWithCommas(currentSet.totalCashOut.toFixed(2)) + '</td></tr><tr><th>Net cash out</th><td>$' + this.numberWithCommas(currentSet.netCashOut.toFixed(2)) + '</td></tr></table>'
     var tableString: string = ''
@@ -225,10 +236,61 @@ export class Results {
     tableString += '</table>' + totalString + '</div>'
     return tableString
   }
+
+  attached() {
+    var storage = JSON.parse(sessionStorage.userData)
+    var $range = $('#range'),
+      $input = $('#addInput'),
+      min = 0,
+      instance,
+      max = parseInt(storage.income),
+      from = parseInt(storage.desiredAdditions)
+
+    $range.ionRangeSlider({
+      type: "single",
+      min: min,
+      max: max,
+      from: from,
+      grid: true,
+      grid_num: 10,
+      prettify_enabled: false,
+      onFinish: function (data) {
+        $('#add').prop("innerText", data.from)
+        $('#addInput').prop("value", data.from)
+      },
+      onUpdate: function (data) {
+        $('#add').prop("innerText", data.from)
+      }
+    });
+
+    instance = $range.data("ionRangeSlider");
+
+    $input.on("change keyup", function () {
+      var val = $(this).prop("value");
+
+      // validate
+      if (val < min) {
+        val = min;
+      } else if (val > max) {
+        val = max;
+      }
+
+      instance.update({
+        from: val
+      });
+    });
+
+  }
+
+  UpdateAdditions() {
+    this.additionChange = document.getElementById("add").innerText
+    this.GetResults()
+  }
+
   getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
+    return Math.floor(Math.random() * Math.floor(max)); //thanks internet
   }
   numberWithCommas = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); //thanks internet
   }
 }
