@@ -1,22 +1,38 @@
 <template>
+  <require from="ion-rangeslider/css/ion.rangeSlider.css"></require>
+  <require from="ion-rangeslider/css/ion.rangeSlider.skinModern.css"></require>
+  <require from="styles/results.css"></require>
 
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <require from="styles/results.css"></require>
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Krona+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
   </head>
 
   <body>
-    <div id="scheduleCarousel" class="carousel slide" data-interval="false" data-ride="carousel">
+    <div class="w-50 mx-auto row">
+      <div class="col-md-12">
+        <form class="form-horizontal" id="form">
+          <h4>Change Additions</h4>
+          <input type="text" id="range" name="range" />
+          <input type="text" id="addInput"/>
+          <button type="button" click.delegate="UpdateAdditions()">Update</button>
+          <p type="text" id="add"></p>
+        </form>
+            
+      </div>
+    </div>
+    
+    <div id="scheduleCarousel" class="carousel slide row" data-interval="false" data-ride="carousel">
       <div id="carouselAmount">
       </div>
-
       <div class="carousel-inner" id="carouselInner">
+
       </div>
+
 
       <a class="carousel-control-prev" href="results#scheduleCarousel" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
