@@ -117,9 +117,14 @@ export class Home {
         }
       });
     });
-    $('#Atype').onChange(function(data){
-      if(data.value == "Roth 401k" || data.value == "401k"){
-        $('#Matchtext').hide()
+    $('#Atype').change(function(data){
+      if($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k"){
+        $('#Matchtext').css("display","block");
+        $('#Ematch').css("display","block");
+      }
+      else{
+        $('#Matchtext').css("display","none");
+        $('#Ematch').css("display","none");
       }
     })
   }
