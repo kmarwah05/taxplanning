@@ -28,6 +28,7 @@ namespace tax_planning.Models
         [Range(0, 200)]
         public int CurrentAge { get; set; } = 0;
         
+        [Range(0, 200)]
         public IEnumerable<int> ChildrensAges { get; set; }
 
         public IEnumerable<AssetModel> Assets { get; set; }
