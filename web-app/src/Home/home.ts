@@ -129,7 +129,7 @@ export class Home {
 
     //create slider
     noUiSlider.create(range, {
-      start: [from, to],
+      start: [from+20, to-30],
       range: {
         min: from,
         max: to
