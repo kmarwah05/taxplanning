@@ -252,13 +252,8 @@
           </div>
 
           <div class="col-xs-6">
-<<<<<<< HEAD
             <label for="incomeRange" class="control-label" id="incomeRange" type="text" >Enter Income:</label>
             <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
-=======
-            <label for="incomeRange" class="control-label" id="incomeRange" type="text" data-tip="Lorem Ipsum Lorem Ipsum">Enter Income:</label>
-            <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income & validate">
->>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
           </div>
         </div>
 
@@ -277,7 +272,6 @@
           <br>
         </div>
         <br>
-<<<<<<< HEAD
 
 
         
@@ -286,13 +280,6 @@
          <p id = "test"></p>
         
 
-=======
-        <!--SLIDERS START-->
-        <h4 data-tip="Lorem Ipsum Lorem Ipsum">Select Retirement Date:</h4>
-        <input type="text" id="range" name="range" />
-        <p id="test"></p>
-        <!--SLIDERS END-->
->>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
     </div>
     </form>
     </div>-->
@@ -367,7 +354,6 @@
     </div>
     -->
 
-<<<<<<< HEAD
 
 
      <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
@@ -386,50 +372,5 @@
 
   
     
-=======
-    <div>
-      <table class="table table-bordered" aurelia-table="data.bind: Tchildren; display-data.bind: $childData" id="childTable">
-        <thead>
-          <tr>
-            <th>
-              Age
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><input type="text" class="form-control" placeholder="Age of your child at the end of the year" value.from-view="age" id="childAge"/></td>
-            <td>
-              <button click.delegate="addChildren()" id="myButton">
-                <span class="glyphicon glyphicon-plus addBtn">
-                </span>
-              </button>
-            </td>
-          </tr>
-          <tr repeat.for="element of $childData">
-            <td>${element}</td>
-            <td>
-                <button click.delegate="removeButton(user.id)" id="myButton">
-                  <span class="glyphicon glyphicon-minus minusBtn"> </span>
-                </button>
-              </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
-    <button class="btn btn-primary center-block mySubmit" click.delegate="validateButton()">Submit</button>
-    <h3 align="center">${message}</h3>
-    <ul>
-      <li repeat.for="error of errors">
-        <h4 id="myErrors">${error.message}</h4>
-      </li>
-    </ul>
-    <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
-
-    <div class="myFooter">
-      <p>&copy; TAX PLANNING</p>
-    </div>
->>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
   </body>
 </template>
