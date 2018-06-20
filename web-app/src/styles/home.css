@@ -11,7 +11,7 @@ body {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  background: #5a5959;
+  background: #d0d3d4;
   -webkit-box-shadow: 0 0 13px 3px rgba(0,0,0,.5);
   box-shadow: 0 0 13px 3px rgb(0, 0, 0,.5);
   overflow: hidden;
