@@ -64,7 +64,7 @@ export class Home {
         "assets": this.assets,
         "desiredAdditions": this.desiredAdditions,
         "childrensAges": arr,
-        "currentAge":this.age,
+        "currentAge":this.currentAge,
       });
   }
 
