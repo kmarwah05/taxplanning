@@ -92,7 +92,7 @@ export class Results {
             callbacks: {
               label: function (tooltipItem, data) {
                 var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
-                var label = (data.datasets[tooltipItem.datasetIndex].data[tooltipItem.datasetIndex]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                var label = (data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 return datasetLabel+': $'+label;
               }
             }
@@ -261,7 +261,6 @@ export class Results {
     var max = parseInt(storage.income)
     var from = parseInt(storage.desiredAdditions)
     var range: noUiSlider = <noUiSlider>document.getElementById("range")
-    var additionSelector: HTMLInputElement = <HTMLInputElement>document.getElementById("addInput")
     var self = this;
 
     noUiSlider.create(range,{
@@ -286,11 +285,6 @@ export class Results {
       self.additionChange = range.noUiSlider.get()
       self.GetResults()
     });
-
-    additionSelector.addEventListener("change",function(){
-      self.additionChange = range.noUiSlider.get()
-      self.GetResults()
-    })
   }
 
   UpdateAdditions() {

@@ -12,8 +12,8 @@ export class Home {
   value: string = '';
   filingStatus: string;
   income: string = '';
-  retirementDate: string;
-  endOfPlan: string;
+  retirementDate: string = new Date().getFullYear()+"";
+  endOfPlan: string = new Date().getFullYear()+"";
   message = '';
   errors = []
   desiredAdditions: string = '';
@@ -54,6 +54,7 @@ export class Home {
     if (this.name.length != 0 && this.type.length != 0 && this.value.length != 0) {
       this.addButton()
     }
+    var arr = this.tChildren.map(x => parseInt(x.age))
     sessionStorage.userData = JSON.stringify(
       {
         "filingStatus": this.filingStatus,
@@ -62,7 +63,8 @@ export class Home {
         "endOfPlanDate": this.endOfPlan,
         "assets": this.assets,
         "desiredAdditions": this.desiredAdditions,
-        "childrensAges": this.tChildren
+        "childrensAges": arr,
+        "currentAge":this.age,
       });
   }
 
@@ -107,8 +109,9 @@ attached() {
   var typeSelector: HTMLSelectElement;
   var statusSelector: HTMLSelectElement;
   var incomeText = document.getElementById("incomeRange")
+  var self = this
 
-  for (let i = from; i <= to; i += 5) {
+  for (let i = from; i <= to; i += 10) {
     dates.push(i) //get all the years from now for 80 years
   }
 
@@ -135,8 +138,8 @@ attached() {
 
   //save the data when the slider changes value
   range.noUiSlider.on('change', function () {
-    this.retirementDate = range.noUiSlider.get()[0]
-    this.endOfPlan = range.noUiSlider.get()[1]
+    self.retirementDate = range.noUiSlider.get()[0]
+    self.endOfPlan = range.noUiSlider.get()[1]
   });
 
   //if they are adding a 401k have options for employer match
