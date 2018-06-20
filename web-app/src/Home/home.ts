@@ -26,7 +26,7 @@ export class Home {
   childId: number = 0;
 
   addButton() {
-    if (this.value.match(new RegExp(/^\d*[0-9]\d*$/))) {
+    if (this.value.match(new RegExp(/^\d*[0-9]\d*$/)) && this.type != '') {
       //create a new asset and add it to the assets array
       let asset = { "name": this.name, "type": this.type, "value": this.value, "match": this.match, "cap": this.cap, "id": this.counter }
       this.assets = [...this.assets, asset]
