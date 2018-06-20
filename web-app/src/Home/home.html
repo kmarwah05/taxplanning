@@ -34,26 +34,32 @@
                           <div id="collapse" class="panel-collapse collapse in">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-xs-4">
-                                        <label for="filStatus" class="control-label" id="filingStatus" type="text" data-tip="Lorem Ipsum Lorem Ipsum">Filing Status:</label>
-                                        <select class="form-control mySelect" value.bind="filingStatus & validate" id="filing">
-                                          <option value="" disabled selected>Select one...</option>
-                                          <option value="Joint">Joint</option>
-                                          <option value="HeadOfHousehold">Head of Household</option>
-                                          <option value="Unmarried">Unmarried</option>
-                                          <option value="Married">Married</option>
-                                        </select>
-                                      </div>
-                            
-                                      <div class="col-xs-4">
-                                        <label for="incomeRange" class="control-label" id="incomeRange" type="text" data-tip="Lorem Ipsum Lorem Ipsum">Enter Income:</label>
-                                        <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
-                                      </div>
-                            
-                                      <div class="col-xs-4">
-                                        <label for="dAdditions" class="control-label" id="desiredAdditions">Yearly Additions:</label>
-                                        <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Additions" value.bind="desiredAdditions & validate">
-                                      </div>
+                                  <div class="col-xs-6">
+                                      <label for="filStatus" class="control-label" id="filingStatus" type="text" >Filing Status:</label>
+                                      <select class="form-control mySelect" value.bind="filingStatus & validate" id="filing">
+                                        <option value="" disabled selected>Select one...</option>
+                                        <option value="Joint">Joint</option>
+                                        <option value="HeadOfHousehold">Head of Household</option>
+                                        <option value="Unmarried">Unmarried</option>
+                                        <option value="Married">Married</option>
+                                      </select>
+                                  </div>
+
+                                  <div class="col-xs-6">
+                                      <label for="incomeRange" class="control-label" id="incomeRange" type="text" >Enter Income:</label>
+                                      <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
+                                  </div>
+
+                                  <div class="col-xs-6">
+                                      <label for="dAdditions" class="control-label" id="desiredAdditions" type="text" >Yearly Additions:</label>
+                                      <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Additions" value.bind="desiredAdditions & validate">
+                                  </div>
+
+                                  <div class="col-xs-6">
+                                      <label for="age" class="control-label" id="Age" type="text" >Age:</label>
+                                      <input type="currentAge" class="form-control" name="CurrentAge" placeholder="Enter your age" value.bind="currentAge & validate">
+                                  </div>
+
                                 </div>
                             </div>
                         </div>
@@ -234,7 +240,7 @@
       <form class="form-horizontal" id="myForm">
         <div class="row">
           <div class="col-xs-6">
-            <label for="filStatus" class="control-label" id="filingStatus" type="text" data-tip="Lorem Ipsum Lorem Ipsum">Filing Status:</label>
+            <label for="filStatus" class="control-label" id="filingStatus" type="text" >Filing Status:</label>
             <select class="form-control mySelect" value.bind="filingStatus & validate" id="filing">
               <option value="" disabled selected>Select one...</option>
               <option value="Joint">Joint</option>
@@ -246,7 +252,7 @@
           </div>
 
           <div class="col-xs-6">
-            <label for="incomeRange" class="control-label" id="incomeRange" type="text" data-tip="Lorem Ipsum Lorem Ipsum">Enter Income:</label>
+            <label for="incomeRange" class="control-label" id="incomeRange" type="text" >Enter Income:</label>
             <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
           </div>
         </div>
@@ -269,7 +275,7 @@
 
 
         
-         <h4 data-tip="Lorem Ipsum Lorem Ipsum">Select Retirement Date:</h4>
+         <h4>Select Retirement Date:</h4>
          <input type="text" id="range" name="range" />
          <p id = "test"></p>
         
@@ -357,9 +363,7 @@
      <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
     
 
-    <div class="myFooter">
-      <p>&copy; TAX PLANNING</p>
-    </div>
+   
 
   
     

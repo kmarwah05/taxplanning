@@ -27,7 +27,7 @@ export class Home {
   match: string = '';
   cap: string = '';
   children: string = '';
-
+  currentAge: string = '';
   tChildren = [];
   age: number;
   childId: number = 0;
@@ -88,6 +88,7 @@ export class Home {
       .ensure((m: Home) => m.basicAdjustment).displayName("Basic Adjustment value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.capitalGains).displayName("Capital gains value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.desiredAdditions).displayName("Additions").required().matches(new RegExp(/[0-9]/))
+      .ensure((m: Home) => m.currentAge).displayName("Current Age").required().matches(new RegExp(/[0-9]/))
       .on(this);
   }
 
