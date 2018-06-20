@@ -22,16 +22,12 @@ export class Home {
   desiredAdditions: string = '';
   match: string = '';
   cap: string = '';
-<<<<<<< HEAD
-  children: string = '';
-  currentAge: string = '';
+
   tChildren = [];
   age: number;
   childId: number = 0;
-=======
-  Tchildren = [];
-  age: number = -1;
->>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
+
+  currentAge: string = '';
 
   addButton() {
     //create a new asset and add it to the assets array
@@ -73,7 +69,7 @@ export class Home {
         "endOfPlanDate": this.endOfPlan,
         "assets": this.assets,
         "desiredAdditions": this.desiredAdditions,
-        "childrensAges": this.Tchildren
+        "childrensAges": this.tChildren
       });
   }
 
@@ -103,13 +99,7 @@ export class Home {
       })
   }
 
-  addChildren() {
-    if (this.age != -1) {
-      this.Tchildren = [...this.Tchildren, this.age]
-      console.log("Age ",this.age)
-    }
-    this.age = -1
-  }
+
 
   // sliders starts here
   attached() {
@@ -134,22 +124,12 @@ export class Home {
         }
       });
     });
-<<<<<<< HEAD
-      // sliders ends here
-    $('#Atype').change(function(){
-      if($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k"){
-        $('#Matchtext').css("display","block");
-        $('#Ematch').css("display","block");
-        $('#Ecap').css("display","block");
-        $('#Captext').css("display","block");
-=======
     $('#Atype').change(function () {
       if ($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k") {
         $('#Matchtext').css("display", "block");
         $('#Ematch').css("display", "block");
         $('#Ecap').css("display", "block");
         $('#Captext').css("display", "block");
->>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
       }
       else {
         $('#Matchtext').css("display", "none");
@@ -168,6 +148,7 @@ export class Home {
     });
   }
 
+  
   addChildren() {
     var child = {"age":this.age,"id":this.childId}
     this.tChildren = [...this.tChildren, child]
@@ -183,5 +164,4 @@ export class Home {
     });
     this.childId--;
     }
-
 }

@@ -28,7 +28,7 @@
                       <div class="panel panel-default">
                           <div class="panel-heading">
                               <h4 class="panel-title">
-                                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse"><span>BASIC INFO</span></a>
+                                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse"><span class="formTitle">BASIC INFO</span></a>
                               </h4>
                           </div>
                           <div id="collapse" class="panel-collapse collapse in">
@@ -47,7 +47,7 @@
 
                                   <div class="col-xs-6">
                                       <label for="incomeRange" class="control-label" id="incomeRange" type="text" >Enter Income:</label>
-                                      <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
+                                      <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income& validate">
                                   </div>
 
                                   <div class="col-xs-6">
@@ -66,7 +66,7 @@
                       </div>
                   </div>
                 </div>
-              </div> <!-- SECOND ROW ENDS HERE -->
+              </div> <!-- FIRST ROW ENDS HERE -->
 
 
 
@@ -76,7 +76,7 @@
                   <div class="panel panel-default">
                       <div class="panel-heading">
                           <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span>TAX CREDITS</span></a>
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="formTitle">TAX CREDITS</span></a>
                           </h4>
                       </div>
                       <div id="collapseOne" class="panel-collapse collapse in">
@@ -123,7 +123,7 @@
           <div class="panel panel-default">
               <div class="panel-heading">
                   <h4 class="panel-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span>ASSETS</span></a>
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="formTitle">ASSETS</span></a>
                   </h4>
               </div>
               <div id="collapseTwo" class="panel-collapse collapse">
@@ -192,7 +192,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><span>RETIREMENT</span></a>
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><span class="formTitle">RETIREMENT</span></a>
               </h4>
             </div>
             <div id="collapseThree" class="panel-collapse collapse">
@@ -202,11 +202,6 @@
               </div>
             </div>
           </div> <!--FORTH ROW ENDS HERE -->
-
-
-          
-                  
-
 
       </form>
     </div>
@@ -252,13 +247,8 @@
           </div>
 
           <div class="col-xs-6">
-<<<<<<< HEAD
-            <label for="incomeRange" class="control-label" id="incomeRange" type="text" >Enter Income:</label>
-            <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="incomeValidate & validate">
-=======
             <label for="incomeRange" class="control-label" id="incomeRange" type="text" data-tip="Lorem Ipsum Lorem Ipsum">Enter Income:</label>
             <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income & validate">
->>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
           </div>
         </div>
 
@@ -277,25 +267,15 @@
           <br>
         </div>
         <br>
-<<<<<<< HEAD
 
-
-        
-         <h4>Select Retirement Date:</h4>
-         <input type="text" id="range" name="range" />
-         <p id = "test"></p>
-        
-
-=======
-        <!--SLIDERS START-->
+       SLIDERS START
         <h4 data-tip="Lorem Ipsum Lorem Ipsum">Select Retirement Date:</h4>
         <input type="text" id="range" name="range" />
         <p id="test"></p>
-        <!--SLIDERS END-->
->>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
+        <SLIDERS END-->
     </div>
     </form>
-    </div>-->
+    </div>
     <!--FORM ENDS HERE-->
 
 
@@ -367,69 +347,5 @@
     </div>
     -->
 
-<<<<<<< HEAD
-
-
-     <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
-     <!--
-     <button class="btn btn-primary center-block mySubmit" click.delegate="validateButton()">Submit</button>
-     <h3 align="center">${message}</h3>
-     <ul>
-       <li repeat.for="error of errors">
-         <h4 id="myErrors">${error.message}</h4>
-       </li>
-     </ul> -->
-     <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
-    
-
-   
-
-  
-    
-=======
-    <div>
-      <table class="table table-bordered" aurelia-table="data.bind: Tchildren; display-data.bind: $childData" id="childTable">
-        <thead>
-          <tr>
-            <th>
-              Age
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><input type="text" class="form-control" placeholder="Age of your child at the end of the year" value.from-view="age" id="childAge"/></td>
-            <td>
-              <button click.delegate="addChildren()" id="myButton">
-                <span class="glyphicon glyphicon-plus addBtn">
-                </span>
-              </button>
-            </td>
-          </tr>
-          <tr repeat.for="element of $childData">
-            <td>${element}</td>
-            <td>
-                <button click.delegate="removeButton(user.id)" id="myButton">
-                  <span class="glyphicon glyphicon-minus minusBtn"> </span>
-                </button>
-              </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
-    <button class="btn btn-primary center-block mySubmit" click.delegate="validateButton()">Submit</button>
-    <h3 align="center">${message}</h3>
-    <ul>
-      <li repeat.for="error of errors">
-        <h4 id="myErrors">${error.message}</h4>
-      </li>
-    </ul>
-    <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
-
-    <div class="myFooter">
-      <p>&copy; TAX PLANNING</p>
-    </div>
->>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
   </body>
 </template>

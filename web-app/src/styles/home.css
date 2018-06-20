@@ -1,6 +1,6 @@
 
 body {
-  font-family: 'Muli', sans-serif;
+  background-color: #fcfcfc !important;
 }
 
 #myForm{
@@ -16,36 +16,37 @@ body {
   box-shadow: 0 0 13px 3px rgb(0, 0, 0,.5);
   overflow: hidden;
   padding: 25px;
+
 }
+.formTitle{
+  font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif !important;
+  font-weight: bold;
+  color: #5f9341 !important;
+}
+
 
 .table{
   border: 1px solid rgba(0,0,0,.2) !important;
   border-radius: 5px !important;
   -moz-border-radius: 5px !important;
   -webkit-border-radius: 5px !important;
-  -moz-background-clip: padding !important;
   -webkit-background-clip: padding-box !important;
   background-clip: padding-box !important;
-  background: #5a5959 !important;
-  -webkit-box-shadow: 0 0 13px 3px rgba(0,0,0,.5) !important;
-  box-shadow: 0 0 13px 3px rgb(0, 0, 0,.5) !important;
   overflow: hidden !important;
   padding: 25px ;
 }
+
+
+
 label[type=text]{
- color: black;
+ color: #333;;
 }
 
 #myButton{
-  background-color: #5a5959;
+  background-color: #fff;
   border: 0px;
 }
 
-
-.navbar{
-border-radius: 0px !important;
-margin-bottom: 90px !important;
-}
 
 .mySelect{
   height: 36px !important;
@@ -54,6 +55,13 @@ margin-bottom: 90px !important;
 ul{
   list-style-type: none;
   text-align: center;
+}
+
+h2 {
+  font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif !important;
+  font-weight: bold !important;
+  color: #333 !important;
+  margin-left: 1%;
 }
 
 .mySubmit{
@@ -127,9 +135,14 @@ body {
   display: none
 }
 
-p{
-color: black;
+a {
+  font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif !important;
+  font-weight: bold !important;
+  color: #5f9341 !important;
 }
+
+
+
 
 
 
