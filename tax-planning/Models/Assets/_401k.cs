@@ -78,6 +78,9 @@ namespace tax_planning.Models
             if (age >= 50 && !Name.Equals("Match"))
             {
                 MaxContributions = 22500.00M;
+            } else
+            {
+                MaxContributions = 18500.00M;
             }
         }
     }

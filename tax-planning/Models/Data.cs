@@ -98,6 +98,7 @@ namespace tax_planning.Models
             // Picks preferred assets
             Assets.FindAll(asset => asset.AssetType.Equals("Brokerage Holding")).ForEach(holding => holding.Preferred = true);
             var assetPairs = GetAssetPairs();
+            var afterTaxRetirementIncome = 0.00M;
             var maximum = 0.0M;
 
             assetPairs.ForEach(pair =>
@@ -120,12 +121,15 @@ namespace tax_planning.Models
 
                 // Calculates tax information
                 RetirementIncome = 0;
+                afterTaxRetirementIncome = 0;
                 Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset => RetirementIncome += asset.Withdrawal);
                 Assets.ForEach(asset => asset.CalculateData());
+                Assets.FindAll(asset => asset.Preferred).ForEach(asset => afterTaxRetirementIncome += asset.AfterTaxWithdrawal);
 
-                maximum = RetirementIncome > maximum ? RetirementIncome : maximum;
+                maximum = afterTaxRetirementIncome > maximum ? afterTaxRetirementIncome : maximum;
+                Console.WriteLine(RetirementIncome);
             }
-
+            
             for (var i = 0; i < 4; i++)
             {
                 if (i % 2 == 0)
@@ -141,10 +145,12 @@ namespace tax_planning.Models
 
                 // Calculates tax information
                 RetirementIncome = 0;
+                afterTaxRetirementIncome = 0;
                 Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset => RetirementIncome += asset.Withdrawal);
                 Assets.ForEach(asset => asset.CalculateData());
+                Assets.FindAll(asset => asset.Preferred).ForEach(asset => afterTaxRetirementIncome += asset.AfterTaxWithdrawal);
 
-                if (RetirementIncome == maximum) { return; }
+                if (afterTaxRetirementIncome == maximum) { return; }
             }
         }
 

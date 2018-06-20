@@ -12,6 +12,10 @@
             {
                 MaxContributions = 6500.00M;
             }
+            else
+            {
+                MaxContributions = 5500.00M;
+            }
         }
     }
 }

@@ -80,6 +80,10 @@ namespace tax_planning.Models
             {
                 MaxContributions = 22500.00M;
             }
+            else
+            {
+                MaxContributions = 18500.00M;
+            }
         }
     }
 }
