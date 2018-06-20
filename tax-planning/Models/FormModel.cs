@@ -24,10 +24,8 @@ namespace tax_planning.Models
         [Required]
         [Range(0, 1000000000000)]
         public decimal? DesiredAdditions { get; set; }
-
-        [Required]
-        [Range(0, int.MaxValue)]
-        public int NumberOfChildren { get; set; }
+        
+        public IEnumerable<int> ChildrensAges { get; set; }
 
         public IEnumerable<AssetModel> Assets { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Extensions;
 using tax_planning.Models;
 
@@ -21,7 +22,7 @@ namespace tax_planning.Models
     
         public static decimal DesiredAdditions { get; set; }
 
-        public static List<int> ChildrensAges { get; set; } = new List<int>();
+        public static List<int> ChildrensAges { get; set; }
 
         public static int NumberOfChildren
         {
@@ -68,6 +69,7 @@ namespace tax_planning.Models
             RetirementDate = formModel.RetirementDate.Value;
             EndOfPlanDate = formModel.EndOfPlanDate.Value;
             DesiredAdditions = formModel.DesiredAdditions.Value;
+            ChildrensAges = formModel.ChildrensAges?.ToList() ?? new List<int>();
 
             // Generate existing assets
             foreach (var asset in formModel.Assets)
@@ -96,20 +98,60 @@ namespace tax_planning.Models
             // Picks preferred assets
             Assets.FindAll(asset => asset.AssetType.Equals("Brokerage Holding")).ForEach(holding => holding.Preferred = true);
             var assetPairs = GetAssetPairs();
+            var afterTaxRetirementIncome = 0.00M;
+            var maximum = 0.0M;
 
             assetPairs.ForEach(pair =>
             {
-                pair.Item1.Preferred = pair.Item1.AfterTaxWithdrawal > pair.Item2.AfterTaxWithdrawal;
+                pair.Item1.Preferred = pair.Item1.Withdrawal > pair.Item2.Withdrawal;
                 pair.Item2.Preferred = !pair.Item1.Preferred;
             });
 
-            // Calculates tax information
-            Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset =>
+            for (var i = 0; i < 4; i++)
             {
-                RetirementIncome += asset.Withdrawal;
-                Console.WriteLine(asset.Withdrawal);
-            });
-            Assets.ForEach(asset => asset.CalculateData());
+                if (i % 2 == 0)
+                {
+                    assetPairs[0].Item1.Preferred = !assetPairs[0].Item1.Preferred;
+                    assetPairs[0].Item2.Preferred = !assetPairs[0].Item2.Preferred;
+                } else
+                {
+                    assetPairs[1].Item1.Preferred = !assetPairs[1].Item1.Preferred;
+                    assetPairs[1].Item2.Preferred = !assetPairs[1].Item2.Preferred;
+                }
+
+                // Calculates tax information
+                RetirementIncome = 0;
+                afterTaxRetirementIncome = 0;
+                Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset => RetirementIncome += asset.Withdrawal);
+                Assets.ForEach(asset => asset.CalculateData());
+                Assets.FindAll(asset => asset.Preferred).ForEach(asset => afterTaxRetirementIncome += asset.AfterTaxWithdrawal);
+
+                maximum = afterTaxRetirementIncome > maximum ? afterTaxRetirementIncome : maximum;
+                Console.WriteLine(RetirementIncome);
+            }
+            
+            for (var i = 0; i < 4; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    assetPairs[0].Item1.Preferred = !assetPairs[0].Item1.Preferred;
+                    assetPairs[0].Item2.Preferred = !assetPairs[0].Item2.Preferred;
+                }
+                else
+                {
+                    assetPairs[1].Item1.Preferred = !assetPairs[1].Item1.Preferred;
+                    assetPairs[1].Item2.Preferred = !assetPairs[1].Item2.Preferred;
+                }
+
+                // Calculates tax information
+                RetirementIncome = 0;
+                afterTaxRetirementIncome = 0;
+                Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset => RetirementIncome += asset.Withdrawal);
+                Assets.ForEach(asset => asset.CalculateData());
+                Assets.FindAll(asset => asset.Preferred).ForEach(asset => afterTaxRetirementIncome += asset.AfterTaxWithdrawal);
+
+                if (afterTaxRetirementIncome == maximum) { return; }
+            }
         }
 
         // Updates contribution caps, used in Asset.CalculateSchedule()

@@ -1,4 +1,4 @@
-import { inject, NewInstance } from 'aurelia-framework';
+import { inject, NewInstance, children } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
 import $ from '../../node_modules/jquery/dist/jquery.js';
 import 'aurelia-ion-rangeslider';
@@ -10,31 +10,32 @@ import 'aurelia-ion-rangeslider';
 export class Home {
   counter: number = 0;
   assets = [];
-  name: string = ''
-  type: string = ''
-  value: string = ''
-  filingStatus: string
-  income: string
-  basicAdjustment: string = '';
+  name: string = '';
+  type: string = '';
+  value: string = '';
+  filingStatus: string;
+  income: string = '';
   retirementDate: string;
   endOfPlan: string;
-  capitalGains: string
   message = '';
   errors = []
-  incomeValidate: string = '';
   desiredAdditions: string = '';
-  desiredWithdrawls: string = '';
   match: string = '';
   cap: string = '';
+<<<<<<< HEAD
   children: string = '';
   currentAge: string = '';
   tChildren = [];
   age: number;
   childId: number = 0;
+=======
+  Tchildren = [];
+  age: number = -1;
+>>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
 
   addButton() {
     //create a new asset and add it to the assets array
-    let asset = { "name": this.name, "type": this.type, "value": this.value, "match": this.match, "cap":this.cap,"id": this.counter }
+    let asset = { "name": this.name, "type": this.type, "value": this.value, "match": this.match, "cap": this.cap, "id": this.counter }
     this.assets = [...this.assets, asset]
     this.counter++;
     //reset the fields
@@ -64,16 +65,15 @@ export class Home {
     var t = document.getElementById("test").innerText.split(",")
     this.retirementDate = t[0]
     this.endOfPlan = t[1]
-    console.log("T: ", t, " RD: ", this.retirementDate, " EOP: ", this.endOfPlan)
     sessionStorage.userData = JSON.stringify(
       {
         "filingStatus": this.filingStatus,
-        "income": this.incomeValidate,
+        "income": this.income,
         "retirementDate": this.retirementDate,
         "endOfPlanDate": this.endOfPlan,
         "assets": this.assets,
         "desiredAdditions": this.desiredAdditions,
-        "numberOfChildren": this.children
+        "childrensAges": this.Tchildren
       });
   }
 
@@ -84,9 +84,7 @@ export class Home {
   constructor(private controller: ValidationController) {
     ValidationRules
       .ensure((m: Home) => m.filingStatus).displayName("Filing Status").required()
-      .ensure((m: Home) => m.incomeValidate).displayName("Income value").required().matches(new RegExp(/[0-9]/))
-      .ensure((m: Home) => m.basicAdjustment).displayName("Basic Adjustment value").required().matches(new RegExp(/[0-9]/))
-      .ensure((m: Home) => m.capitalGains).displayName("Capital gains value").required().matches(new RegExp(/[0-9]/))
+      .ensure((m: Home) => m.income).displayName("Income value").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.desiredAdditions).displayName("Additions").required().matches(new RegExp(/[0-9]/))
       .ensure((m: Home) => m.currentAge).displayName("Current Age").required().matches(new RegExp(/[0-9]/))
       .on(this);
@@ -105,9 +103,17 @@ export class Home {
       })
   }
 
+  addChildren() {
+    if (this.age != -1) {
+      this.Tchildren = [...this.Tchildren, this.age]
+      console.log("Age ",this.age)
+    }
+    this.age = -1
+  }
+
   // sliders starts here
   attached() {
-    var from = new Date().getFullYear()+1
+    var from = new Date().getFullYear() + 1
     var to = from + 80
 
     $(function () {
@@ -128,6 +134,7 @@ export class Home {
         }
       });
     });
+<<<<<<< HEAD
       // sliders ends here
     $('#Atype').change(function(){
       if($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k"){
@@ -135,20 +142,27 @@ export class Home {
         $('#Ematch').css("display","block");
         $('#Ecap').css("display","block");
         $('#Captext').css("display","block");
+=======
+    $('#Atype').change(function () {
+      if ($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k") {
+        $('#Matchtext').css("display", "block");
+        $('#Ematch').css("display", "block");
+        $('#Ecap').css("display", "block");
+        $('#Captext').css("display", "block");
+>>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
       }
-      else{
-        $('#Matchtext').css("display","none");
-        $('#Ematch').css("display","none");
-        $('#Ecap').css("display","none");
-        $('#Captext').css("display","none");
+      else {
+        $('#Matchtext').css("display", "none");
+        $('#Ematch').css("display", "none");
+        $('#Ecap').css("display", "none");
+        $('#Captext').css("display", "none");
       }
     });
-    $('#filing').change(function(){
-      console.log($('#filing option:selected').val())
-      if($('#filing option:selected').val() == "Joint"){
+    $('#filing').change(function () {
+      if ($('#filing option:selected').val() == "Joint") {
         $('#incomeRange').text("Enter Joint Income:")
       }
-      else{
+      else {
         $('#incomeRange').text("Enter Income:")
       }
     });

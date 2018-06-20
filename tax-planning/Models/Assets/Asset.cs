@@ -69,10 +69,20 @@ namespace tax_planning.Models
         // Not a constructor because Asset may be initialized with empty properties, in which case this would break
         public virtual void CalculateSchedule()
         {
-            List<decimal> amounts = new List<decimal>();
+            // Tax for dividends
+            if (GetType() == typeof(BrokerageHolding))
+            {
+                var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
+                InterestRateMultiplier = 1 - liability;
+            }
+
+            Data.UpdateCapsFor(Data.CurrentAge);
+            Data.ChildrensAges.RemoveAll(age => (age) >= 17);
+
+            List<decimal> amounts = new List<decimal>() { Value + Additions - CalculateTaxOnAddition(Additions) };
 
             // Add additions up to retirement
-            for (var i = 1; i <= TimeToRetirement; i++)
+            for (var i = 1; i < TimeToRetirement; i++)
             {
                 // Tax for dividends
                 if (GetType() == typeof(BrokerageHolding))
@@ -81,9 +91,9 @@ namespace tax_planning.Models
                     InterestRateMultiplier = 1 - liability;
                 }
 
-                UpdateCapsFor(Data.CurrentAge + i);
+                Data.UpdateCapsFor(Data.CurrentAge + i);
                 Data.ChildrensAges.RemoveAll(age => (age + i) >= 17);
-                amounts.Add(Decimal.Round(GetFutureValueAfter(years: i, withAdditions: (Additions - CalculateTaxOnAddition(Additions))), 2));
+                amounts.Add(CalculateNextYearAmount(amounts[i - 1], Additions - CalculateTaxOnAddition(Additions)));
             }
 
             // According to BAs this is correct
@@ -115,16 +125,6 @@ namespace tax_planning.Models
         {
             // Payment calculation
             return (InterestRate * principal) / (1 - (decimal)Math.Pow(1 + (double)InterestRate, -steps));
-        }
-
-        protected decimal GetFutureValueAfter(int years, decimal withAdditions = 0.00M)
-        {
-            var futureValue = Value;
-            for (var i = 0; i < years; i++)
-            {
-                futureValue = CalculateNextYearAmount(previousYearAmount: futureValue, yearDelta: withAdditions);
-            }
-            return futureValue;
         }
 
         protected virtual decimal CalculateNextYearAmount(decimal previousYearAmount, decimal yearDelta)
