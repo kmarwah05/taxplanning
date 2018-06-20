@@ -1,7 +1,7 @@
 import { inject, NewInstance, children } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
-import $ from '../../node_modules/jquery/dist/jquery.js';
-import 'aurelia-ion-rangeslider';
+import noUiSlider from 'nouislider';
+import wNumb from 'wnumb';
 
 @inject(NewInstance.of(ValidationController))
 export class Home {
@@ -97,52 +97,79 @@ export class Home {
 
 
 
-  // sliders starts here
-  attached() {
-    var from = new Date().getFullYear() + 1
-    var to = from + 80
+// sliders starts here
+attached() {
+  var from = new Date().getFullYear() + 1
+  var to = from + 80
+  var dates = [];
+  var range: noUiSlider = <noUiSlider>document.getElementById("range");
+  var Matchtext = document.getElementById("Matchtext")
+  var Ematch = document.getElementById("Ematch")
+  var Ecap = document.getElementById("Ecap")
+  var Captext = document.getElementById("Captext")
+  var typeSelector: HTMLSelectElement;
+  var statusSelector: HTMLSelectElement;
+  var incomeText = document.getElementById("incomeRange")
 
-    $(function () {
-      $('#range').ionRangeSlider({
-        min: from,
-        max: to,
-        from: from,
-        to: to,
-        type: 'int',
-        grid: true,
-        grid_num: 10,
-        prettify_enabled: false,
-        onChange: function (data) {
-          $('#test').prop("innerText", [data.from, data.to])
-        },
-        onStart: function (data) {
-          $('#test').prop("innerText", [data.from, data.to])
-        }
-      });
-    });
-    $('#Atype').change(function () {
-      if ($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k") {
-        $('#Matchtext').css("display", "block");
-        $('#Ematch').css("display", "block");
-        $('#Ecap').css("display", "block");
-        $('#Captext').css("display", "block");
-      }
-      else {
-        $('#Matchtext').css("display", "none");
-        $('#Ematch').css("display", "none");
-        $('#Ecap').css("display", "none");
-        $('#Captext').css("display", "none");
-      }
-    });
-    $('#filing').change(function () {
-      if ($('#filing option:selected').val() == "Joint") {
-        $('#incomeRange').text("Enter Joint Income:")
-      }
-      else {
-        $('#incomeRange').text("Enter Income:")
-      }
-    });
+  for (let i = from; i <= to; i += 5) {
+    dates.push(i) //get all the years from now for 80 years
   }
+
+  //create slider
+  noUiSlider.create(range, {
+    start: [from, to],
+    range: {
+      min: from,
+      max: to
+    },
+    tooltips: true,
+    connect: true,
+    step: 1,
+    format: wNumb({
+      decimals: 0
+    }),
+    pips: {
+      mode: 'values',
+      values: dates,
+      steped: true,
+      density: 12
+    }
+  });
+
+  //save the data when the slider changes value
+  range.noUiSlider.on('change', function () {
+    this.retirementDate = range.noUiSlider.get()[0]
+    this.endOfPlan = range.noUiSlider.get()[1]
+  });
+
+  //if they are adding a 401k have options for employer match
+  typeSelector = <HTMLSelectElement>document.getElementById("Atype")
+  typeSelector.addEventListener("change", function (event) {
+    if (this.value == "Roth 401k" || this.value == "401k") {
+      Matchtext.style.display = "block"
+      Ematch.style.display = "block"
+      Ecap.style.display = "block"
+      Captext.style.display = "block"
+    }
+    else {
+      Matchtext.style.display = "none"
+      Ematch.style.display = "none"
+      Ecap.style.display = "none"
+      Captext.style.display = "none"
+    }
+  });
+
+  //if they are filing jointly we need combined income
+  statusSelector = <HTMLSelectElement>document.getElementById("filing")
+  statusSelector.addEventListener("change", function (event) {
+    if (this.value == "Joint") {
+      incomeText.innerText = "Enter Joint Income:"
+    }
+    else {
+      incomeText.innerText = "Enter Income:"
+    }
+  })
+}
 
   
   addChildren() {
