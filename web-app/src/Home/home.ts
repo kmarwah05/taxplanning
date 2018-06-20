@@ -3,9 +3,6 @@ import { ValidationRules, ValidationController } from 'aurelia-validation';
 import $ from '../../node_modules/jquery/dist/jquery.js';
 import 'aurelia-ion-rangeslider';
 
-
-
-
 @inject(NewInstance.of(ValidationController))
 export class Home {
   counter: number = 0;
@@ -22,16 +19,11 @@ export class Home {
   desiredAdditions: string = '';
   match: string = '';
   cap: string = '';
-<<<<<<< HEAD
   children: string = '';
   currentAge: string = '';
   tChildren = [];
   age: number;
   childId: number = 0;
-=======
-  Tchildren = [];
-  age: number = -1;
->>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
 
   addButton() {
     //create a new asset and add it to the assets array
@@ -73,7 +65,7 @@ export class Home {
         "endOfPlanDate": this.endOfPlan,
         "assets": this.assets,
         "desiredAdditions": this.desiredAdditions,
-        "childrensAges": this.Tchildren
+        "childrensAges": this.tChildren
       });
   }
 
@@ -103,14 +95,6 @@ export class Home {
       })
   }
 
-  addChildren() {
-    if (this.age != -1) {
-      this.Tchildren = [...this.Tchildren, this.age]
-      console.log("Age ",this.age)
-    }
-    this.age = -1
-  }
-
   // sliders starts here
   attached() {
     var from = new Date().getFullYear() + 1
@@ -134,7 +118,6 @@ export class Home {
         }
       });
     });
-<<<<<<< HEAD
       // sliders ends here
     $('#Atype').change(function(){
       if($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k"){
@@ -142,14 +125,6 @@ export class Home {
         $('#Ematch').css("display","block");
         $('#Ecap').css("display","block");
         $('#Captext').css("display","block");
-=======
-    $('#Atype').change(function () {
-      if ($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k") {
-        $('#Matchtext').css("display", "block");
-        $('#Ematch').css("display", "block");
-        $('#Ecap').css("display", "block");
-        $('#Captext').css("display", "block");
->>>>>>> 3621503d09b11f8cd27865edf2d7bc81befd4fdc
       }
       else {
         $('#Matchtext').css("display", "none");
