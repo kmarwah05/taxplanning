@@ -72,8 +72,14 @@ namespace tax_planning.Models
             // Tax for dividends
             if (GetType() == typeof(BrokerageHolding))
             {
-                var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
-                InterestRateMultiplier = 1 - liability;
+                if (Data.Income != 0)
+                {
+                    var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
+                    InterestRateMultiplier = 1 - liability;
+                } else
+                {
+                    InterestRateMultiplier = 1;
+                }
             }
 
             Data.UpdateCapsFor(Data.CurrentAge);
@@ -87,8 +93,15 @@ namespace tax_planning.Models
                 // Tax for dividends
                 if (GetType() == typeof(BrokerageHolding))
                 {
-                    var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
-                    InterestRateMultiplier = 1 - liability;
+                    if (Data.Income != 0)
+                    {
+                        var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.Income, Data.BasicAdjustment) / Data.Income;
+                        InterestRateMultiplier = 1 - liability;
+                    }
+                    else
+                    {
+                        InterestRateMultiplier = 1;
+                    }
                 }
 
                 Data.UpdateCapsFor(Data.CurrentAge + i);
@@ -99,8 +112,13 @@ namespace tax_planning.Models
             // Tax for dividends
             if (GetType() == typeof(BrokerageHolding))
             {
-                var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.RetirementIncome, Data.BasicAdjustment) / Data.RetirementIncome;
-                InterestRateMultiplier = 1 - liability;
+                if (Data.RetirementIncome != 0) {
+                    var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.RetirementIncome, Data.BasicAdjustment) / Data.RetirementIncome;
+                    InterestRateMultiplier = 1 - liability;
+                } else
+                {
+                    InterestRateMultiplier = 1;
+                }
             }
 
             // Get the withdrawal
