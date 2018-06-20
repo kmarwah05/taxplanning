@@ -96,8 +96,12 @@ namespace tax_planning.Models
                 amounts.Add(CalculateNextYearAmount(amounts[i - 1], Additions - CalculateTaxOnAddition(Additions)));
             }
 
-            // According to BAs this is correct
-            if (GetType() == typeof(BrokerageHolding)) { InterestRateMultiplier = 1.0M; }
+            // Tax for dividends
+            if (GetType() == typeof(BrokerageHolding))
+            {
+                var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, Data.RetirementIncome, Data.BasicAdjustment) / Data.RetirementIncome;
+                InterestRateMultiplier = 1 - liability;
+            }
 
             // Get the withdrawal
             var delta = GetWithdrawalFor(amounts[TimeToRetirement - 1], RetirementLength);
@@ -114,7 +118,7 @@ namespace tax_planning.Models
             YearlyAmount = amounts;
         }
 
-        public virtual void CalculateData()
+        public virtual void CalculateTaxInfo()
         {
             AfterTaxWithdrawal = Decimal.Round(Withdrawal - CalculateTaxOnWithdrawal(Withdrawal, Data.RetirementIncome), 2);
             TotalCashOut = Decimal.Round(AfterTaxWithdrawal * RetirementLength, 2);

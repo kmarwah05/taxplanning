@@ -8,6 +8,7 @@ namespace tax_planning.Models
 
         protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal, decimal income)
         {
+            if (income == 0) { return 0; }
             var liability = IncomeTaxCalculator.TotalIncomeTaxFor(Data.FilingStatus, income, 0.00M) / income;
             return withdrawal * liability;
         }

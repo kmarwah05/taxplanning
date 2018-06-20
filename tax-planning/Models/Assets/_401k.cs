@@ -57,11 +57,11 @@ namespace tax_planning.Models
             Match?.CalculateSchedule();
         }
 
-        public override void CalculateData()
+        public override void CalculateTaxInfo()
         {
             if (Match != null)
             {
-                Match.CalculateData();
+                Match.CalculateTaxInfo();
                 YearlyAmount = YearlyAmount.Select((amount, index) => amount + Match.YearlyAmount[index]).ToList();
                 AfterTaxWithdrawal = Decimal.Round(_Withdrawal - CalculateTaxOnWithdrawal(_Withdrawal, Data.RetirementIncome), 2) + Match.AfterTaxWithdrawal;
                 TotalCashOut = Decimal.Round(AfterTaxWithdrawal * RetirementLength, 2) + Match.TotalCashOut;
@@ -69,7 +69,7 @@ namespace tax_planning.Models
             }
             else
             {
-                base.CalculateData();
+                base.CalculateTaxInfo();
             }
         }
 
