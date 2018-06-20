@@ -15,7 +15,6 @@ export function configure(aurelia: Aurelia) {
     .plugin(PLATFORM.moduleName('au-table'))
     .plugin(PLATFORM.moduleName('aurelia-validation'))
     .plugin(PLATFORM.moduleName('aurelia-validatejs'))
-    .plugin(PLATFORM.moduleName('aurelia-ion-rangeslider'))
     .feature(PLATFORM.moduleName('resources/index'));
 
   // Uncomment the line below to enable animation.

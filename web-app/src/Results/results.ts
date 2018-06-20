@@ -1,8 +1,8 @@
 import { inject } from 'aurelia-framework';
 import { HttpService } from 'HttpService';
 import { Chart } from 'chart.js';
-import $ from '../../node_modules/jquery/dist/jquery.js';
-import 'aurelia-ion-rangeslider';
+import noUiSlider from 'nouislider';
+import wNumb from 'wnumb';
 
 @inject(HttpService)
 export class Results {
@@ -257,46 +257,40 @@ export class Results {
 
   attached() {
     var storage = JSON.parse(sessionStorage.userData)
-    var $range = $('#range'),
-      $input = $('#addInput'),
-      min = 0,
-      instance,
-      max = parseInt(storage.income),
-      from = parseInt(storage.desiredAdditions)
+    var min = 0;
+    var max = parseInt(storage.income)
+    var from = parseInt(storage.desiredAdditions)
+    var range: noUiSlider = <noUiSlider>document.getElementById("range")
+    var additionSelector: HTMLInputElement = <HTMLInputElement>document.getElementById("addInput")
+    var self = this;
 
-    $range.ionRangeSlider({
-      type: "single",
-      min: min,
-      max: max,
-      from: from,
-      grid: true,
-      grid_num: 10,
-      prettify_enabled: false,
-      onFinish: function (data) {
-        $('#add').prop("innerText", data.from)
-        $('#addInput').prop("value", data.from)
+    noUiSlider.create(range,{
+      start: from,
+      range: {
+        min: min,
+        max: max
       },
-      onUpdate: function (data) {
-        $('#add').prop("innerText", data.from)
+      tooltips: true,
+      connect: true,
+      step: 100,
+      format: wNumb({
+        decimals: 0
+      }),
+      pips: {
+        mode: 'range',
+        density: 10
       }
     });
 
-    instance = $range.data("ionRangeSlider");
-
-    $input.on("change keyup", function () {
-      var val = $(this).prop("value");
-
-      // validate
-      if (val < min) {
-        val = min;
-      } else if (val > max) {
-        val = max;
-      }
-
-      instance.update({
-        from: val
-      });
+    range.noUiSlider.on('set', function () {
+      self.additionChange = range.noUiSlider.get()
+      self.GetResults()
     });
+
+    additionSelector.addEventListener("change",function(){
+      self.additionChange = range.noUiSlider.get()
+      self.GetResults()
+    })
   }
 
   UpdateAdditions() {
