@@ -3,6 +3,9 @@ import { ValidationRules, ValidationController } from 'aurelia-validation';
 import $ from '../../node_modules/jquery/dist/jquery.js';
 import 'aurelia-ion-rangeslider';
 
+
+
+
 @inject(NewInstance.of(ValidationController))
 export class Home {
   counter: number = 0;
@@ -24,6 +27,10 @@ export class Home {
   match: string = '';
   cap: string = '';
   children: string = '';
+
+  tChildren = [];
+  age: number;
+  childId: number = 0;
 
   addButton() {
     //create a new asset and add it to the assets array
@@ -120,6 +127,7 @@ export class Home {
         }
       });
     });
+      // sliders ends here
     $('#Atype').change(function(){
       if($('#Atype option:selected').val() == "Roth 401k" || $('#Atype option:selected').val() == "401k"){
         $('#Matchtext').css("display","block");
@@ -144,7 +152,21 @@ export class Home {
       }
     });
   }
-  // sliders ends here
 
+  addChildren() {
+    var child = {"age":this.age,"id":this.childId}
+    this.tChildren = [...this.tChildren, child]
+    this.childId++;
+    }
+     
+    removeChild(id){
+    let i = 0;
+    this.tChildren.splice(id, 1); //remove the element that you clicked
+    this.tChildren.forEach(element => { //fix the array index
+    element.id = i
+    i++;
+    });
+    this.childId--;
+    }
 
 }
