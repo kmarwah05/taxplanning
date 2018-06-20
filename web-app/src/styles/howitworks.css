@@ -2,9 +2,22 @@ body {
   background-color: #fcfcfc !important;
 }
 
+h2 {
+  font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif !important;
+  font-weight: bold !important;
+  color: #333 !important;
+  margin-left: 1%;
+}
+
+a {
+  font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif;
+  font-weight: bold;
+  color: #5f9341 !important;
+}
+
 .heading {
   font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif;
-  color: #26A65B;
+  color: #5f9341;
 }
 
 .text {
