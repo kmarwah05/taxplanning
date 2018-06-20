@@ -13,7 +13,7 @@ export class Home {
   filingStatus: string;
   income: string = '';
   retirementDate: string = new Date().getFullYear()+"";
-  endOfPlan: string = new Date().getFullYear()+"";
+  endOfPlan: string = new Date().getFullYear()+80+"";
   message = '';
   errors = []
   desiredAdditions: string = '';
