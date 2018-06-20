@@ -3,9 +3,6 @@ import { ValidationRules, ValidationController } from 'aurelia-validation';
 import $ from '../../node_modules/jquery/dist/jquery.js';
 import 'aurelia-ion-rangeslider';
 
-
-
-
 @inject(NewInstance.of(ValidationController))
 export class Home {
   counter: number = 0;
@@ -22,12 +19,11 @@ export class Home {
   desiredAdditions: string = '';
   match: string = '';
   cap: string = '';
-
+  children: string = '';
+  currentAge: string = '';
   tChildren = [];
   age: number;
   childId: number = 0;
-
-  currentAge: string = '';
 
   addButton() {
     //create a new asset and add it to the assets array

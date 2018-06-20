@@ -24,6 +24,9 @@ namespace tax_planning.Models
         [Required]
         [Range(0, 1000000000000)]
         public decimal? DesiredAdditions { get; set; }
+
+        [Range(0, 200)]
+        public int CurrentAge { get; set; } = 0;
         
         public IEnumerable<int> ChildrensAges { get; set; }
 

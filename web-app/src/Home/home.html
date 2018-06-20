@@ -47,7 +47,7 @@
 
                                   <div class="col-xs-6">
                                       <label for="incomeRange" class="control-label" id="incomeRange" type="text" >Enter Income:</label>
-                                      <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income& validate">
+                                      <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income & validate">
                                   </div>
 
                                   <div class="col-xs-6">
@@ -268,11 +268,13 @@
         </div>
         <br>
 
-       SLIDERS START
-        <h4 data-tip="Lorem Ipsum Lorem Ipsum">Select Retirement Date:</h4>
-        <input type="text" id="range" name="range" />
-        <p id="test"></p>
-        <SLIDERS END-->
+
+        
+         <h4>Select Retirement Date:</h4>
+         <input type="text" id="range" name="range" />
+         <p id = "test"></p>
+        
+
     </div>
     </form>
     </div>
@@ -347,5 +349,23 @@
     </div>
     -->
 
+
+
+     <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
+     <!--
+     <button class="btn btn-primary center-block mySubmit" click.delegate="validateButton()">Submit</button>
+     <h3 align="center">${message}</h3>
+     <ul>
+       <li repeat.for="error of errors">
+         <h4 id="myErrors">${error.message}</h4>
+       </li>
+     </ul> -->
+     <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
+    
+
+   
+
+  
+    
   </body>
 </template>
