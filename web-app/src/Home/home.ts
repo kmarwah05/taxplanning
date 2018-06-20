@@ -54,9 +54,6 @@ export class Home {
     if (this.name.length != 0 && this.type.length != 0 && this.value.length != 0) {
       this.addButton()
     }
-    var t = document.getElementById("test").innerText.split(",")
-    this.retirementDate = t[0]
-    this.endOfPlan = t[1]
     sessionStorage.userData = JSON.stringify(
       {
         "filingStatus": this.filingStatus,

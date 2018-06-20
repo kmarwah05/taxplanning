@@ -209,7 +209,9 @@
           </div>
           <div id="collapseThree" class="panel-collapse collapse">
             <div class="panel-body">
+              
               <div id="range" class="noUiSlider"></div>
+           
             </div>
           </div>
         </div>
@@ -231,152 +233,6 @@
       </li>
     </ul>
     <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
-
-
-
-
-
-
-
-
-
-
-    <!--FORM STARTS HERE-->
-    <!--
-    <div class="mx-auto w-75">
-      <form class="form-horizontal" id="myForm">
-        <div class="row">
-          <div class="col-xs-6">
-            <label for="filStatus" class="control-label" id="filingStatus" type="text" >Filing Status:</label>
-            <select class="form-control mySelect" value.bind="filingStatus & validate" id="filing">
-              <option value="" disabled selected>Select one...</option>
-              <option value="Joint">Joint</option>
-              <option value="HeadOfHousehold">Head of Household</option>
-              <option value="Unmarried">Unmarried</option>
-              <option value="Married">Married</option>
-            </select>
-
-          </div>
-
-          <div class="col-xs-6">
-            <label for="incomeRange" class="control-label" id="incomeRange" type="text" data-tip="Lorem Ipsum Lorem Ipsum">Enter Income:</label>
-            <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income & validate">
-          </div>
-        </div>
-
-        <br>
-
-        <div class="row">
-          <div class="col-xs-6">
-            <label for="noChildren" class="control-label" id="noOfChildren">No. of children under 17:</label>
-            <input type="nChildren" class="form-control" name="NoOfChildrenUnder17" placeholder="Enter No of Children Under 17" value.bind="numberOfChildren & validate">
-          </div>
-
-          <div class="col-xs-6">
-            <label for="dAdditions" class="control-label" id="desiredAdditions">Yearly Additions:</label>
-            <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Additions" value.bind="desiredAdditions & validate">
-          </div>
-          <br>
-        </div>
-        <br>
-
-
-        
-         <h4>Select Retirement Date:</h4>
-         <input type="text" id="range" name="range" />
-         <p id = "test"></p>
-        
-
-    </div>
-    </form>
-    </div>
-    <!--FORM ENDS HERE-->
-
-
-
-
-
-    <!-- DON'T TOUCH BELOW CODE (TABLE)  
-    <div class="mx-auto w-75">
-      <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
-        <thead>
-          <tr>
-            <th>Asset Name</th>
-            <th>Asset Type</th>
-            <th>
-              <div class="display-block row mx-auto">
-                <div class="col mx-1">Asset Value</div>
-                <div id="Matchtext" class="col mx-1">Employer Match</div>
-                <div id="Captext" class="col mx-1">Employer Match Cap</div>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody id="AssetTable">
-          <tr>
-            <td>
-              <input type="text" class="form-control" id="Aname" value.bind="name">
-            </td>
-            <td>
-              <select class="form-control h-100" id="Atype" value.bind="type">
-                <option value="" disabled selected>Choose Asset Type</option>
-                <option value="IRA">IRA</option>
-                <option value="Roth IRA">Roth IRA</option>
-                <option value="401k">401k</option>
-                <option value="Roth 401k">Roth 401k</option>
-              </select>
-            </td>
-            <td>
-              <div class="display-block row mx-auto">
-                <input type="text" class="form-control col mx-1" id="Avalue" value.bind="value">
-                <input type="number" class="form-control col mx-1" id="Ematch" value.bind="match">
-                <input type="number" class="form-control col mx-1" id="Ecap" value.bind="cap">
-              </div>
-            </td>
-            <td>
-              <button click.delegate="addButton()" id="myButton">
-                <span class="glyphicon glyphicon-plus addBtn">
-                </span>
-              </button>
-            </td>
-          </tr>
-          <tr repeat.for="user of $displayData">
-            <td>${user.name}</td>
-            <td>${user.type}</td>
-            <td>
-              <div class="display-block row mx-auto">
-                <div class="col mx-1">$${user.value}</div>
-                <div id="Displaymatch" class="col mx-1">${user.match}</div>
-                <div class="col mx-1">${user.cap}</div>
-              </div>
-            </td>
-            <td>
-              <button click.delegate="removeButton(user.id)" id="myButton">
-                <span class="glyphicon glyphicon-minus minusBtn"> </span>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    -->
-
-
-
-    <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
-    <!--
-     <button class="btn btn-primary center-block mySubmit" click.delegate="validateButton()">Submit</button>
-     <h3 align="center">${message}</h3>
-     <ul>
-       <li repeat.for="error of errors">
-         <h4 id="myErrors">${error.message}</h4>
-       </li>
-     </ul> -->
-    <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
-
-
-
-
 
 
   </body>
