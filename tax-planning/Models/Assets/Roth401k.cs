@@ -18,9 +18,9 @@ namespace tax_planning.Models
             {
                 if (Match != null)
                 {
-                    Match.Additions = (value * EmployerMatchPercentage > Data.Income * EmployerMatchCap) ?
+                    Match.Additions = (Data.Income * EmployerMatchPercentage > Data.Income * EmployerMatchCap) ?
                             Data.Income * EmployerMatchCap :
-                            value * EmployerMatchPercentage;
+                            Data.Income * EmployerMatchPercentage;
                 }
             }
         }
