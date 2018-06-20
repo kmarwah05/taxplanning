@@ -18,9 +18,9 @@ namespace tax_planning.Models
             {
                 if (Match != null)
                 {
-                    Match.Additions = (Data.Income * EmployerMatchPercentage > Data.Income * EmployerMatchCap * EmployerMatchPercentage) ?
-                            Data.Income * EmployerMatchCap * EmployerMatchPercentage :
-                            Data.Income * EmployerMatchPercentage;
+                    Match.Additions = (value * EmployerMatchPercentage > Data.Income * EmployerMatchCap * EmployerMatchPercentage) ?
+                            value * EmployerMatchCap * EmployerMatchPercentage :
+                            value * EmployerMatchPercentage;
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace tax_planning.Models
         {
             if (age >= 50 && !Name.Equals("Match"))
             {
-                MaxContributions = 22500.00M;
+                MaxContributions = 24500.00M;
             }
             else
             {

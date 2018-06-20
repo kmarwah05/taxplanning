@@ -69,6 +69,7 @@ namespace tax_planning.Models
             RetirementDate = formModel.RetirementDate.Value;
             EndOfPlanDate = formModel.EndOfPlanDate.Value;
             DesiredAdditions = formModel.DesiredAdditions.Value;
+            CurrentAge = formModel.CurrentAge;
             ChildrensAges = formModel.ChildrensAges?.ToList() ?? new List<int>();
 
             // Generate existing assets
@@ -122,7 +123,10 @@ namespace tax_planning.Models
                 // Calculates tax information
                 RetirementIncome = 0;
                 afterTaxRetirementIncome = 0;
-                Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset => RetirementIncome += asset.Withdrawal);
+                Assets.FindAll(asset => asset.Preferred &&
+                    !asset.AssetType.Equals("Brokerage Holding") &&
+                    asset.GetType() != typeof(RothRetirementAsset))
+                    .ForEach(asset => RetirementIncome += asset.Withdrawal);
                 Assets.ForEach(asset => asset.CalculateData());
                 Assets.FindAll(asset => asset.Preferred).ForEach(asset => afterTaxRetirementIncome += asset.AfterTaxWithdrawal);
 

@@ -103,7 +103,7 @@ namespace tax_planning.Models
             var delta = GetWithdrawalFor(amounts[TimeToRetirement - 1], RetirementLength);
 
             // Populate the rest of the schedule
-            for (var i = TimeToRetirement; i < RetirementLength + TimeToRetirement; i++)
+            for (var i = TimeToRetirement; i < TimeToRetirement + RetirementLength; i++)
             {
                 amounts.Add(CalculateNextYearAmount(amounts[i - 1], -delta));
             }
