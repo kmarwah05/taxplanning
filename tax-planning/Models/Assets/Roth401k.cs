@@ -13,16 +13,17 @@ namespace tax_planning.Models
 
         public override decimal Additions
         {
-            get => Data.Additions[0];
-            set
+            get
             {
-                if (Match != null)
+                if (Name.Equals("Match"))
                 {
-                    Match.Additions = (value * EmployerMatchPercentage > Data.Income * EmployerMatchCap * EmployerMatchPercentage) ?
-                            value * EmployerMatchCap * EmployerMatchPercentage :
-                            value * EmployerMatchPercentage;
+                    return (Data.Additions[0] * Data.EmployerMatchPercentage > Data.Income * Data.EmployerMatchCap * Data.EmployerMatchPercentage) ?
+                            Data.Income * Data.EmployerMatchCap * Data.EmployerMatchPercentage :
+                            Data.Additions[0] * Data.EmployerMatchPercentage;
                 }
+                return Data.Additions[0];
             }
+            set => base.Additions = value;
         }
 
         public override decimal Withdrawal
@@ -36,21 +37,10 @@ namespace tax_planning.Models
 
         public decimal WithdrawalFromEmployerContribution => Match?.Withdrawal ?? 0;
 
-        private decimal EmployerMatchPercentage { get; set; }
-        private decimal EmployerMatchCap { get; set; }
-
-        public Roth401k() : base() { }
-
-        public Roth401k((decimal percentage, decimal cap) matching)
-        {
-            if (matching.percentage > 0.00M)
+        public Roth401k() {
+            if (Data.EmployerMatchPercentage > 0.00M)
             {
-                Match = new _401k()
-                {
-                    Name = "Match"
-                };
-                EmployerMatchPercentage = matching.percentage;
-                EmployerMatchCap = matching.cap;
+                Match = new _401k("Match");
             }
         }
 
@@ -64,6 +54,7 @@ namespace tax_planning.Models
         {
             if (Match != null)
             {
+                base.CalculateSchedule();
                 Match.CalculateTaxInfo();
                 YearlyAmount = YearlyAmount.Select((amount, index) => amount + Match.YearlyAmount[index]).ToList();
                 AfterTaxWithdrawal = Decimal.Round(_Withdrawal - CalculateTaxOnWithdrawal(_Withdrawal, Data.RetirementIncome), 2) + Match.AfterTaxWithdrawal;
