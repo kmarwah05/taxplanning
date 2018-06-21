@@ -2,6 +2,9 @@ import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
+import { fstat } from 'fs';
+
+
 
 @inject(NewInstance.of(ValidationController))
 export class Home {
@@ -121,10 +124,10 @@ export class Home {
       .validate()
       .then(v => {
         if (v.valid)
-          window.location.href = "http://localhost:8080/results"
+          window.location.href = "/results"
         else
           this.message = "You have errors!";
-        this.errors = v.results;
+          this.errors = v.results;
       })
   }
 
