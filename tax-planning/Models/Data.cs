@@ -31,6 +31,10 @@ namespace tax_planning.Models
 
         public static int CurrentAge { get; set; }
 
+        public static decimal EmployerMatchPercentage { get; set; }
+
+        public static decimal EmployerMatchCap { get; set; }
+
         public static List<Asset> Assets { get; set; } = new List<Asset>();
 
         // [0] additions for 401k, [1] additions for IRA, [2] leftovers go in equity
@@ -71,6 +75,9 @@ namespace tax_planning.Models
             DesiredAdditions = formModel.DesiredAdditions.Value;
             CurrentAge = formModel.CurrentAge;
             ChildrensAges = formModel.ChildrensAges?.ToList() ?? new List<int>();
+            EmployerMatchPercentage = formModel.Match / 100;
+            EmployerMatchCap = formModel.Cap / 100;
+
 
             // Generate existing assets
             foreach (var asset in formModel.Assets)
@@ -80,8 +87,7 @@ namespace tax_planning.Models
                     Assets.Add(AssetFactory.Create(
                     name: asset.Name,
                     assetType: asset.Type,
-                    value: asset.Value,
-                    matching: (asset.Match, asset.Cap)
+                    value: asset.Value
                 ));
                 }
                 catch (Exception)

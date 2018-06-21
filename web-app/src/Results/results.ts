@@ -18,6 +18,7 @@ export class Results {
   }
 
   BuildChart(counter) {
+    var colors = ["rgba(133,187,101,1)", "rgba(102,51,153,1)", "rgba(153,51,153,1)", "rgba(134,226,213,1)", "rgba(134,193,226,1)", "rgba(196,255,0,1)"]
     for (let i = 0; i <= counter; i++) {
       var chart = document.getElementById('chart' + i);
       var years = this.data[i].years
@@ -33,7 +34,6 @@ export class Results {
       }
       if (i == 0) {
         for (let j = 0; j < this.data.length; j++) {
-          var randomColor = 'rgba(' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',' + this.getRandomInt(256) + ',1)'
           dataset = {
             data: [],
             label: "",
@@ -46,22 +46,22 @@ export class Results {
             dataset.data = [...dataset.data, element]
           });
           dataset.label = this.data[j].name
-          dataset.pointBackgroundColor = randomColor
-          dataset.borderColor = randomColor
-          dataset.backgroundColor = randomColor
+          dataset.pointBackgroundColor = colors[j]
+          dataset.borderColor = colors[j]
+          dataset.backgroundColor = colors[j]
           dataset.fill = false
           datasets = [...datasets, dataset];
-          console.log(this.data, dataset)
+          //console.log(this.data, dataset)
         }
 
       }
       else {
         datasets = [{
-          label: 'Total Value',
+          label: this.data[i].name,
           data: amount,
-          borderColor: 'rgba(255,99,132,1)',
-          backgroundColor: "rgba(255,99,132,1)",
-          pointBackgroundColor: "rgba(255,99,132,1)",
+          borderColor: colors[i],
+          backgroundColor: colors[i],
+          pointBackgroundColor: colors[i],
           fill: false
         }
         ]
@@ -73,6 +73,13 @@ export class Results {
           datasets: datasets
         },
         options: {
+          title: {
+            text: this.data[i].name,
+            display: true,
+            fontSize: 32,
+            fontColor: '#333',
+            fontFamily: "'Lato', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+          },
           scales: {
             yAxes: [{
               ticks: {
@@ -93,12 +100,15 @@ export class Results {
               label: function (tooltipItem, data) {
                 var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
                 var label = (data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                return datasetLabel+': $'+label;
+                return datasetLabel + ': $' + label;
               }
             }
           }
         }
       });
+      if(i > 0){
+        myChart.options.legend.display = false;
+      }
     }
   }
 
@@ -263,7 +273,7 @@ export class Results {
     var range: noUiSlider = <noUiSlider>document.getElementById("range")
     var self = this;
 
-    noUiSlider.create(range,{
+    noUiSlider.create(range, {
       start: from,
       range: {
         min: min,

@@ -14,7 +14,7 @@
 
   <body>
     <!--COLLAPSE FORM START-->
-    <div class="container">
+    <div class="mx-auto w-75">
       <form class="form-horizontal" id="myForm">
 
         <div class="row">
@@ -28,7 +28,7 @@
                     </a>
                   </h4>
                 </div>
-                <div id="collapse" class="panel-collapse collapse">
+                <div id="collapse" class="panel-collapse collapse in">
                   <div class="panel-body">
                     <div class="row">
                       <div class="col-xs-6">
@@ -56,7 +56,6 @@
                         <label for="age" class="control-label" id="Age" type="text">Age</label>
                         <input type="currentAge" class="form-control" name="CurrentAge" placeholder="Enter your age" value.bind="currentAge & validate">
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -81,7 +80,6 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse">
                   <div class="panel-body">
-                    <p>Enter the age of a child and press the plus button to enter the age field.</p>
                     <table class="table table-bordered" aurelia-table="data.bind: tChildren; display-data.bind: $childData" id="childTable">
                       <thead>
                         <tr>
@@ -251,6 +249,7 @@
 
     <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
 
+    <button class="btn btn-primary center-block mySubmit" click.delegate="validateButton()">Submit</button>
     <h3 align="center">${message}</h3>
     <ul>
       <li repeat.for="error of errors">

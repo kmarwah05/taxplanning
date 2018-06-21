@@ -15,9 +15,9 @@ namespace tax_planning.Models
             {
                 if (Name.Equals("Match"))
                 {
-                    return (Data.Additions[0] * EmployerMatchPercentage > Data.Income * EmployerMatchCap * EmployerMatchPercentage) ?
-                            Data.Income * EmployerMatchCap * EmployerMatchPercentage :
-                            Data.Additions[0] * EmployerMatchPercentage;
+                    return (Data.Additions[0] * Data.EmployerMatchPercentage > Data.Income * Data.EmployerMatchCap * Data.EmployerMatchPercentage) ?
+                            Data.Income * Data.EmployerMatchCap * Data.EmployerMatchPercentage :
+                            Data.Additions[0] * Data.EmployerMatchPercentage;
                 }
                 return Data.Additions[0];
             }
@@ -34,21 +34,11 @@ namespace tax_planning.Models
 
         private _401k Match { get; set; }
 
-        private decimal EmployerMatchPercentage { get; set; }
-        private decimal EmployerMatchCap { get; set; }
-
-        public _401k() : base() { }
-
-        public _401k((decimal percentage, decimal cap) matching)
-        {
-            if (matching.percentage > 0.00M)
+        public _401k(string name) {
+            Name = name;
+            if (Data.EmployerMatchPercentage > 0.00M && !name.Equals("Match"))
             {
-                Match = new _401k()
-                {
-                    Name = "Match"
-                };
-                EmployerMatchPercentage = matching.percentage;
-                EmployerMatchCap = matching.cap;
+                Match = new _401k("Match");
             }
         }
 
@@ -62,6 +52,7 @@ namespace tax_planning.Models
         {
             if (Match != null)
             {
+                base.CalculateSchedule();
                 Match.CalculateTaxInfo();
                 YearlyAmount = YearlyAmount.Select((amount, index) => amount + Match.YearlyAmount[index]).ToList();
                 AfterTaxWithdrawal = Decimal.Round(_Withdrawal - CalculateTaxOnWithdrawal(_Withdrawal, Data.RetirementIncome), 2) + Match.AfterTaxWithdrawal;
