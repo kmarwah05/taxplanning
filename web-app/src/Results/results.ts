@@ -268,7 +268,7 @@ export class Results {
   attached() {
     var storage = JSON.parse(sessionStorage.userData)
     var min = 0;
-    var max = parseInt(storage.income)
+    var max = parseInt(storage.income)/2
     var from = parseInt(storage.desiredAdditions)
     var range: noUiSlider = <noUiSlider>document.getElementById("range")
     var self = this;
@@ -279,7 +279,7 @@ export class Results {
         min: min,
         max: max
       },
-      tooltips: true,
+      tooltips: wNumb({ prefix: '$', decimals: 0, thousand:',' }),
       connect: true,
       step: 100,
       format: wNumb({
