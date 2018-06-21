@@ -149,7 +149,9 @@ namespace tax_planning.Models
 
                 maximum = afterTaxRetirementIncome > maximum ? afterTaxRetirementIncome : maximum;
             }
-            
+
+            Assets.ForEach(asset => asset.CalculateSchedule());
+
             for (var i = 0; i < 4; i++)
             {
                 if (i % 2 == 0)
@@ -163,14 +165,29 @@ namespace tax_planning.Models
                     assetPairs[1].Item2.Preferred = !assetPairs[1].Item2.Preferred;
                 }
 
-                // Calculates tax information
+                // Calculates retirement income for this scenario
                 RetirementIncome = 0;
                 afterTaxRetirementIncome = 0;
-                Assets.FindAll(asset => asset.Preferred && !asset.AssetType.Equals("Brokerage Holding")).ForEach(asset => RetirementIncome += asset.Withdrawal);
+                Assets.FindAll(asset => asset.Preferred &&
+                    !asset.AssetType.Equals("Brokerage Holding") &&
+                    asset.GetType() != typeof(RothIra))
+                    .ForEach(asset =>
+                    {
+                        // Handles weird tax structure for employer match contributions
+                        if (asset.GetType() == typeof(Roth401k))
+                        {
+                            RetirementIncome += (asset as Roth401k).WithdrawalFromEmployerContribution;
+                        }
+                        else
+                        {
+                            RetirementIncome += asset.Withdrawal;
+                        }
+                    });
+                // Calculates tax information
                 Assets.ForEach(asset => asset.CalculateTaxInfo());
                 Assets.FindAll(asset => asset.Preferred).ForEach(asset => afterTaxRetirementIncome += asset.AfterTaxWithdrawal);
 
-                if (afterTaxRetirementIncome == maximum) { return; }
+                if (maximum == afterTaxRetirementIncome) { return; }
             }
         }
 
