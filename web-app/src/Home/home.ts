@@ -209,7 +209,7 @@ export class Home {
 
 
   addChildren() {
-    if (this.age >= 0 && this.age < 18) {
+    if (parseInt(this.age) >= 0 && parseInt(this.age) < 18) {
       var child = { "age": this.age, "id": this.childId }
       this.tChildren = [...this.tChildren, child]
       this.childId++;
