@@ -164,7 +164,7 @@ export class Results {
         carouselInternal += '<div class ="charts row">' //create a row for charts so they are side by side
         tableString += '</div><div class="tables row">' //create a table row so tables are side by side
         for (let i = 0; i < 2; i++) { //on each page we have two tables
-          carouselInternal += '<div class="col"><canvas id="chart' + counter + '">' +
+          carouselInternal += '<div class="col '+this.data[counter].preferred+'"><canvas id="chart' + counter + '">' +
             '</canvas></div>'
           tableString += this.BuildTable(this.data[counter])
           counter++;
@@ -250,7 +250,7 @@ export class Results {
     var totalString = '<table class="table table-sm"><tr><th>Total cash out</th><td>$' + this.numberWithCommas(currentSet.totalCashOut.toFixed(2)) + '</td></tr><tr><th>Net cash out</th><td>$' + this.numberWithCommas(currentSet.netCashOut.toFixed(2)) + '</td></tr></table>'
     var tableString: string = ''
     tableString +=
-      '<div class="col">' +
+      '<div class="col '+currentSet.preferred+'">' +
       withdrawlsString +
       '<table class="table table-sm">' +
       '<caption id="tableCaption">' + currentSet.assetType + '</caption>' + //Caption the table with the type
