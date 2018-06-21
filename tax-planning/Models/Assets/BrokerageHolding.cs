@@ -1,4 +1,5 @@
-﻿using tax_planning.Models.Tax_Calculation;
+﻿using System;
+using tax_planning.Models.Tax_Calculation;
 
 namespace tax_planning.Models
 {
@@ -11,6 +12,14 @@ namespace tax_planning.Models
         protected override decimal CalculateTaxOnWithdrawal(decimal withdrawal, decimal income)
         {
             return IncomeTaxCalculator.CapitalGainsTaxFor(Data.FilingStatus, withdrawal, income);
+        }
+
+        public override void CalculateTaxInfo()
+        {
+            var gain = (YearlyAmount[TimeToRetirement - 1] - (Value + Additions * TimeToRetirement)) / RetirementLength;
+            AfterTaxWithdrawal = Decimal.Round(Withdrawal - CalculateTaxOnWithdrawal(gain, Data.RetirementIncome), 2);
+            TotalCashOut = Decimal.Round(AfterTaxWithdrawal * RetirementLength, 2);
+            NetCashOut = Decimal.Round(TotalCashOut - (Additions * TimeToRetirement), 2);
         }
 
         public override void UpdateCapsFor(int age)

@@ -17,8 +17,7 @@ namespace tax_planning.Models
                 avoidSideEffects.Add(Create(
                     name: type,
                     assetType: type,
-                    value: 0.00M,
-                    matching: (0.00M, 0.00M)
+                    value: 0.00M
                 ));
             }
 
@@ -26,7 +25,7 @@ namespace tax_planning.Models
         }
 
         // assetType string should be one of "IRA", "Roth IRA", "401k, Equity Holding"
-        public static Asset Create(string name, string assetType, decimal value, (decimal percentage, decimal cap) matching) {
+        public static Asset Create(string name, string assetType, decimal value) {
             switch (assetType)
             {
                 case "IRA":
@@ -44,14 +43,13 @@ namespace tax_planning.Models
                         Value = value
                     };
                 case "401k":
-                    return new _401k(matching)
+                    return new _401k(name)
                     {
-                        Name = name,
                         AssetType = "401k",
                         Value = value
                     };
                 case "Roth 401k":
-                    return new Roth401k(matching)
+                    return new Roth401k()
                     {
                         Name = name,
                         AssetType = "Roth 401k",
