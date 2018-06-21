@@ -137,6 +137,22 @@
                     <div class="panel-body">
                         <p>Fill in the information and click the plus button to add the existing retirement account. </p>
                         <p>To enter the employer matching without an existing retirement account, enter a 401k with a value of $0.</p>
+
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label for="Empmatch" class="control-label" type="text">Employer Match Percentage</label>
+                                <input type="employerMatch" class="form-control" name="EMatch" placeholder="Enter Percentage" value.bind="match & validate">
+                            </div>
+      
+                            <div class="col-xs-6">
+                              <label for="Empcap" class="control-label" type="text"> Up to Percent of Income</label>
+                              <input type="employerCap" class="form-control" name="ECap" placeholder="Enter Percentage " value.bind="cap & validate">
+                            </div>
+                          </div>
+
+                          <br><br>
+
                         <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
                           <thead>
                             <tr>
@@ -145,8 +161,7 @@
                               <th>
                                 <div class="display-block row mx-auto">
                                   <div class="col mx-1">Asset Value</div>
-                                  <div id="Matchtext" class="col mx-1">Employer Match</div>
-                                  <div id="Captext" class="col mx-1">Employer Match Cap</div>
+                                  
                                 </div>
                               </th>
                             </tr>
@@ -168,8 +183,7 @@
                               <td>
                                 <div class="display-block row mx-auto">
                                   <input type="text" class="form-control col mx-1" id="Avalue" value.bind="value">
-                                  <input type="number" class="form-control col mx-1" id="Ematch" value.bind="match">
-                                  <input type="number" class="form-control col mx-1" id="Ecap" value.bind="cap">
+                                
                                 </div>
                               </td>
                               <td>
@@ -206,6 +220,9 @@
           </div>
           <!-- THIRD ROW ENDS HERE -->
   
+ 
+
+
 
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -225,7 +242,6 @@
         </div>
         <!--FORTH ROW ENDS HERE -->
 
-        
         <input type="submit" value="Submit" click.delegate="validateButton()">
       </form>
     </div>
