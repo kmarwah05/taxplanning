@@ -27,12 +27,12 @@ namespace tax_planning.Models
 
         [Range(0, 200)]
         public int CurrentAge { get; set; } = 0;
-        
-        [Range(0, 100)]
-        public decimal Match { get; set; }
 
         [Range(0, 100)]
-        public decimal Cap { get; set; }
+        public decimal Match { get; set; } = 0;
+
+        [Range(0, 100)]
+        public decimal Cap { get; set; } = 0;
 
         public IEnumerable<int> ChildrensAges { get; set; }
 
