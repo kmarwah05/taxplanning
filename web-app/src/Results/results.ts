@@ -73,7 +73,7 @@ export class Results {
         },
         options: {
           title: {
-            text: this.data[i].name,
+            text: this.data[i].assetType,
             display: true,
             fontSize: 32,
             fontColor: '#333',
@@ -107,6 +107,9 @@ export class Results {
       });
       if (i > 0) {
         myChart.options.legend.display = false;
+      }
+      if(this.data[i].preferred){
+        myChart.options.title.text =  myChart.options.title.text+" (Preferred)"
       }
     }
   }
