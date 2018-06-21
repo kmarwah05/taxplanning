@@ -58,6 +58,7 @@ namespace tax_planning.Models.Tax_Calculation
             var cherryOnTop = (float)(income - brackets[i].lowerBound - basicAdjustment) * rateForBracket[i];
 
             var total = tax + cherryOnTop - GetChildTaxCredit(status, Data.NumberOfChildren, income);
+            total = total > 0 ? total : 0;
 
             return (decimal)total;
         }

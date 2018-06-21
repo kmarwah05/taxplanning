@@ -1,4 +1,4 @@
-import { inject, NewInstance, children } from 'aurelia-framework';
+import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
@@ -20,9 +20,9 @@ export class Home {
   match: string = '';
   cap: string = '';
   children: string = '';
+  age: string = ''
   currentAge: string = '';
   tChildren = [];
-  age: number;
   childId: number = 0;
 
   addButton() {
