@@ -34,14 +34,14 @@ namespace tax_planning.Models.Tax_Calculation
                     break;
                 case "VA State":
                     brackets = TaxBrackets.VaStateBrackets();
-                    rateForBracket = TaxBrackets.VaStateIncomeRateForBracket.Select(x => x).ToArray();
+                    rateForBracket = TaxBrackets.VaStateIncomeRateForBracket.ToArray();
                     break;
                 default:
                     Console.WriteLine("Jurisdiction not supported");
                     return 0.00M;
             }
 
-            income = GetAdjustedGrossIncome(status, income);
+            income = GetAdjustedGrossIncome(status, income, jurisdiction);
 
             // After standard deduction
             var ranges = brackets.Select(bracket => bracket.upperBound - bracket.lowerBound);
@@ -63,9 +63,9 @@ namespace tax_planning.Models.Tax_Calculation
             return (decimal)total;
         }
 
-        public static decimal GetAdjustedGrossIncome(FilingStatus status, decimal income)
+        public static decimal GetAdjustedGrossIncome(FilingStatus status, decimal income, string jurisdiction)
         {
-            income -= GetStandardDeduction(filingStatus: status, jurisdiction: "Federal");
+            income -= GetStandardDeduction(filingStatus: status, jurisdiction: jurisdiction);
             return income < 0.00M ? 0.00M : income;
         }
 

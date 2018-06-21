@@ -12,8 +12,6 @@
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
-
-
   </head>
 
   <body>
@@ -77,8 +75,6 @@
         </div>
         <!-- FIRST ROW ENDS HERE -->
 
-
-
         <div class="row">
           <div class="col-md-12">
             <div class="panel-group" id="accordion">
@@ -131,7 +127,6 @@
         </div>
         <!-- SECOND ROW ENDS HERE -->
 
-
         <div class="row">
           <div class="col-md-12">
             <div class="panel-group" id="accordion">
@@ -146,22 +141,24 @@
                 <div id="collapseTwo" class="panel-collapse collapse">
                   <div class="panel-body">
                     <p>Fill in the information and click the plus button to add the existing retirement account. </p>
-
                     <div class="row">
                       <div class="col-xs-6">
                         <label for="Empmatch" class="control-label" type="text">Employer Match Percentage</label>
-                        <input type="employerMatch" class="form-control" name="EMatch" placeholder="Enter Percentage" value.bind="match & validate">
+                        <div class="input-group">
+                          <input type="employerMatch" class="form-control" name="EMatch" placeholder="Enter Percentage" value.bind="match & validate">
+                          <span class="input-group-addon">%</span>
+                        </div>
                       </div>
-
                       <div class="col-xs-6">
                         <label for="Empcap" class="control-label" type="text"> Up to Percent of Income</label>
-                        <input type="employerCap" class="form-control" name="ECap" placeholder="Enter Percentage " value.bind="cap & validate">
+                        <div class="input-group">
+                          <input type="employerCap" class="form-control" name="ECap" placeholder="Enter Percentage " value.bind="cap & validate">
+                          <span class="input-group-addon">%</span>
+                        </div>
                       </div>
                     </div>
-
                     <br>
                     <br>
-
                     <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
                       <thead>
                         <tr>
@@ -170,7 +167,6 @@
                           <th>
                             <div class="display-block row mx-auto">
                               <div class="col mx-1">Asset Value</div>
-
                             </div>
                           </th>
                         </tr>
@@ -187,12 +183,15 @@
                               <option value="Roth IRA">Roth IRA</option>
                               <option value="401k">401k</option>
                               <option value="Roth 401k">Roth 401k</option>
+                              <option value="Brokerage Holding">Brokerage Holding</option>
                             </select>
                           </td>
                           <td>
                             <div class="display-block row mx-auto">
-                              <input type="text" class="form-control col mx-1" id="Avalue" value.bind="value">
-
+                              <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input type="text" class="form-control" id="Avalue" value.bind="value">
+                              </div>
                             </div>
                           </td>
                           <td>
@@ -229,10 +228,6 @@
         </div>
         <!-- THIRD ROW ENDS HERE -->
 
-
-
-
-
         <div class="panel panel-default">
           <div class="panel-heading">
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
@@ -243,10 +238,7 @@
           </div>
           <div id="collapseThree" class="panel-collapse collapse">
             <div class="panel-body slider">
-
-
               <div id="range" class="noUiSlider"></div>
-
             </div>
           </div>
         </div>
@@ -257,12 +249,9 @@
         
       </form>
     </div>
-
     <!--COLLAPSE FORM END-->
 
-
     <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
-
     <h3 align="center">${message}</h3>
     <ul>
       <li repeat.for="error of errors">

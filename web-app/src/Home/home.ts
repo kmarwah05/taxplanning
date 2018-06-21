@@ -2,8 +2,11 @@ import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController, RenderInstruction } from 'aurelia-validation';
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 0a432d474af7a27bcdf13ec6da9343cc1ce40e1f
 
 @inject(NewInstance.of(ValidationController))
 export class Home {
@@ -19,8 +22,8 @@ export class Home {
   message = '';
   errors = []
   desiredAdditions: string = '';
-  match: string = '';
-  cap: string = '';
+  match: string = '0';
+  cap: string = '0';
   children: string = '';
   age: string = ''
   currentAge: string = '';
@@ -58,6 +61,12 @@ export class Home {
     }
     if (this.age != undefined) {
       this.addChildren()
+    }
+    if(this.match == ''){
+      this.match = '0';
+    }
+    if(this.cap == ''){
+      this.cap = '0';
     }
     var arr = this.tChildren.map(x => parseInt(x.age))
     sessionStorage.userData = JSON.stringify(
@@ -231,23 +240,6 @@ export class Home {
       self.endOfPlan = range.noUiSlider.get()[1]
     });
 
-    // //if they are adding a 401k have options for employer match
-    // typeSelector = <HTMLSelectElement>document.getElementById("Atype")
-    // typeSelector.addEventListener("change", function (event) {
-    //   if (this.value == "Roth 401k" || this.value == "401k") {
-    //     Matchtext.style.display = "block"
-    //     Ematch.style.display = "block"
-    //     Ecap.style.display = "block"
-    //     Captext.style.display = "block"
-    //   }
-    //   else {
-    //     Matchtext.style.display = "none"
-    //     Ematch.style.display = "none"
-    //     Ecap.style.display = "none"
-    //     Captext.style.display = "none"
-    //   }
-    // });
-
     //if they are filing jointly we need combined income
     statusSelector = <HTMLSelectElement>document.getElementById("filing")
     statusSelector.addEventListener("change", function (event) {
@@ -259,7 +251,6 @@ export class Home {
       }
     })
   }
-
 
   addChildren() {
     if (parseInt(this.age) >= 0 && parseInt(this.age) < 18) {

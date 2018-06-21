@@ -53,7 +53,6 @@ export class Results {
           datasets = [...datasets, dataset];
           //console.log(this.data, dataset)
         }
-
       }
       else {
         datasets = [{
@@ -74,7 +73,7 @@ export class Results {
         },
         options: {
           title: {
-            text: this.data[i].name,
+            text: this.data[i].assetType,
             display: true,
             fontSize: 32,
             fontColor: '#333',
@@ -106,8 +105,11 @@ export class Results {
           }
         }
       });
-      if(i > 0){
+      if (i > 0) {
         myChart.options.legend.display = false;
+      }
+      if(this.data[i].preferred){
+        myChart.options.title.text =  myChart.options.title.text+" (Preferred)"
       }
     }
   }
@@ -164,7 +166,7 @@ export class Results {
         carouselInternal += '<div class ="charts row">' //create a row for charts so they are side by side
         tableString += '</div><div class="tables row">' //create a table row so tables are side by side
         for (let i = 0; i < 2; i++) { //on each page we have two tables
-          carouselInternal += '<div class="col '+this.data[counter].preferred+'"><canvas id="chart' + counter + '">' +
+          carouselInternal += '<div class="col ' + this.data[counter].preferred + '"><canvas id="chart' + counter + '">' +
             '</canvas></div>'
           tableString += this.BuildTable(this.data[counter])
           counter++;
@@ -250,7 +252,7 @@ export class Results {
     var totalString = '<table class="table table-sm"><tr><th>Total cash out</th><td>$' + this.numberWithCommas(currentSet.totalCashOut.toFixed(2)) + '</td></tr><tr><th>Net cash out</th><td>$' + this.numberWithCommas(currentSet.netCashOut.toFixed(2)) + '</td></tr></table>'
     var tableString: string = ''
     tableString +=
-      '<div class="col '+currentSet.preferred+'">' +
+      '<div class="col ' + currentSet.preferred + '">' +
       withdrawlsString +
       '<table class="table table-sm">' +
       '<caption id="tableCaption">' + currentSet.assetType + '</caption>' + //Caption the table with the type
@@ -268,10 +270,11 @@ export class Results {
   attached() {
     var storage = JSON.parse(sessionStorage.userData)
     var min = 0;
-    var max = parseInt(storage.income)/2
+    var max = parseInt(storage.income) / 2
     var from = parseInt(storage.desiredAdditions)
     var range: noUiSlider = <noUiSlider>document.getElementById("range")
     var self = this;
+    console.log(storage, from)
 
     noUiSlider.create(range, {
       start: from,
@@ -279,7 +282,7 @@ export class Results {
         min: min,
         max: max
       },
-      tooltips: wNumb({ prefix: '$', decimals: 0, thousand:',' }),
+      tooltips: wNumb({ prefix: '$', decimals: 0, thousand: ',' }),
       connect: true,
       step: 100,
       format: wNumb({
