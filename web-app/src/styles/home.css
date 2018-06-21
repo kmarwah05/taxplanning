@@ -146,8 +146,9 @@ input[type=submit]:hover {
   background: #4caf50 !important;
 }
 
-.noUi-pips-horizontal{
-  padding: 0px 0 !important;
+
+.slider{
+  padding: 50px !important;
 }
 
 

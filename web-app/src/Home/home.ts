@@ -31,15 +31,14 @@ export class Home {
   addButton() {
     if (this.value.match(new RegExp(/^\d*[0-9]\d*$/)) && this.type != '') {
       //create a new asset and add it to the assets array
-      let asset = { "name": this.name, "type": this.type, "value": this.value, "match": this.match, "cap": this.cap, "id": this.counter }
+      let asset = { "name": this.name, "type": this.type, "value": this.value, "id": this.counter }
       this.assets = [...this.assets, asset]
       this.counter++;
       //reset the fields
       this.name = ''
       this.type = ''
       this.value = ''
-      this.match = ''
-      this.cap = ''
+
     }
   }
 
@@ -73,6 +72,8 @@ export class Home {
         "desiredAdditions": this.desiredAdditions,
         "childrensAges": arr,
         "currentAge": this.currentAge,
+        "match": this.match,
+        "cap": this.cap
       });
   }
 
@@ -98,7 +99,9 @@ export class Home {
       this.endOfPlan = storage.endOfPlanDate
       this.desiredAdditions = storage.desiredAdditions
       this.tChildren = this.MakeChildArr(storage.childrensAges)
-      this.currentAge = storage.currentAge
+      this.currentAge = storage.currentAge 
+      this.cap = storage.cap
+      this.match = storage.match
     }
     ValidationRules.customRule(
       'integerRange',
