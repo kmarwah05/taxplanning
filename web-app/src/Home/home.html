@@ -18,7 +18,11 @@
 
   <body>
     <!--COLLAPSE FORM START-->
-    <div class="mx-auto w-75">
+
+
+
+
+    <div class="container">
       <form class="form-horizontal" id="myForm">
 
         <div class="row">
@@ -62,6 +66,10 @@
                       </div>
                     </div>
                   </div>
+
+
+                  
+
                 </div>
               </div>
             </div>
@@ -87,8 +95,8 @@
                     <table class="table table-bordered" aurelia-table="data.bind: tChildren; display-data.bind: $childData" id="childTable">
                       <thead>
                         <tr>
-                          <th>
-                            Eligible Child Tax Credits
+                          <th class="text">
+                          Eligible Child Tax Credits 
                           </th>
                         </tr>
                       </thead>
@@ -156,11 +164,11 @@
                         <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
                           <thead>
                             <tr>
-                              <th>Asset Name</th>
-                              <th>Asset Type</th>
+                              <th class="text">Asset Name</th>
+                              <th class="text">Asset Type</th>
                               <th>
                                 <div class="display-block row mx-auto">
-                                  <div class="col mx-1">Asset Value</div>
+                                  <div class="col mx-1"><span class="text">Asset Value</span></div>
                                   
                                 </div>
                               </th>
@@ -252,7 +260,6 @@
 
     <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
 
-    <button class="btn btn-primary center-block mySubmit" click.delegate="validateButton()">Submit</button>
     <h3 align="center">${message}</h3>
     <ul>
       <li repeat.for="error of errors">
