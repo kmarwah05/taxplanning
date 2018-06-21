@@ -1,8 +1,7 @@
 import { inject, NewInstance } from 'aurelia-framework';
-import { ValidationRules, ValidationController } from 'aurelia-validation';
+import { ValidationRules, ValidationController, RenderInstruction } from 'aurelia-validation';
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
-import { fstat } from 'fs';
 
 
 
@@ -38,7 +37,6 @@ export class Home {
       this.name = ''
       this.type = ''
       this.value = ''
-
     }
   }
 
@@ -58,7 +56,7 @@ export class Home {
     if (this.name.length != 0 && this.type.length != 0 && this.value.length != 0) {
       this.addButton()
     }
-    if(this.age != undefined){
+    if (this.age != undefined) {
       this.addChildren()
     }
     var arr = this.tChildren.map(x => parseInt(x.age))
@@ -90,6 +88,7 @@ export class Home {
   }
 
   constructor(private controller: ValidationController) {
+
     if (sessionStorage.getItem("userData")) {
       var storage = JSON.parse(sessionStorage.userData);
       this.assets = storage.assets
@@ -99,7 +98,7 @@ export class Home {
       this.endOfPlan = storage.endOfPlanDate
       this.desiredAdditions = storage.desiredAdditions
       this.tChildren = this.MakeChildArr(storage.childrensAges)
-      this.currentAge = storage.currentAge 
+      this.currentAge = storage.currentAge
       this.cap = storage.cap
       this.match = storage.match
     }
@@ -115,8 +114,8 @@ export class Home {
 
     ValidationRules
       .ensure((m: Home) => m.filingStatus).displayName("Filing Status").required()
-      .ensure((m: Home) => m.income).displayName("Income value").required().satisfiesRule('integerRange',0,1000000000000)
-      .ensure((m: Home) => m.desiredAdditions).displayName("Additions").required().satisfiesRule('integerRange',0,1000000000000)
+      .ensure((m: Home) => m.income).displayName("Income value").required().satisfiesRule('integerRange', 0, 1000000000000)
+      .ensure((m: Home) => m.desiredAdditions).displayName("Additions").required().satisfiesRule('integerRange', 0, 1000000000000)
       .ensure((m: Home) => m.currentAge).displayName("Current Age").required().satisfiesRule('integerRange', 1, 200)
       .on(this);
   }
@@ -126,15 +125,63 @@ export class Home {
     this.controller
       .validate()
       .then(v => {
-        if (v.valid)
+        if (v.valid){
           window.location.href = "/results"
-        else
+        }
+        else {
           this.message = "You have errors!";
-          this.errors = v.results;
+          //document.getElementById("incomeStyle").style.backgroundColor = ('#333')
+        }
+        v.results.forEach(element =>{
+          //Filing Status rule
+          if(element.propertyName == 'filingStatus' && !(element.valid))
+          {
+            document.getElementById("filing").style.borderColor = ('red')
+          }
+          else if(element.propertyName == 'filingStatus' && (element.valid)){
+            document.getElementById("filing").style.borderColor = ('#ccc')
+          }
+          //end Filing status
+
+
+          //income status rule
+          if(element.propertyName == 'income' && !(element.valid))
+          {
+            document.getElementById("incomeStyle").style.borderColor = ('red')
+          }
+          else if(element.propertyName == 'income' && (element.valid)){
+            document.getElementById("incomeStyle").style.borderColor = ('#ccc')
+          }
+          //end income status
+
+
+           //income addition rule
+           if(element.propertyName == 'desiredAdditions' && !(element.valid))
+           {
+             document.getElementById("additionSytle").style.borderColor = ('red')
+           }
+           else if(element.propertyName == 'desiredAdditions' && (element.valid)){
+             document.getElementById("additionSytle").style.borderColor = ('#ccc')
+           }
+           //end addition status
+
+
+            //income age rule
+          if(element.propertyName == 'currentAge' && !(element.valid))
+          {
+            document.getElementById("ageStyle").style.borderColor = ('red')
+          }
+          else if(element.propertyName == 'currentAge' && (element.valid)){
+            document.getElementById("ageStyle").style.borderColor = ('#ccc')
+          }
+          //end age status
+
+
+        })
+        console.log(v)
+        this.errors = v.results;
       })
   }
-
-
 
   // sliders starts here
   attached() {
@@ -232,4 +279,7 @@ export class Home {
     });
     this.childId--;
   }
+
 }
+
+
