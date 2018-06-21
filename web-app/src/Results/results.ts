@@ -92,7 +92,7 @@ export class Results {
             callbacks: {
               label: function (tooltipItem, data) {
                 var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
-                var label = (data.datasets[tooltipItem.datasetIndex].data[tooltipItem.datasetIndex]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                var label = (data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 return datasetLabel+': $'+label;
               }
             }
@@ -236,13 +236,13 @@ export class Results {
   }
 
   BuildTable(currentSet) {
-    var withdrawlsString = '<table class="table table-dark table-sm"><tr><th>Withdrawal rate</th><td>$' + this.numberWithCommas(currentSet.withdrawal.toFixed(2)) + '</td></tr><tr><th>After Tax withdrawal rate</th><td>$' + this.numberWithCommas(currentSet.afterTaxWithdrawal.toFixed(2)) + '</td></tr></table>'
-    var totalString = '<table class="table table-dark table-sm"><tr><th>Total cash out</th><td>$' + this.numberWithCommas(currentSet.totalCashOut.toFixed(2)) + '</td></tr><tr><th>Net cash out</th><td>$' + this.numberWithCommas(currentSet.netCashOut.toFixed(2)) + '</td></tr></table>'
+    var withdrawlsString = '<table class="table withdrawals table-sm"><tr><th>Withdrawal rate</th><td>$' + this.numberWithCommas(currentSet.withdrawal.toFixed(2)) + '</td></tr><tr><th>After Tax withdrawal rate</th><td>$' + this.numberWithCommas(currentSet.afterTaxWithdrawal.toFixed(2)) + '</td></tr></table>'
+    var totalString = '<table class="table table-sm"><tr><th>Total cash out</th><td>$' + this.numberWithCommas(currentSet.totalCashOut.toFixed(2)) + '</td></tr><tr><th>Net cash out</th><td>$' + this.numberWithCommas(currentSet.netCashOut.toFixed(2)) + '</td></tr></table>'
     var tableString: string = ''
     tableString +=
       '<div class="col">' +
       withdrawlsString +
-      '<table class="table table-dark table-sm">' +
+      '<table class="table table-sm">' +
       '<caption id="tableCaption">' + currentSet.assetType + '</caption>' + //Caption the table with the type
       '<thead>' +
       '<tr align="center">' +
@@ -261,7 +261,6 @@ export class Results {
     var max = parseInt(storage.income)
     var from = parseInt(storage.desiredAdditions)
     var range: noUiSlider = <noUiSlider>document.getElementById("range")
-    var additionSelector: HTMLInputElement = <HTMLInputElement>document.getElementById("addInput")
     var self = this;
 
     noUiSlider.create(range,{
@@ -286,11 +285,6 @@ export class Results {
       self.additionChange = range.noUiSlider.get()
       self.GetResults()
     });
-
-    additionSelector.addEventListener("change",function(){
-      self.additionChange = range.noUiSlider.get()
-      self.GetResults()
-    })
   }
 
   UpdateAdditions() {

@@ -11,16 +11,17 @@ namespace tax_planning.Models
 
         public override decimal Additions
         {
-            get => Data.Additions[0];
-            set
+            get
             {
-                if (Match != null)
+                if (Name.Equals("Match"))
                 {
-                    Match.Additions = (value * EmployerMatchPercentage > Data.Income * EmployerMatchCap * EmployerMatchPercentage) ?
+                    return (Data.Additions[0] * EmployerMatchPercentage > Data.Income * EmployerMatchCap * EmployerMatchPercentage) ?
                             Data.Income * EmployerMatchCap * EmployerMatchPercentage :
-                            value * EmployerMatchPercentage;
+                            Data.Additions[0] * EmployerMatchPercentage;
                 }
+                return Data.Additions[0];
             }
+            set => base.Additions = value;
         }
 
         public override decimal Withdrawal {
