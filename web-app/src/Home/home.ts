@@ -139,11 +139,11 @@ export class Home {
     var to = from + 80
     var dates = [];
     var range: noUiSlider = <noUiSlider>document.getElementById("range");
-    var Matchtext = document.getElementById("Matchtext")
-    var Ematch = document.getElementById("Ematch")
-    var Ecap = document.getElementById("Ecap")
-    var Captext = document.getElementById("Captext")
-    var typeSelector: HTMLSelectElement;
+    // var Matchtext = document.getElementById("Matchtext")
+    // var Ematch = document.getElementById("Ematch")
+    // var Ecap = document.getElementById("Ecap")
+    // var Captext = document.getElementById("Captext")
+    // var typeSelector: HTMLSelectElement;
     var statusSelector: HTMLSelectElement;
     var incomeText = document.getElementById("incomeRange")
     var self = this
@@ -181,22 +181,22 @@ export class Home {
       self.endOfPlan = range.noUiSlider.get()[1]
     });
 
-    //if they are adding a 401k have options for employer match
-    typeSelector = <HTMLSelectElement>document.getElementById("Atype")
-    typeSelector.addEventListener("change", function (event) {
-      if (this.value == "Roth 401k" || this.value == "401k") {
-        Matchtext.style.display = "block"
-        Ematch.style.display = "block"
-        Ecap.style.display = "block"
-        Captext.style.display = "block"
-      }
-      else {
-        Matchtext.style.display = "none"
-        Ematch.style.display = "none"
-        Ecap.style.display = "none"
-        Captext.style.display = "none"
-      }
-    });
+    // //if they are adding a 401k have options for employer match
+    // typeSelector = <HTMLSelectElement>document.getElementById("Atype")
+    // typeSelector.addEventListener("change", function (event) {
+    //   if (this.value == "Roth 401k" || this.value == "401k") {
+    //     Matchtext.style.display = "block"
+    //     Ematch.style.display = "block"
+    //     Ecap.style.display = "block"
+    //     Captext.style.display = "block"
+    //   }
+    //   else {
+    //     Matchtext.style.display = "none"
+    //     Ematch.style.display = "none"
+    //     Ecap.style.display = "none"
+    //     Captext.style.display = "none"
+    //   }
+    // });
 
     //if they are filing jointly we need combined income
     statusSelector = <HTMLSelectElement>document.getElementById("filing")

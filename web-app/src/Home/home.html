@@ -120,84 +120,105 @@
         <!-- SECOND ROW ENDS HERE -->
 
 
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                <span class="formTitle">Assets</span>
-              </a>
-            </h4>
-          </div>
-          <div id="collapseTwo" class="panel-collapse collapse">
-            <div class="panel-body">
-                <p>Fill in the information and click the plus button to add the existing retirement account. </p>
-                <p>To enter the employer matching without an existing retirement account, enter a 401k with a value of $0.</p>
-              <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
-                <thead>
-                  <tr>
-                    <th>Asset Name</th>
-                    <th>Asset Type</th>
-                    <th>
-                      <div class="display-block row mx-auto">
-                        <div class="col mx-1">Asset Value</div>
-                        <div id="Matchtext" class="col mx-1">Employer Match</div>
-                        <div id="Captext" class="col mx-1">Employer Match Cap</div>
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody id="AssetTable">
-                  <tr>
-                    <td>
-                      <input type="text" class="form-control" id="Aname" value.bind="name">
-                    </td>
-                    <td>
-                      <select class="form-control h-100" id="Atype" value.bind="type">
-                        <option value="" disabled selected>Choose Asset Type</option>
-                        <option value="IRA">IRA</option>
-                        <option value="Roth IRA">Roth IRA</option>
-                        <option value="401k">401k</option>
-                        <option value="Roth 401k">Roth 401k</option>
-                        <option value="Brokerage Holding">Brokerage Holding</option>
-                      </select>
-                    </td>
-                    <td>
-                      <div class="display-block row mx-auto">
-                        <input type="text" class="form-control col mx-1" id="Avalue" value.bind="value">
-                        <input type="number" class="form-control col mx-1" id="Ematch" value.bind="match">
-                        <input type="number" class="form-control col mx-1" id="Ecap" value.bind="cap">
-                      </div>
-                    </td>
-                    <td>
-                      <button click.delegate="addButton()" id="myButton">
-                        <span class="glyphicon glyphicon-plus addBtn">
-                        </span>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr repeat.for="user of $displayData">
-                    <td>${user.name}</td>
-                    <td>${user.type}</td>
-                    <td>
-                      <div class="display-block row mx-auto">
-                        <div class="col mx-1">$${user.value}</div>
-                        <div id="Displaymatch" class="col mx-1">${user.match}</div>
-                        <div class="col mx-1">${user.cap}</div>
-                      </div>
-                    </td>
-                    <td>
-                      <button click.delegate="removeButton(user.id)" id="myButton">
-                        <span class="glyphicon glyphicon-minus minusBtn">
-                      </button>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+        <div class="row">
+            <div class="col-md-12">
+              <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        Assets
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>Fill in the information and click the plus button to add the existing retirement account. </p>
+                        <p>To enter the employer matching without an existing retirement account, enter a 401k with a value of $0.</p>
+
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label for="Empmatch" class="control-label" type="text">Employer Match Percentage</label>
+                                <input type="employerMatch" class="form-control" name="EMatch" placeholder="Enter Percentage" value.bind="match & validate">
+                            </div>
+      
+                            <div class="col-xs-6">
+                              <label for="Empcap" class="control-label" type="text"> Up to Percent of Income</label>
+                              <input type="employerCap" class="form-control" name="ECap" placeholder="Enter Percentage " value.bind="cap & validate">
+                            </div>
+                          </div>
+
+                          <br><br>
+
+                        <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
+                          <thead>
+                            <tr>
+                              <th>Asset Name</th>
+                              <th>Asset Type</th>
+                              <th>
+                                <div class="display-block row mx-auto">
+                                  <div class="col mx-1">Asset Value</div>
+                                  
+                                </div>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody id="AssetTable">
+                            <tr>
+                              <td>
+                                <input type="text" class="form-control" id="Aname" value.bind="name">
+                              </td>
+                              <td>
+                                <select class="form-control h-100" id="Atype" value.bind="type">
+                                  <option value="" disabled selected>Choose Asset Type</option>
+                                  <option value="IRA">IRA</option>
+                                  <option value="Roth IRA">Roth IRA</option>
+                                  <option value="401k">401k</option>
+                                  <option value="Roth 401k">Roth 401k</option>
+                                </select>
+                              </td>
+                              <td>
+                                <div class="display-block row mx-auto">
+                                  <input type="text" class="form-control col mx-1" id="Avalue" value.bind="value">
+                                
+                                </div>
+                              </td>
+                              <td>
+                                <button click.delegate="addButton()" id="myButton">
+                                  <span class="glyphicon glyphicon-plus addBtn">
+                                  </span>
+                                </button>
+                              </td>
+                            </tr>
+                            <tr repeat.for="user of $displayData">
+                              <td>${user.name}</td>
+                              <td>${user.type}</td>
+                              <td>
+                                <div class="display-block row mx-auto">
+                                  <div class="col mx-1">$${user.value}</div>
+                                  <div id="Displaymatch" class="col mx-1">${user.match}</div>
+                                  <div class="col mx-1">${user.cap}</div>
+                                </div>
+                              </td>
+                              <td>
+                                <button click.delegate="removeButton(user.id)" id="myButton">
+                                  <span class="glyphicon glyphicon-minus minusBtn">
+                                </button>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <!--THIRD ROW ENDS HERE -->
+          <!-- THIRD ROW ENDS HERE -->
+  
+ 
 
 
 
@@ -219,6 +240,7 @@
         </div>
         <!--FORTH ROW ENDS HERE -->
 
+        <input type="submit" value="Submit" click.delegate="validateButton()">
       </form>
     </div>
 

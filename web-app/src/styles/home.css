@@ -109,20 +109,7 @@ body {
   padding : 15px ;
 }
 
-#Matchtext{
-  display: none
-}
 
-#Ematch{
-  display: none
-}
-
-#Ecap{
-  display: none
-}
-#Captext{
-  display: none
-}
 
 a {
   font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif !important;
@@ -155,6 +142,13 @@ input[type=submit]:hover {
   background-color: #45a049 !important;
 }
 
+.noUi-connect{
+  background: #4caf50 !important;
+}
+
+.noUi-pips-horizontal{
+  padding: 0px 0 !important;
+}
 
 
 
