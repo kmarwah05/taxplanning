@@ -48,3 +48,14 @@ body {
   border-radius: 100px;
   background-size: 30% 30% !important;
 }
+
+.false{
+  opacity: .5;
+}
+
+.form-horizontalR{
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  font-family: 'Merriweather', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}

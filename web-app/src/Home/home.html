@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
-    
+
 
   </head>
 
@@ -30,11 +30,11 @@
             <div class="panel-group" id="accordion">
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse">
+                    <h4 class="panel-title">
                       <span class="formTitle">Basic Info</span>
-                    </a>
-                  </h4>
+                    </h4>
+                  </a>
                 </div>
                 <div id="collapse" class="panel-collapse collapse in">
                   <div class="panel-body">
@@ -84,11 +84,11 @@
             <div class="panel-group" id="accordion">
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    <h4 class="panel-title">
                       <span class="formTitle">Tax Credits</span>
-                    </a>
-                  </h4>
+                    </h4>
+                  </a>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse">
                   <div class="panel-body">
@@ -133,119 +133,120 @@
 
 
         <div class="row">
-            <div class="col-md-12">
-              <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
+          <div class="col-md-12">
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                     <h4 class="panel-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                        Assets
-                      </a>
+                      <span class="formTitle">Assets</span>
                     </h4>
-                  </div>
-                  <div id="collapseTwo" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <p>Fill in the information and click the plus button to add the existing retirement account. </p>
+                  </a>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <p>Fill in the information and click the plus button to add the existing retirement account. </p>
 
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <label for="Empmatch" class="control-label" type="text">Employer Match Percentage</label>
-                                <input type="employerMatch" class="form-control" name="EMatch" placeholder="Enter Percentage" value.bind="match & validate">
-                            </div>
-      
-                            <div class="col-xs-6">
-                              <label for="Empcap" class="control-label" type="text"> Up to Percent of Income</label>
-                              <input type="employerCap" class="form-control" name="ECap" placeholder="Enter Percentage " value.bind="cap & validate">
-                            </div>
-                          </div>
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <label for="Empmatch" class="control-label" type="text">Employer Match Percentage</label>
+                        <input type="employerMatch" class="form-control" name="EMatch" placeholder="Enter Percentage" value.bind="match & validate">
+                      </div>
 
-                          <br><br>
-
-                        <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
-                          <thead>
-                            <tr>
-                              <th class="text">Asset Name</th>
-                              <th class="text">Asset Type</th>
-                              <th>
-                                <div class="display-block row mx-auto">
-                                  <div class="col mx-1"><span class="text">Asset Value</span></div>
-                                  
-                                </div>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody id="AssetTable">
-                            <tr>
-                              <td>
-                                <input type="text" class="form-control" id="Aname" value.bind="name">
-                              </td>
-                              <td>
-                                <select class="form-control h-100" id="Atype" value.bind="type">
-                                  <option value="" disabled selected>Choose Asset Type</option>
-                                  <option value="IRA">IRA</option>
-                                  <option value="Roth IRA">Roth IRA</option>
-                                  <option value="401k">401k</option>
-                                  <option value="Roth 401k">Roth 401k</option>
-                                </select>
-                              </td>
-                              <td>
-                                <div class="display-block row mx-auto">
-                                  <input type="text" class="form-control col mx-1" id="Avalue" value.bind="value">
-                                
-                                </div>
-                              </td>
-                              <td>
-                                <button click.delegate="addButton()" id="myButton">
-                                  <span class="glyphicon glyphicon-plus addBtn">
-                                  </span>
-                                </button>
-                              </td>
-                            </tr>
-                            <tr repeat.for="user of $displayData">
-                              <td>${user.name}</td>
-                              <td>${user.type}</td>
-                              <td>
-                                <div class="display-block row mx-auto">
-                                  <div class="col mx-1">$${user.value}</div>
-                                  <div id="Displaymatch" class="col mx-1">${user.match}</div>
-                                  <div class="col mx-1">${user.cap}</div>
-                                </div>
-                              </td>
-                              <td>
-                                <button click.delegate="removeButton(user.id)" id="myButton">
-                                  <span class="glyphicon glyphicon-minus minusBtn">
-                                </button>
-                                </span>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                      <div class="col-xs-6">
+                        <label for="Empcap" class="control-label" type="text"> Up to Percent of Income</label>
+                        <input type="employerCap" class="form-control" name="ECap" placeholder="Enter Percentage " value.bind="cap & validate">
+                      </div>
                     </div>
+
+                    <br>
+                    <br>
+
+                    <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
+                      <thead>
+                        <tr>
+                          <th>Asset Name</th>
+                          <th>Asset Type</th>
+                          <th>
+                            <div class="display-block row mx-auto">
+                              <div class="col mx-1">Asset Value</div>
+
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody id="AssetTable">
+                        <tr>
+                          <td>
+                            <input type="text" class="form-control" id="Aname" value.bind="name">
+                          </td>
+                          <td>
+                            <select class="form-control h-100" id="Atype" value.bind="type">
+                              <option value="" disabled selected>Choose Asset Type</option>
+                              <option value="IRA">IRA</option>
+                              <option value="Roth IRA">Roth IRA</option>
+                              <option value="401k">401k</option>
+                              <option value="Roth 401k">Roth 401k</option>
+                            </select>
+                          </td>
+                          <td>
+                            <div class="display-block row mx-auto">
+                              <input type="text" class="form-control col mx-1" id="Avalue" value.bind="value">
+
+                            </div>
+                          </td>
+                          <td>
+                            <button click.delegate="addButton()" id="myButton">
+                              <span class="glyphicon glyphicon-plus addBtn">
+                              </span>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr repeat.for="user of $displayData">
+                          <td>${user.name}</td>
+                          <td>${user.type}</td>
+                          <td>
+                            <div class="display-block row mx-auto">
+                              <div class="col mx-1">$${user.value}</div>
+                              <div id="Displaymatch" class="col mx-1">${user.match}</div>
+                              <div class="col mx-1">${user.cap}</div>
+                            </div>
+                          </td>
+                          <td>
+                            <button click.delegate="removeButton(user.id)" id="myButton">
+                              <span class="glyphicon glyphicon-minus minusBtn">
+                            </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <!-- THIRD ROW ENDS HERE -->
-  
- 
+        </div>
+        <!-- THIRD ROW ENDS HERE -->
+
+
 
 
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+              <h4 class="panel-title">
                 <span class="formTitle">Retirement</span>
-              </a>
-            </h4>
+              </h4>
+            </a>
           </div>
           <div id="collapseThree" class="panel-collapse collapse">
             <div class="panel-body slider">
-              
-          
+
+
               <div id="range" class="noUiSlider"></div>
-           
+
             </div>
           </div>
         </div>
@@ -267,7 +268,5 @@
       </li>
     </ul>
     <!--HOME PAGE BUTTON VALIDATION ENDS HERE-->
-
-
   </body>
 </template>
