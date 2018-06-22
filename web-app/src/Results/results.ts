@@ -1,4 +1,4 @@
-import { inject } from 'aurelia-framework';
+import { inject, elementConfig } from 'aurelia-framework';
 import { HttpService } from 'HttpService';
 import { Chart } from 'chart.js';
 import noUiSlider from 'nouislider';
@@ -15,9 +15,12 @@ export class Results {
   constructor(private httpService: HttpService) {
     httpService.ConfigureClient(); //set the http client up only once when we start results
     this.GetResults();
+    
   }
 
   BuildChart(counter) {
+    var self = this;
+    Chart.defaults.global.defaultFontFamily = "'Merriweather', 'Times New Roman', Times, serif";
     var colors = ["rgba(133,187,101,1)", "rgba(102,51,153,1)", "rgba(153,51,153,1)", "rgba(134,226,213,1)", "rgba(134,193,226,1)", "rgba(196,255,0,1)"]
     for (let i = 0; i <= counter; i++) {
       var chart = document.getElementById('chart' + i);
@@ -84,7 +87,9 @@ export class Results {
               ticks: {
                 max: (Math.ceil(this.max * 1.1 / 10000) * 10000),
                 beginAtZero: true,
-
+                callback: function (value, index, values) {
+                  return '$' + self.numberWithCommas(value);
+                }
               }
             }]
           },
@@ -98,7 +103,7 @@ export class Results {
             callbacks: {
               label: function (tooltipItem, data) {
                 var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
-                var label = (data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                var label = self.numberWithCommas((data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).toFixed(2).toString());
                 return datasetLabel + ': $' + label;
               }
             }
@@ -108,8 +113,8 @@ export class Results {
       if (i > 0) {
         myChart.options.legend.display = false;
       }
-      if(this.data[i].preferred){
-        myChart.options.title.text =  myChart.options.title.text+" (Preferred)"
+      if (this.data[i].preferred) {
+        myChart.options.title.text = myChart.options.title.text + " (Preferred)"
       }
     }
   }
@@ -121,8 +126,36 @@ export class Results {
       data.desiredAdditions = this.additionChange
       data = JSON.stringify(data)
     }
+    //var page0, page1, page2;
+    //console.log(sessionStorage)
+
+    
     console.log(data)
     this.SendPost(data)
+    // window.onload = function () {
+    //   page0 = document.getElementById("item0");
+    //   page1 = document.getElementById("item1");
+    //   page2 = document.getElementById("item2");
+
+    //   if (sessionStorage.getItem("currentPage")) {
+    //     console.log("GOT HERE")
+    //     page0.classList.remove('active')
+    //     page1.classList.remove('active')
+    //     page2.classList.remove('active')
+    //     if (sessionStorage.currentPage == "0") {
+    //       page0.classList.add('active')
+    //     }
+    //     else if (sessionStorage.currentPage == "1") {
+    //       page0.classList.add('active')
+    //     }
+    //     else if (sessionStorage.currentPage == "2") {
+    //       page2.classList.add('active')
+    //     }
+    //   }
+    //   else{
+    //     page0.classList.add('active')
+    //   }
+    // }
   }
 
   //sends the request to the api
@@ -152,8 +185,8 @@ export class Results {
     for (let i = 0; i < 3; i++) { //for loop for each page
       tableString = '' //reset the table string for each page
       if (i == 0) { //build the overall page, must be done as a special case since its a single table, also the first div needs to be marked active
-        carouselText += '<li data-target="results#scheduleCarousel" data-slide-to="' + i + '" class="active"></li>' //Build carousel indicators based on how many assets we have
-        carouselInternal += '<div class="item container active">'
+        carouselText += '<li data-target="results#scheduleCarousel" data-slide-to="' + i + '" class=""></li>' //Build carousel indicators based on how many assets we have
+        carouselInternal += '<div class="item container active" id="item' + i + '">'
         carouselInternal += '<div class="col"><canvas id="chart' + counter + '">' +
           '</canvas></div>'
 
@@ -161,7 +194,7 @@ export class Results {
         counter++;
       }
       else {
-        carouselInternal += '<div class="item container">'
+        carouselInternal += '<div class="item container" id="item' + i + '">'
         carouselText += '<li data-target="results#scheduleCarousel" data-slide-to="' + i + '" class=""></li>'
         carouselInternal += '<div class ="charts row">' //create a row for charts so they are side by side
         tableString += '</div><div class="tables row">' //create a table row so tables are side by side
@@ -267,15 +300,30 @@ export class Results {
     return tableString
   }
 
+  updatePage() {
+    var page0, page1, page2;
+    page0 = document.getElementById("item0");
+    page1 = document.getElementById("item1");
+    page2 = document.getElementById("item2");
+    if (page0.classList.contains("next") || page0.classList.contains("prev")) {
+      sessionStorage.setItem("currentPage", '0')
+    }
+    else if (page1.classList.contains("next") || page1.classList.contains("prev")) {
+      sessionStorage.setItem("currentPage", '1')
+    }
+    else if (page2.classList.contains("next") || page2.classList.contains("prev")) {
+      sessionStorage.setItem("currentPage", '2')
+    }
+  }
+
   attached() {
     var storage = JSON.parse(sessionStorage.userData)
     var min = 0;
-    var max = parseInt(storage.income) / 2
-    var from = parseInt(storage.desiredAdditions)
-    var range: noUiSlider = <noUiSlider>document.getElementById("range")
+    var max = parseInt(storage.income) / 2;
+    var from = parseInt(storage.desiredAdditions);
+    var range: noUiSlider = <noUiSlider>document.getElementById("range");
     var self = this;
-    console.log(storage, from)
-
+    
     noUiSlider.create(range, {
       start: from,
       range: {
@@ -298,11 +346,6 @@ export class Results {
       self.additionChange = range.noUiSlider.get()
       self.GetResults()
     });
-  }
-
-  UpdateAdditions() {
-    this.additionChange = document.getElementById("add").innerText
-    this.GetResults()
   }
 
   getRandomInt(max) {

@@ -57,5 +57,9 @@ body {
   text-align: right;
   margin-top: 30px;
   margin-bottom: 40px;
-  font-family: 'Merriweather', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-family: 'Merriweather', 'Times New Roman', Times, serif;
+}
+
+.table{
+  font-family: 'Merriweather', 'Times New Roman', Times, serif;
 }

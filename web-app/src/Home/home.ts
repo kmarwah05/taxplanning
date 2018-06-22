@@ -106,6 +106,10 @@ export class Home {
       this.cap = storage.cap
       this.match = storage.match
     }
+    else{
+      this.retirementDate = (new Date().getFullYear()) + 20 + ''
+      this.endOfPlan = (new Date().getFullYear()) + 50 + ''
+    }
     ValidationRules.customRule(
       'integerRange',
       (value, obj, min, max) => {
@@ -201,8 +205,7 @@ export class Home {
     var statusSelector: HTMLSelectElement;
     var incomeText = document.getElementById("incomeRange")
     var self = this
-    this.retirementDate = from + 20 + ''
-    this.endOfPlan = to - 30 + ''
+
 
     for (let i = from; i <= to; i += 10) {
       dates.push(i) //get all the years from now for 80 years
@@ -210,7 +213,7 @@ export class Home {
 
     //create slider
     noUiSlider.create(range, {
-      start: [from + 20, to - 30],
+      start: [this.retirementDate, this.endOfPlan],
       range: {
         min: from,
         max: to
