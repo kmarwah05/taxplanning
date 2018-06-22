@@ -9,7 +9,7 @@ namespace tax_planning.Models
             get
             {
                 // IRS caps on Roth IRA additions
-                var agi = IncomeTaxCalculator.GetAdjustedGrossIncome(Data.FilingStatus, Data.Income);
+                var agi = IncomeTaxCalculator.GetAdjustedGrossIncome(Data.FilingStatus, Data.Income, "Federal");
                 if (Data.FilingStatus == FilingStatus.Joint)
                 {
                     if (agi >= 189000)

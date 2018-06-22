@@ -49,24 +49,18 @@
                       </div>
 
                       <div class="col-xs-6">
-                        <label for="incomeRange" class="control-label" id="incomeRange" type="text">Enter Income</label>
-                        <div class="input-group">
-                          <span class="input-group-addon">$</span>
-                          <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income & validate">
-                        </div>
+                        <label for="incomeRange" class="control-label" id="incomeRange" type="text" autocomplete="off">Enter Income</label>
+                        <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income & validate" id="incomeStyle">
                       </div>
 
                       <div class="col-xs-6">
                         <label for="dAdditions" class="control-label" id="desiredAdditions" type="text">Yearly Additions</label>
-                        <div class="input-group">
-                          <span class="input-group-addon">$</span>
-                          <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Additions" value.bind="desiredAdditions & validate">
-                        </div>
+                        <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Additions" value.bind="desiredAdditions & validate" id="additionSytle">
                       </div>
 
                       <div class="col-xs-6">
                         <label for="age" class="control-label" id="Age" type="text">Age</label>
-                        <input type="currentAge" class="form-control" name="CurrentAge" placeholder="Enter your age" value.bind="currentAge & validate">
+                        <input type="currentAge" class="form-control" name="CurrentAge" placeholder="Enter your age" value.bind="currentAge & validate" id="ageStyle">
                       </div>
                     </div>
                   </div>
@@ -251,6 +245,8 @@
         <!--FORTH ROW ENDS HERE -->
 
         <input type="submit" value="Submit" click.delegate="validateButton()">
+
+        
       </form>
     </div>
     <!--COLLAPSE FORM END-->

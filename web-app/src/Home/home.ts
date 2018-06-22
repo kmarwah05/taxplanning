@@ -1,7 +1,12 @@
 import { inject, NewInstance } from 'aurelia-framework';
-import { ValidationRules, ValidationController } from 'aurelia-validation';
+import { ValidationRules, ValidationController, RenderInstruction } from 'aurelia-validation';
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 0a432d474af7a27bcdf13ec6da9343cc1ce40e1f
 
 @inject(NewInstance.of(ValidationController))
 export class Home {
@@ -92,6 +97,7 @@ export class Home {
   }
 
   constructor(private controller: ValidationController) {
+
     if (sessionStorage.getItem("userData")) {
       var storage = JSON.parse(sessionStorage.userData);
       this.assets = storage.assets
@@ -132,10 +138,60 @@ export class Home {
     this.controller
       .validate()
       .then(v => {
-        if (v.valid)
+        if (v.valid){
           window.location.href = "/results"
-        else
+        }
+        else {
           this.message = "You have errors!";
+          //document.getElementById("incomeStyle").style.backgroundColor = ('#333')
+        }
+        v.results.forEach(element =>{
+          //Filing Status rule
+          if(element.propertyName == 'filingStatus' && !(element.valid))
+          {
+            document.getElementById("filing").style.borderColor = ('red')
+          }
+          else if(element.propertyName == 'filingStatus' && (element.valid)){
+            document.getElementById("filing").style.borderColor = ('#ccc')
+          }
+          //end Filing status
+
+
+          //income status rule
+          if(element.propertyName == 'income' && !(element.valid))
+          {
+            document.getElementById("incomeStyle").style.borderColor = ('red')
+          }
+          else if(element.propertyName == 'income' && (element.valid)){
+            document.getElementById("incomeStyle").style.borderColor = ('#ccc')
+          }
+          //end income status
+
+
+           //income addition rule
+           if(element.propertyName == 'desiredAdditions' && !(element.valid))
+           {
+             document.getElementById("additionSytle").style.borderColor = ('red')
+           }
+           else if(element.propertyName == 'desiredAdditions' && (element.valid)){
+             document.getElementById("additionSytle").style.borderColor = ('#ccc')
+           }
+           //end addition status
+
+
+            //income age rule
+          if(element.propertyName == 'currentAge' && !(element.valid))
+          {
+            document.getElementById("ageStyle").style.borderColor = ('red')
+          }
+          else if(element.propertyName == 'currentAge' && (element.valid)){
+            document.getElementById("ageStyle").style.borderColor = ('#ccc')
+          }
+          //end age status
+
+
+        })
+        console.log(v)
         this.errors = v.results;
       })
   }
@@ -217,4 +273,7 @@ export class Home {
     });
     this.childId--;
   }
+
 }
+
+
