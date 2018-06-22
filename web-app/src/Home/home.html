@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href='https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css' rel="stylesheet">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
   </head>
@@ -38,7 +36,7 @@
                   <div class="panel-body">
                     <div class="row">
                       <div class="col-xs-6">
-                        <label for="filStatus" class="control-label" id="filingStatus" type="text">Filing Status</label>
+                        <label for="filStatus" class="control-label" id="filingStatus" type="text">Filing status</label>
                         <select class="form-control mySelect" value.bind="filingStatus & validate" id="filing">
                           <option value="" disabled selected>Select one...</option>
                           <option value="Joint">Joint</option>
@@ -49,12 +47,12 @@
                       </div>
 
                       <div class="col-xs-6">
-                        <label for="incomeRange" class="control-label" id="incomeRange" type="text" autocomplete="off">Enter Income</label>
+                        <label for="incomeRange" class="control-label" id="incomeRange" type="text" autocomplete="off">Income</label>
                         <input type="incomeInput" class="form-control" name="IncomeRange" placeholder="Enter Income" value.bind="income & validate" id="incomeStyle">
                       </div>
 
                       <div class="col-xs-6">
-                        <label for="dAdditions" class="control-label" id="desiredAdditions" type="text">Yearly Additions</label>
+                        <label for="dAdditions" class="control-label" id="desiredAdditions" type="text">Yearly additions</label>
                         <input type="desiredAdditions" class="form-control" name="DesiredAdditions" placeholder="Enter Additions" value.bind="desiredAdditions & validate" id="additionSytle">
                       </div>
 
@@ -88,11 +86,12 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse">
                   <div class="panel-body">
+                    <p>Enter the ages of each of your children who qualify for the child tax credit</p>
                     <table class="table table-bordered" aurelia-table="data.bind: tChildren; display-data.bind: $childData" id="childTable">
                       <thead>
                         <tr>
                           <th class="text">
-                          Eligible Child Tax Credits 
+                          Child tax credits
                           </th>
                         </tr>
                       </thead>
@@ -143,14 +142,14 @@
                     <p>Fill in the information and click the plus button to add the existing retirement account. </p>
                     <div class="row">
                       <div class="col-xs-6">
-                        <label for="Empmatch" class="control-label" type="text">Employer Match Percentage</label>
+                        <label for="Empmatch" class="control-label" type="text">Employer match percentage</label>
                         <div class="input-group">
                           <input type="employerMatch" class="form-control" name="EMatch" placeholder="Enter Percentage" value.bind="match & validate">
                           <span class="input-group-addon">%</span>
                         </div>
                       </div>
                       <div class="col-xs-6">
-                        <label for="Empcap" class="control-label" type="text"> Up to Percent of Income</label>
+                        <label for="Empcap" class="control-label" type="text"> Up to percent of income</label>
                         <div class="input-group">
                           <input type="employerCap" class="form-control" name="ECap" placeholder="Enter Percentage " value.bind="cap & validate">
                           <span class="input-group-addon">%</span>
@@ -162,11 +161,11 @@
                     <table class="table table-bordered" aurelia-table="data.bind: assets; display-data.bind: $displayData" id="myTable">
                       <thead>
                         <tr>
-                          <th>Asset Name</th>
-                          <th>Asset Type</th>
+                          <th>Asset name</th>
+                          <th>Asset type</th>
                           <th>
                             <div class="display-block row mx-auto">
-                              <div class="col mx-1">Asset Value</div>
+                              <div class="col mx-1">Asset value</div>
                             </div>
                           </th>
                         </tr>
@@ -178,12 +177,12 @@
                           </td>
                           <td>
                             <select class="form-control h-100" id="Atype" value.bind="type">
-                              <option value="" disabled selected>Choose Asset Type</option>
+                              <option value="" disabled selected>Asset type</option>
                               <option value="IRA">IRA</option>
                               <option value="Roth IRA">Roth IRA</option>
                               <option value="401k">401k</option>
                               <option value="Roth 401k">Roth 401k</option>
-                              <option value="Brokerage Holding">Brokerage Holding</option>
+                              <option value="Brokerage Holding">Brokerage holding</option>
                             </select>
                           </td>
                           <td>
@@ -252,7 +251,7 @@
     <!--COLLAPSE FORM END-->
 
     <!--HOME PAGE BUTTON VALIDATION STARTS HERE-->
-    <h3 align="center">${message}</h3>
+    <h3 class="error-heading" align="center">${message}</h3>
     <ul>
       <li repeat.for="error of errors">
         <h4 id="myErrors">${error.message}</h4>

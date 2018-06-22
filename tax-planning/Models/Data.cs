@@ -187,8 +187,30 @@ namespace tax_planning.Models
                 Assets.ForEach(asset => asset.CalculateTaxInfo());
                 Assets.FindAll(asset => asset.Preferred).ForEach(asset => afterTaxRetirementIncome += asset.AfterTaxWithdrawal);
 
-                if (maximum == afterTaxRetirementIncome) { return; }
+                if (maximum == afterTaxRetirementIncome) {
+                    RetirementIncome = 0;
+                    Assets.FindAll(asset => !asset.Preferred &&
+                        !asset.AssetType.Equals("Brokerage Holding") &&
+                        asset.GetType() != typeof(RothIra))
+                        .ForEach(asset =>
+                        {
+                        // Handles weird tax structure for employer match contributions
+                        if (asset.GetType() == typeof(Roth401k))
+                            {
+                                RetirementIncome += (asset as Roth401k).WithdrawalFromEmployerContribution;
+                            }
+                            else
+                            {
+                                RetirementIncome += asset.Withdrawal;
+                            }
+                        });
+                    // Calculates tax information
+                    Assets.FindAll(asset => !asset.Preferred).ForEach(asset => asset.CalculateTaxInfo());
+                    break;
+                }
             }
+
+            
         }
 
         // Updates contribution caps, used in Asset.CalculateSchedule()
