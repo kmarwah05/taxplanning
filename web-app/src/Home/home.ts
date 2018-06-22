@@ -239,10 +239,10 @@ export class Home {
     statusSelector = <HTMLSelectElement>document.getElementById("filing")
     statusSelector.addEventListener("change", function (event) {
       if (this.value == "Joint") {
-        incomeText.innerText = "Enter Joint Income:"
+        incomeText.innerText = "Joint income"
       }
       else {
-        incomeText.innerText = "Enter Income:"
+        incomeText.innerText = "Income"
       }
     })
   }
