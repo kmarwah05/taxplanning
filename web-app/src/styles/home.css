@@ -118,6 +118,14 @@ body {
   padding : 15px ;
 }
 
+<<<<<<< HEAD
+a:hover{
+  text-decoration: none !important;
+}
+
+
+=======
+>>>>>>> 0a432d474af7a27bcdf13ec6da9343cc1ce40e1f
 a {
   font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif !important;
   font-weight: bold !important;
