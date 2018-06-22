@@ -2,11 +2,6 @@ import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController, RenderInstruction } from 'aurelia-validation';
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 0a432d474af7a27bcdf13ec6da9343cc1ce40e1f
 
 @inject(NewInstance.of(ValidationController))
 export class Home {
@@ -244,10 +239,10 @@ export class Home {
     statusSelector = <HTMLSelectElement>document.getElementById("filing")
     statusSelector.addEventListener("change", function (event) {
       if (this.value == "Joint") {
-        incomeText.innerText = "Enter Joint Income:"
+        incomeText.innerText = "Joint income"
       }
       else {
-        incomeText.innerText = "Enter Income:"
+        incomeText.innerText = "Income"
       }
     })
   }
