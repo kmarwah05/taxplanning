@@ -1,6 +1,6 @@
 
 body {
-  background-color: #F2F3F4 !important;
+  background-color: #fcfcfc !important;
 }
 
 #myForm{
@@ -38,6 +38,10 @@ body {
 label[type=text]{
  color: #333;
  font-family: 'Merriweather', 'Times New Roman', Times, serif;
+}
+
+input, select, th {
+  font-family: 'Merriweather', 'Times New Roman', Times, serif !important;
 }
 
 .text{
