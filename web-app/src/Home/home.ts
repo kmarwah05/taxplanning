@@ -2,11 +2,6 @@ import { inject, NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController, RenderInstruction } from 'aurelia-validation';
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 0a432d474af7a27bcdf13ec6da9343cc1ce40e1f
 
 @inject(NewInstance.of(ValidationController))
 export class Home {
